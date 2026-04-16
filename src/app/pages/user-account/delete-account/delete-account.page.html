@@ -1,0 +1,69 @@
+<app-header
+  [rootPage]="'account'"
+  [isBackHeader]="true"
+  [headerText]="'Delete Account'"></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="card">
+      <p class="card-title-label">Account Deletion</p>
+
+      <p class="warning-text">
+        Once deleted, you will no longer be able to log in with this account. All associated data
+        will be permanently removed and cannot be recovered.
+      </p>
+
+      <div>
+        <p>Data that will be deleted:</p>
+        <ul class="delete-list">
+          <li>
+            <ion-icon name="close-circle-outline"></ion-icon>
+            Transaction History
+          </li>
+          <li>
+            <ion-icon name="close-circle-outline"></ion-icon>
+            Order History
+          </li>
+          <li>
+            <ion-icon name="close-circle-outline"></ion-icon>
+            User Profile
+          </li>
+          <li>
+            <ion-icon name="close-circle-outline"></ion-icon>
+            Saved Addresses
+          </li>
+          <li>
+            <ion-icon name="close-circle-outline"></ion-icon>
+            Payment Methods
+          </li>
+          <li>
+            <ion-icon name="close-circle-outline"></ion-icon>
+            Account Preferences
+          </li>
+        </ul>
+      </div>
+      <div>
+        <p class="confirm-text">
+          Please type
+          <b>'DELETE'</b>
+          to confirm the account deletion.
+        </p>
+
+        <app-general-input
+          [title]="''"
+          [placeholder]="'Enter DELETE to confirm'"
+          [inputControl]="deleteConfirmationControl"></app-general-input>
+      </div>
+
+      <div class="flex-center">
+        <ion-button
+          mode="ios"
+          class="delete-button"
+          [disabled]="confirmationText !== 'DELETE'"
+          (click)="onDeleteAccount()">
+          Continue
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

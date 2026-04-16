@@ -1,0 +1,79 @@
+.card {
+  gap: 0rem !important;
+  padding-top: 0px;
+}
+
+.membership {
+  width: 100%;
+}
+
+.membership div {
+  margin-bottom: 0.5rem;
+}
+
+.user-profile {
+  height: 7rem;
+}
+
+.user-profile .info {
+  max-width: 70%;
+}
+
+.showProfileData {
+  .name {
+    font-weight: 750 !important;
+    font-size: 22px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 8.5rem;
+    display: block;
+  }
+  .email {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 8.5rem;
+    display: block;
+  }
+  .birthDate {
+    display: flex;
+    align-items: center;
+
+    p {
+      font-weight: 400;
+      font-size: 13px;
+    }
+
+    ion-icon {
+      font-size: 24px;
+      vertical-align: middle;
+    }
+  }
+}
+
+.membership-progress-card {
+  margin: 0 calc(0px - var(--base-padding-left-right)) calc(0px - var(--base-padding-top-bottom));
+  padding: var(--base-padding-top-bottom) var(--base-padding-left-right);
+  background: var(--ion-color-primary);
+  color: #fff;
+}
+
+.user-info-card {
+  overflow: hidden;
+  border-radius: 1rem;
+  background:
+    /* 顶部高光柔光 */
+    /* 主体金色渐变（中间亮，两边暗） */ linear-gradient(
+    180deg,
+    var(--gold-dark) 0%,
+    var(--gold-light) 50%,
+    var(--gold-dark) 100%
+  );
+}
+
+.membership-point .point,
+.membership-point .level {
+  color: var(--gold-dark) !important;
+  font-weight: 700;
+}

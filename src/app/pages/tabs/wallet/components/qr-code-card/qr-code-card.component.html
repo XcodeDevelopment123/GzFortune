@@ -1,0 +1,7 @@
+<div class="card">
+  <div class="text-center">
+    <p>Show this to the counter</p>
+    <qrcode [qrdata]="qrData" [scale]="8" (click)="showQrModal()"></qrcode>
+    <p class="text-title text-sm qr-phone">{{ walletInfo?.phoneNumber }}</p>
+  </div>
+</div>

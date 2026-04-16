@@ -1,0 +1,26 @@
+.history-item {
+  gap: 0.5rem;
+}
+
+.order-info img {
+  width: 80px;
+}
+
+.order-info .info-details {
+  width: 100%;
+}
+
+.order-info .info-amount {
+  width: 100%;
+  max-width: 30%;
+}
+.view-order-btn {
+  max-width: 150px;
+  min-height: 2.5rem;
+}
+
+.view-more {
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--ion-color-primary);
+}

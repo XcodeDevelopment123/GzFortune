@@ -1,0 +1,20 @@
+<div class="flex-center profile-pic {{ value ? '' : 'default' }}">
+  <label for="fileInput" class="flex-center">
+    <img
+      load="lazy"
+      class="picture {{ value ? '' : 'default' }}"
+      src="{{ value ? value : '/assets/images/user-profile-placeholder.png' }}" />
+    <!-- <div *ngIf="isEditable" class="camera-icon flex-center">
+      <ion-icon class="text-xl text-white" name="camera-outline"></ion-icon>
+    </div> -->
+  </label>
+
+  <!-- <input
+    *ngIf="isEditable"
+    id="fileInput"
+    #fileInput
+    (change)="uploadPhoto($event, fileInput)"
+    accept="image/*"
+    type="file"
+    style="display: none" /> -->
+</div>

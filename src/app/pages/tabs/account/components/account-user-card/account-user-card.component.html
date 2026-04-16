@@ -1,0 +1,53 @@
+<div class="card user-info-card">
+  <div class="flex-space-between user-profile">
+    <div class="flex-auto flex-center info">
+      <div class="user-profile-picture flex-center">
+        <img
+          load="lazy"
+          [src]="
+            memberInfo?.image && memberInfo?.image?.trim() !== ''
+              ? memberInfo?.image
+              : 'assets/images/user-profile-placeholder.png'
+          " />
+      </div>
+      <div class="showProfileData">
+        <p class="text-xl text-title truncate-two-line name" (click)="GoLogin()">
+          {{ memberInfo?.name ?? 'Please Login' }}
+        </p>
+        <div class="birthDate">
+          <ion-icon *ngIf="memberInfo?.birthDate != null" aria-hidden="true" src="/assets/icon/cake.svg"></ion-icon>
+          <p class="text-xl text-title truncate-two-line" (click)="GoLogin()">
+            {{ memberInfo?.birthDate ?? '' | date:'dd MMM yyyy' }}
+          </p>
+        </div>
+        <p>{{ memberInfo?.phoneNumber ?? '' }}</p>
+        <p class="truncate-two-line email">{{ memberInfo?.email ?? '' }}</p>
+      </div>
+    </div>
+    <div class="scan-qr flex-center" (click)="showQrModal()">
+      <img load="lazy" src="assets/images/scan-qr.png" />
+    </div>
+  </div>
+
+  <div
+    class="flex-space-between flex-auto membership-progress-card"
+    [routerLink]="['/account/membership']"
+    [queryParams]="{
+      phone: memberInfo?.phoneNumber,
+      point: memberInfo?.point,
+      tier: memberInfo?.tier,
+    }">
+    <div class="membership">
+      <div class="membership-point">
+        <span class="text-lg text-title point">
+          {{ memberInfo?.point ?? '0' }}
+        </span>
+        Points /
+        <span class="text-lg text-title level"> {{ memberInfo?.pointIndicatorText ?? 'VIP' }} </span>
+        level
+      </div>
+    </div>
+
+    <ion-icon class="text-xxl" name="chevron-forward-outline"></ion-icon>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+.text-title {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hint {
+  flex: 1;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: var(--ion-color-primary);
+  color: #fff;
+  height: 45px;
+  padding: 0 12px;
+  min-width: 140px;
+  justify-content: space-between;
+}
+
+.pill-btn {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.pill-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.pill-value {
+  width: 38px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 18px;
+}

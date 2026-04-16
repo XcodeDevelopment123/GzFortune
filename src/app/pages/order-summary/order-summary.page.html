@@ -1,0 +1,42 @@
+<app-header [rootPage]="'order'" [isBackHeader]="true" [headerText]="'Order Summary'"></app-header>
+<ion-content [fullscreen]="true">
+  <div #container class="container no-padding">
+    <app-pick-up-order-info-section [selectedOutlet]="selectedOutlet">
+    </app-pick-up-order-info-section>
+
+    <app-cart-items-section
+      [items]="cartItems"
+      [cartData]="cartData"
+      [selectedOutlet]="selectedOutlet"></app-cart-items-section>
+
+    <app-point-section
+      [cartData]="cartData"
+      [availablePoints]="userPoints"
+      (pointsChanged)="onPointsRedeemed($event)"
+      (warn)="showPointWarn($event)">
+    </app-point-section>
+
+    <app-voucher-section
+      [deliveryVoucher]="deliveryVoucher"
+      (voucherSelected)="onVoucherSelected($event)"
+      (voucherRemoved)="onVoucherRemoved()"></app-voucher-section>
+
+    <app-payment-summary-section
+      [cartData]="cartData"
+      [selectedVoucher]="selectedVoucher"
+      [pointDiscount]="pointDiscount"
+      [redeemedPoints]="redeemedPoints"></app-payment-summary-section>
+
+    <app-payment-method-section></app-payment-method-section>
+  </div>
+
+  <div #footer class="price-footer flex-space-between">
+    <div class="footer-info">
+      <p class="items-label">{{cartItems.length}} items</p>
+      <p class="price-label text-title text-xl">RM {{cartData?.grandTotal?.toFixed(2)}}</p>
+    </div>
+    <ion-button mode="ios" class="continue-btn" (click)="orderNow()" [disabled]="!canCheckout()">
+      Order
+    </ion-button>
+  </div>
+</ion-content>

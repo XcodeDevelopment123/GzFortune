@@ -1,0 +1,29 @@
+.container {
+  background: transparent;
+  padding-top: 2.5rem;
+  padding-left: 0px;
+  padding-right:0px ;
+}
+
+.qr-container {
+  flex-direction: column;
+  margin-top: -1.5rem;
+}
+
+.qr-data {
+  position: absolute;
+  bottom: 1.5rem;
+}
+
+.container {
+  gap: 0;
+  padding-bottom: var(--base-padding-top-bottom);
+}
+
+.brand-orange {
+  z-index: -1;
+  top: 0rem;
+  left: 2rem;
+  position: absolute;
+  width: 80px;
+}

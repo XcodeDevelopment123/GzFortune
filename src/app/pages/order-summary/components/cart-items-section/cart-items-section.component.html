@@ -1,0 +1,10 @@
+<div class="items-info card">
+  <p class="text-title text-md">Your Order</p>
+
+  <app-cart-item
+    *ngFor="let item of items; let index = index"
+    [item]="item"
+    [cartData]="cartData"
+    [selectedOutlet]="selectedOutlet"
+    [ngClass]="{ 'not-last': index != 3 }"></app-cart-item>
+</div>

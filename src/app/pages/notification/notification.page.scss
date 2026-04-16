@@ -1,0 +1,31 @@
+.notification-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.notification-item {
+  background: #fff;
+  padding: 0.5rem 0.8rem;
+  min-height: 80px;
+  border: 1px solid #b0b0b1;
+}
+
+.notification-item.unread {
+  border-right: 6px solid var(--ion-color-primary);
+}
+
+.notification-item .content {
+  margin-bottom: 0.5rem;
+}
+
+.notification-item .content .title {
+  margin-bottom: 0.3rem;
+}
+
+
+:host-context(.ios) {
+  ion-content::part(scroll) {
+    padding: calc(144px + var(--android-status-height)) 0 0 0;
+  }
+}

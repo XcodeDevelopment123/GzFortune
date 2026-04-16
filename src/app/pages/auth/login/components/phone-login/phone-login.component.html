@@ -1,0 +1,20 @@
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="login()">
+  <app-phone-number-input
+    formControlName="phoneNumber"
+    [boldTitle]="true"
+    [title]="'Phone Number'"
+    [placeholder]="'+60 xxxxxxxxx'"></app-phone-number-input>
+  <ion-row *ngIf="isLoginFailed" class="inline-error">
+    <ion-text color="danger">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <small>
+        {{ loginFailedMessage }}
+      </small>
+    </ion-text>
+  </ion-row>
+  <div class="flex-center login-btn">
+    <ion-button type="submit" mode="ios" [disabled]="form.invalid || form.disabled">
+      Continue
+    </ion-button>
+  </div>
+</form>

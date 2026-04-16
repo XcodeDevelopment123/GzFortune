@@ -1,0 +1,24 @@
+<div class="voucher-info card">
+  <div class="flex-space-between voucher-title">
+    <p class="text-title text-md">Vouchers</p>
+
+    <p *ngIf="!selectedVoucher" class="text-description text-md flex-center" (click)="open()">
+      Use voucher to save more
+      <ion-icon name="chevron-forward"></ion-icon>
+    </p>
+  </div>
+
+  <div *ngIf="selectedVoucher" class="flex-space-between">
+    <div class="flex-auto voucher-detail">
+      <!-- <span class="tag text-title" [ngClass]="getTagClass(selectedVoucher.type)">
+        {{ selectedVoucher.type }}
+      </span> -->
+      <p class="truncate-two-line">{{ selectedVoucher.name }}</p>
+    </div>
+
+    <ion-icon
+      class="text-lg text-theme"
+      name="close-circle-outline"
+      (click)="removeVoucher()"></ion-icon>
+  </div>
+</div>

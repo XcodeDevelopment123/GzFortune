@@ -1,0 +1,59 @@
+.container {
+  gap: 0;
+}
+.voucher-category-label {
+  margin: 1rem 0;
+  color: var(--ion-color-primary);
+}
+.voucher-item {
+  // min-height: clamp(120px, 32vw, 150px);
+  background: #fff;
+  border-radius: 1rem;
+  border: var(--base-border-line);
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+  margin: 10px 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 3px;
+}
+
+.voucher-item img {
+  width: 130px;
+  object-fit: cover;
+}
+
+.voucher-info {
+  display: flex;          /* flex-column 大概就是这个 */
+  flex-direction: column;
+  padding: 0.5rem 0 0 0;
+  width: 100%;
+}
+
+.voucher-info .info-message {
+  padding: 0 0.5rem 0.5rem;
+  position: static;
+  height: auto;
+}
+.description-button{
+  position: static;   /* 或者直接删掉这条规则 */
+  bottom: auto;
+  margin-top: 4px;    /* 想要一点间距就用 margin */
+}
+.description-button ::ng-deep p {
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.voucher-item .status-label {
+  justify-content: center;
+  color: var(--ion-color-primary);
+  padding: 0.4rem;
+  background: var(--ion-color-medium);
+  width: 100%;
+  margin-top: auto;  
+}
+
+.voucher-item.active .status-label {
+  background: rgba(242, 207, 125);
+}

@@ -1,0 +1,28 @@
+<div class="card-border">
+  <!-- <div
+    class="flex-auto flex-center action-item"
+    [routerLink]="['/history-list/order']"
+    [queryParams]="{ phone: memberInfo?.phoneNumber }">
+    <ion-icon class="text-xl" name="receipt-outline"></ion-icon>
+    <ion-text class="text-title text-md">Order History</ion-text>
+  </div> -->
+  <div
+    class="flex-auto flex-center action-item"
+    [routerLink]="['/history-list/transaction']"
+    [queryParams]="{ phone: memberInfo?.phoneNumber }">
+    <ion-icon class="text-xl" name="receipt-outline"></ion-icon>
+    <ion-text class="text-title text-md">Transaction History</ion-text>
+  </div>
+  <!-- <div class="flex-auto flex-center action-item" routerLink="/general/invite-friend">
+    <ion-icon class="text-xl" name="people-outline"></ion-icon>
+    <ion-text class="text-title text-md">Invite Your Friend</ion-text>
+  </div> -->
+  <div class="flex-auto flex-center action-item" routerLink="/general/feedback">
+    <ion-icon class="text-xl" name="chatbox-ellipses-outline"></ion-icon>
+    <ion-text class="text-title text-md">Feedback</ion-text>
+  </div>
+  <div class="flex-auto flex-center action-item" (click)="openOfficialWebsite()">
+    <ion-icon class="text-xl" name="browsers-outline"></ion-icon>
+    <ion-text class="text-title text-md">Website</ion-text>
+  </div>
+</div>

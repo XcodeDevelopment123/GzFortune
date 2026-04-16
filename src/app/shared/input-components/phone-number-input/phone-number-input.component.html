@@ -1,0 +1,55 @@
+<p *ngIf="title" [ngClass]="{ 'text-title text-md': boldTitle }">{{ title }}</p>
+
+<div *ngIf="formControl">
+  <ion-input
+    mode="md"
+    fill="outline"
+    placeholder="+60 xxxxxxxxx"
+    [formControl]="formControl"
+    [maskito]="phoneMask"
+    [maskitoElement]="maskPredicate"></ion-input>
+  <ion-row
+    *ngIf="formControl.invalid && (formControl.dirty || formControl.touched)"
+    class="inline-error">
+    <!-- Required field error -->
+    <ion-text *ngIf="formControl.errors?.['required']" color="danger">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <small>{{ title }} is required.</small>
+    </ion-text>
+
+    <!-- Maximum length error -->
+    <ion-text *ngIf="formControl.errors?.['maxlength']" color="danger">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <small
+        >Maximum allowed length is
+        {{ formControl.errors?.['maxlength'].requiredLength }} characters.</small
+      >
+    </ion-text>
+
+    <!-- Minimum length error -->
+    <ion-text *ngIf="formControl.errors?.['minlength']" color="danger">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <small>
+        Minimum required length is
+        {{ formControl.errors?.['minlength'].requiredLength }} characters.
+      </small>
+    </ion-text>
+
+    <ion-text *ngIf="formControl.errors?.['email']" color="danger">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <small>Invalid email address format.</small>
+    </ion-text>
+
+    <!-- Phone number format error -->
+    <ion-text *ngIf="formControl.errors?.['phoneFormat']" color="danger">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <small>
+        {{
+          formControl.errors?.['phoneFormat'].requiredFormat ||
+            formControl.errors?.['phoneFormat'].error ||
+            'Invalid phone number format.'
+        }}
+      </small>
+    </ion-text>
+  </ion-row>
+</div>

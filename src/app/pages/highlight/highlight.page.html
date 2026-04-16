@@ -1,0 +1,77 @@
+<app-header
+  [rootPage]="'home'"
+  [page]="'highlight'"
+  [isBackHeader]="true"
+  [headerText]="'Highlight Details'"
+  (notificationEvent)="share(this.highlightDetail?.type ?? 'default', this.highlightDetail?.highlightId ?? '')"></app-header>
+
+<ion-content [fullscreen]="true" *ngIf="highlightDetail">
+  <div class="container">
+    <div class="flex-center">
+      <!-- <img load="lazy" class="highlight-image" [src]="highlightDetail.image" /> -->
+      <img load="lazy" class="highlight-image" [src]="highlightDetail.image" />
+    </div>
+
+    <div class="card card-title">
+      <p class="text-title card-title-label text-white">{{ highlightDetail.title }}</p>
+
+      <div class="card card-content">
+        <p class="text-title text-md">{{ highlightDetail.subTitle }}</p>
+
+        <div [innerHTML]="highlightDetail.description"></div>
+
+        <div [innerHTML]="highlightDetail.tnC"></div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Show Loading -->
+
+<ion-content [fullscreen]="true" *ngIf="!highlightDetail">
+  <div class="container">
+    <div class="flex-center">
+      <ion-skeleton-text
+        [animated]="true"
+        style="
+          max-width: 460px;
+          width: 100%;
+          height: 373px;
+        "></ion-skeleton-text>
+    </div>
+
+    <div class="card card-title">
+      <ion-skeleton-text
+        [animated]="true"
+        style="
+          width: 100%;
+          height: 30px;
+        "></ion-skeleton-text>
+
+      <div class="card card-content">
+        <ion-skeleton-text
+        [animated]="true"
+        style="
+          width: 100%;
+          height: 25px;
+        "></ion-skeleton-text>
+
+        <ion-skeleton-text
+        [animated]="true"
+        style="
+          width: 100%;
+          height: 90px;
+        "></ion-skeleton-text>
+
+        <div class="flex-center">
+          <ion-skeleton-text
+        [animated]="true"
+        style="
+          width: 100%;
+          height: 50px;
+        "></ion-skeleton-text>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

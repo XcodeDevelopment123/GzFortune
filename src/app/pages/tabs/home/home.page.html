@@ -1,0 +1,27 @@
+<app-header [page]="'home'"></app-header>
+
+<ion-content [fullscreen]="true" class="tabs">
+  <ion-refresher slot="fixed" class="home-refresher" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="container">
+    <div class="home-container">
+      <app-user-card-info
+        class="user-info"
+        [memberInfo]="memberInfo"
+        [isLoaded]="memberInforLoaded"></app-user-card-info>
+    </div>
+
+    <div class="rewards-container">
+      <app-highlight-list
+        [highlightList]="highlightList"
+        [isLoaded]="highlightLoaded"></app-highlight-list>
+    </div>
+
+    <app-reward-list
+      [rewards]="rewardList"
+      [memberInfo]="memberInfo"
+      [isLoaded]="reweradLoaded"></app-reward-list>
+  </div>
+</ion-content>

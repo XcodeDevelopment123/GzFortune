@@ -1,0 +1,80 @@
+.reward-list {
+  padding: 0.5em;
+  overflow-y: auto; /* 改成纵向滚动 */
+  display: grid; /* 使用 grid 布局 */
+  // grid-template-columns: repeat(2, 1fr); /* 每行2列 */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.7rem;/* 卡片之间的间距 */
+}
+
+.card-title-label {
+  padding: 0 var(--base-padding-left-right);
+}
+
+.text-title {
+  color: #414141;
+}
+
+.view-all {
+  color: var(--ion-color-primary-contrast);
+}
+
+.reward-item {
+  /* 移除 min-width 和固定 width */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--ion-color-gray);
+  filter: drop-shadow(var(--base-shadow));
+}
+
+.reward-item img {
+  border-bottom: var(--base-border-line);
+  height: 150px;
+  width: 100%; /* 确保图片填满容器 */
+  object-fit: cover; /* 保持图片比例 */
+}
+
+.reward-title {
+  color: #fff;
+  height: 36px;
+  padding: 0 0.5rem;
+}
+
+.reward-action {
+  background: var(--ion-color-medium-tint);
+  color: var(--ion-color-primary);
+  padding: 0.5rem 0;
+}
+
+.reward-action.active {
+  background: var(--gold-dark);
+}
+
+@media (min-width: 768px) {
+  .reward-item img {
+    height: 150px;
+  }
+
+}
+
+@media (min-width: 425px) and (max-width: 767px) {
+    .reward-item img {
+    height: 201px;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 424px) {
+    .reward-item img {
+    height: 187px;
+  }
+}
+
+@media (max-width: 375px) {
+    .reward-item img {
+    height: 19rem;
+  }
+}

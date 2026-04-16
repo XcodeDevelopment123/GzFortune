@@ -1,0 +1,49 @@
+<app-header [rootPage]="'home'" [isBackHeader]="true" [headerText]="'Login'"></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="banner-container">
+    <div class="banner-content">
+      <h2 class="banner-title">Welcome Back!</h2>
+      <p class="banner-subtitle">
+        We missed you so much.<br />
+        Log in now to receive latest update and collect more rewards.
+      </p>
+    </div>
+  </div>
+
+  <div class="container no-padding">
+    <div class="form-content flex-center">
+      <div class="card">
+        <div>
+          <span class="text-title text-theme text-md">Login With:</span>
+          <div class="flex-center flex-auto login-option">
+            <!-- <span
+              (click)="loginTypeChanged(LOGIN_TYPE.EMAIL)"
+              class="option"
+              [ngClass]="{
+              active:loginType===LOGIN_TYPE.EMAIL
+            }">
+              Email
+            </span> -->
+            <span
+              (click)="loginTypeChanged(LOGIN_TYPE.PHONE)"
+              class="option"
+              [ngClass]="{
+              active:loginType===LOGIN_TYPE.PHONE
+            }">
+              Phone Number
+            </span>
+          </div>
+        </div>
+
+        <app-email-login *ngIf="loginType===LOGIN_TYPE.EMAIL"></app-email-login>
+        <app-phone-login *ngIf="loginType===LOGIN_TYPE.PHONE"></app-phone-login>
+
+        <p class="text-md text-center">
+          Do not have an account?
+          <span class="register-label text-theme" routerLink="/auth/register"> Register Now </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</ion-content>

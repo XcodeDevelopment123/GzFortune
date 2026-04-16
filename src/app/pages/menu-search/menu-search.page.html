@@ -1,0 +1,54 @@
+<app-header [isBackHeader]="true" [headerText]="'Search Menu'" [rootPage]="'order'"></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="search-container">
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      (ionInput)="onSearchChange($event)"
+      animated
+      placeholder="Search drinks or categories..."
+      animated
+      showClearButton="focus"></ion-searchbar>
+  </div>
+
+  <div
+    class="result-summary text-title"
+    *ngIf="!loading && searchResults.length > 0 && searchQuery">
+    <ion-text color="medium">
+      {{ searchResults.length }} result{{ searchResults.length !== 1 ? 's' : '' }} found
+    </ion-text>
+  </div>
+
+  <div
+    class="result-container grid"
+    [ngClass]="{'no-results': searchResults.length === 0 && !loading}">
+    <ng-container *ngIf="loading; else resultList">
+      <div class="menu-item menu-skeleton-item" *ngFor="let s of skeletonArray">
+        <ion-skeleton-text animated class="menu-skeleton-image"></ion-skeleton-text>
+        <div class="item-name">
+          <ion-skeleton-text
+            animated
+            style="width: 60%; height: 18px; margin: 0.5rem auto"></ion-skeleton-text>
+        </div>
+        <div class="item-price">
+          <ion-skeleton-text
+            animated
+            style="width: 40%; height: 14px; margin: 0.25rem auto"></ion-skeleton-text>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #resultList>
+      <app-menu-item
+        *ngFor="let item of searchResults"
+        [routerLink]="['/menu-details', item.menuId]"
+        [queryParams]="{ cartId: currentCartId }"
+        [item]="item"></app-menu-item>
+    </ng-template>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && noResultFound && searchResults.length === 0">
+    <img src="assets/images/no-drink-found.png" class="empty-image" alt="No result" />
+    <ion-text color="medium" class="empty-text"> No drinks found for "{{ searchQuery }}" </ion-text>
+  </div>
+</ion-content>

@@ -1,0 +1,67 @@
+<app-header
+  [isModalHeader]="true"
+  [headerText]="'Select Payment Method'"
+  [rootPage]="'home'"></app-header>
+
+<ion-content>
+  <div class="container">
+    <div class="card">
+      <ion-radio-group mode="md" [value]="selectedPaymentMethod">
+        <ion-list>
+          <ion-item
+            *ngFor="let method of paymentMethods"
+            lines="none"
+            (click)="onSelectMethod(method)">
+            <ion-radio slot="start" [value]="method.key"></ion-radio>
+            <ion-label>
+              <div class="payment-item flex-auto flex-space-between">
+                <span class="text-title text-sm">
+                  {{ method.label }}
+
+                  <ng-container *ngIf="method.key === 'app-wallet'">
+                    (RM{{ walletAmount | number: '1.2-2' }})
+                  </ng-container>
+
+                  <ng-container *ngIf="selectedSubOption[method.key] as sub">
+                    <br />
+                    <img [src]="sub.img" width="26" />
+                    {{ sub.name }}
+                  </ng-container>
+                </span>
+
+                <div class="flex-center flex-auto">
+                  <ng-container [ngSwitch]="method.key">
+                    <ng-container *ngSwitchCase="'app-wallet'">
+                      <p class="text-title text-theme text-md top-up-label" (click)="toTopupPage()">
+                        Top up
+                      </p>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                      <img
+                        class="payment-method-icon"
+                        *ngIf="method.icon"
+                        [src]="method.icon"
+                        width="48" />
+                      <div class="icon-space">
+                        <ion-icon
+                          *ngIf="method.requiresSubSelection"
+                          class="text-lg text-description"
+                          name="chevron-down"></ion-icon>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </div>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-radio-group>
+    </div>
+  </div>
+
+  <div class="footer flex-center">
+    <ion-button mode="ios" class="footer" (click)="apply()" [disabled]="!selectedPaymentMethod">
+      Apply
+    </ion-button>
+  </div>
+</ion-content>

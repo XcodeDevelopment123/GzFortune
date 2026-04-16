@@ -1,0 +1,67 @@
+.membership {
+  width: 100%;
+}
+
+.membership-point .point,
+.membership-point .level {
+  color: var(--ion-color-primary);
+}
+
+.membership-progress ion-progress-bar {
+  width: 100%;
+  height: 6px;
+  --background: var(--ion-color-medium);
+}
+
+.membership-details {
+  color: var(--text-description-color);
+}
+
+.card {
+  background:
+    /* 顶部高光柔光 */
+    /* 主体金色渐变（中间亮，两边暗） */ linear-gradient(
+    180deg,
+    var(--gold-dark) 0%,
+    var(--gold-light) 50%,
+    var(--gold-dark) 100%
+  );
+  padding-top: 2.5rem;
+  border-radius: 1rem;
+
+  .name {
+    font-weight: 750 !important;
+    font-size: 30px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 15rem;
+    display: block;
+  }
+
+  .birthDate {
+    display: flex;
+    align-items: center;
+
+    p {
+      font-weight: 400;
+      font-size: 15px;
+    }
+
+    ion-icon {
+      font-size: 24px;
+      vertical-align: middle;
+    }
+  }
+}
+
+:host-context(.ios) .card {
+  padding-top: 3.8rem;
+  @media (min-width: 394px) {
+    padding-top: 2.5rem;
+  }
+}
+.membership-container {
+  gap: 0.5rem;
+}
+

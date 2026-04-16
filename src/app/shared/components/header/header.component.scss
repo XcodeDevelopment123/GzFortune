@@ -1,0 +1,133 @@
+ion-header {
+  box-shadow: none;
+}
+
+ion-toolbar {
+  --min-height: 92px;
+  --padding-top: 1rem + var(--base-padding-top-bottom);
+  --padding-start: var(--base-padding-left-right);
+  --padding-end: var(--base-padding-left-right);
+  --padding-bottom: var(--base-padding-top-bottom);
+}
+
+:host-context(.ios) ion-toolbar {
+  /* 把被覆盖的安全区加回来 */
+  --padding-top: calc(var(--base-padding-top-bottom) + var(--ion-safe-area-top));
+  /* 同时把高度也加上安全区，避免内容被挤 */
+  --min-height: calc(var(--ion-safe-area-top));
+}
+
+:host-context(.md) ion-toolbar {
+  --padding-bottom: 0rem !important;
+}
+
+/* 如果是 tab-header 或 back-header 也一样 */
+:host-context(.ios) ion-toolbar.title-header-toolbar {
+  --padding-bottom: 1.5rem; // 你原来的
+}
+
+ion-toolbar.tab-header {
+  --background: transparent;
+  border-radius: 0 0 1.5rem 1.5rem;
+}
+
+ion-toolbar.tab-header {
+  color: #fff;
+}
+
+.menu-toggle-button {
+  color: #fff;
+}
+
+.notification {
+  background: url('/assets/icon/notification.png') no-repeat center;
+}
+
+.setting-options {
+  background: url('/assets/icon/settings.png') no-repeat center;
+}
+
+.header-share {
+  background: url('/assets/icon/share.png') no-repeat center;
+}
+
+.action-icon.notification {
+  background:
+    url('/assets/icon/notification.png') center/60% no-repeat,
+    radial-gradient(130% 180% at 82% 22%, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 36%),
+    linear-gradient(180deg, var(--gold-dark) 0%, var(--gold-light) 100%);
+  position: relative;
+  width: clamp(44px, 5vw, 50px);
+  height: clamp(44px, 5vw, 50px);
+  border-radius: 50%;
+  padding: 0.2rem;
+  color: transparent;
+}
+
+.action-icon.setting-options {
+  background:
+    url('/assets/icon/settings.png') center/60% no-repeat,
+    radial-gradient(130% 180% at 82% 22%, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 36%),
+    linear-gradient(180deg, var(--gold-dark) 0%, var(--gold-light) 100%);
+  position: relative;
+  width: clamp(44px, 5vw, 50px);
+  height: clamp(44px, 5vw, 50px);
+  border-radius: 50%;
+  padding: 0.2rem;
+  color: transparent;
+}
+
+.notification-badge {
+  background: var(--ion-color-primary);
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  width: clamp(1.4rem, 5vw, 1.6rem);
+  height: clamp(1.4rem, 5vw, 1.6rem);
+  text-align: center;
+}
+.title-header-toolbar.back-header {
+  color: #fff;
+  border-radius: 0 0 1rem 1rem;
+  --background: linear-gradient(
+    to right,
+    var(--ion-color-primary),
+    60%,
+    var(--ion-color-secondary-tint)
+  );
+  --padding-bottom: 1.5rem;
+}
+.title-header-toolbar.back-header ion-icon {
+  font-size: var(--text-xl);
+}
+
+.notification-label {
+  text-decoration: underline;
+}
+
+.flexGap-1 {
+  gap: 0.45rem;
+}
+
+.text-title {
+  font-weight: 500 !important;
+  margin-bottom: 3px;
+}
+.MoneyLabel {
+  font-weight: 700 !important;
+}
+
+@media screen and (min-width: 576px) {
+  ion-toolbar {
+    --min-height: 99px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  ion-toolbar {
+    --min-height: 108px;
+  }
+}
+

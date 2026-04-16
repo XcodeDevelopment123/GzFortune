@@ -1,0 +1,97 @@
+<div class="container">
+  <div *ngIf="sortedRewards.length > 0">
+    <div
+      *ngFor="let i of sortedRewards; let index = index; let isLast = last"
+      class="point-item"
+      [ngClass]="{
+        'first-item': index === 0,
+        active: userPoint >= i.point,
+      }">
+      <div class="FoodCard">
+        <div class="BlackLine"></div>
+        <div
+          class="BlackLine First"
+          *ngIf="index === 0"
+          [ngClass]="{
+            active: userPoint >= i.point,
+          }"></div>
+
+        <div
+          class="BlackLine"
+          [ngClass]="{
+            active: userPoint >= i.point,
+            'first-active': index === 0 && userPoint >= i.point,
+            'last-active':
+              userPoint >= i.point &&
+              (index === sortedRewards.length - 1 || userPoint < sortedRewards[index + 1].point),
+          }"></div>
+
+        <div
+          class="Line_Last"
+          *ngIf="index === sortedRewards.length - 1"
+          [ngClass]="{ active: userPoint >= i.point }">
+        </div>
+
+        <img
+          class="FoodPic"
+          [src]="i.image || 'assets/images/reward-sample.webp'"
+          [ngClass]="{ active: userPoint >= i.point }" />
+
+        <div class="FoodInfo">
+          <div class="PointArea">{{ i.point }} pts</div>
+          <div class="FoodName">
+            <p>{{ i.name }}</p>
+          </div>
+          <div class="RedeemButtonDIV">
+            <button
+              mode="ios"
+              class="text-lg RedeemButton"
+              [disabled]="userPoint < i.point"
+              [ngClass]="{ active: userPoint >= i.point }"
+              (click)="confirmRedeem(i)">
+              Redeem Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!------ Place Holder Loading ------>
+
+  <div *ngIf="sortedRewards.length == 0">
+    <div
+      *ngFor="let i of [0, 1, 2, 3, 4, 5]; let index = index; let isLast = last"
+      class="point-item"
+      [ngClass]="{
+        'first-item': index === 0,
+      }">
+      <div class="FoodCard">
+        <div class="BlackLine"></div>
+        <div class="BlackLine First" *ngIf="index === 0"></div>
+
+        <div class="Line_Last" *ngIf="index === rewards.length - 1"></div>
+
+        <div class="FoodPic" style="background-color: rgb(216, 216, 216)">
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 100%; height: 100%"></ion-skeleton-text>
+        </div>
+
+        <div class="FoodInfo">
+          <div class="PointArea">0 pts</div>
+          <div class="FoodName">
+            <p>
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 100%; height: 22px"></ion-skeleton-text>
+            </p>
+          </div>
+          <div class="RedeemButtonDIV">
+            <button mode="ios" class="text-lg RedeemButton" [disabled]>Redeem Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

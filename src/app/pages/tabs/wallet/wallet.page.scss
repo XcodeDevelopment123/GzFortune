@@ -1,0 +1,71 @@
+.container {
+  margin-top: -5.5rem;
+}
+.wallet-container {
+  margin: 0 calc(0px - var(--base-padding-left-right));
+  border-radius: 1rem;
+
+  background: linear-gradient(
+    180deg,
+    var(--gold-dark) 0%,
+    var(--gold-light) 50%,
+    var(--gold-dark) 100%
+  );
+
+  /* ✅ 让黄色区域更高 */
+  min-height: 220px; // 想更高就 240/260
+
+  /* ✅ 让文字固定在黄色区域下面 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+
+  /* 上面留更多空白、底部留一点距离 */
+  padding: 3.2rem 0 2.2rem;
+}
+
+
+.balance-label {
+  margin-bottom: 0.6rem;
+  font-weight: 800 !important;
+}
+
+.balance-amount-label {
+  font-weight: 800 !important;
+  color: var(--ion-color-primary);
+  align-items: start;
+   margin: 0;
+}
+
+.no-record {
+  display: flex;
+  flex-direction: column; // 垂直排列图片 + 文字
+  align-items: center; // 水平居中
+  justify-content: center; // 垂直居中
+  text-align: center;
+  min-height: 250px; // 可根据卡片高度调整
+
+  img.empty-record-img {
+    width: 180px;
+    max-width: 80%;
+    margin-bottom: 10px;
+    opacity: 0.9;
+    height: 170px;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+.ios .container {
+  margin-top: -25.5rem;
+  margin-bottom: 50px;
+  .wallet-container{
+     min-height: 35rem;
+  }
+}
+

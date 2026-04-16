@@ -1,0 +1,23 @@
+<div class="payment-method-info card flex-space-between">
+  <p class="text-title text-md">Payment method</p>
+  <p
+    class="text-description text-md flex-center"
+    *ngIf="!paymentMethod"
+    (click)="openSelectModal()">
+    Select method
+    <ion-icon name="chevron-forward"></ion-icon>
+  </p>
+
+  <div
+    class="text-theme text-title flex-center"
+    *ngIf="selectedPaymentDisplay"
+    (click)="openSelectModal()">
+    <img
+      *ngIf="selectedPaymentDisplay.img"
+      [src]="selectedPaymentDisplay.img"
+      width="36"
+      class="inline-img" />
+    <span class="text-sm">{{ selectedPaymentDisplay.label }}</span>
+    <ion-icon class="text-md" name="chevron-forward"></ion-icon>
+  </div>
+</div>

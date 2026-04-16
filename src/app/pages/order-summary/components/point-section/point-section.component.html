@@ -1,0 +1,14 @@
+<div class="card">
+  <p class="text-title text-md">Point Redeemed</p>
+
+  <div class="row">
+    <div class="hint text-description text-sm">
+      (100 point for RM 1 , Max RM 5) • Available: {{ availablePoints }} pts
+    </div>
+    <div class="pill">
+      <button class="pill-btn" [disabled]="redeemedPoints === 0" (click)="dec()">−</button>
+      <div class="pill-value">{{ redeemedPoints }}</div>
+      <button class="pill-btn" (click)="inc()">＋</button>
+    </div>
+  </div>
+</div>

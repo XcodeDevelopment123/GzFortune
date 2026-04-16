@@ -1,0 +1,148 @@
+.container {
+  padding-bottom: 2rem !important;
+}
+
+.order-status-row {
+  margin-top: -2rem;
+  padding-top: calc(2rem + var(--base-padding-top-bottom));
+  padding-bottom: var(--base-padding-top-bottom);
+}
+
+.order-status-row .status-row {
+  align-items: start;
+  gap: 1rem;
+}
+
+.order-status-row .status-item {
+  width: clamp(60px, 10vw, 80px);
+  height: 100%;
+  line-height: 1.1;
+  gap: 0.5rem;
+}
+
+.order-status-row .status-item div {
+  position: relative;
+}
+
+.order-status-row .status-item div::after {
+  content: '';
+  width: 200%;
+  height: 1px;
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: 0;
+  translate: 0 -50%;
+  border: 1px dashed var(--ion-color-primary);
+  border-image: repeating-linear-gradient(
+      90deg,
+      var(--ion-color-primary),
+      var(--ion-color-primary) 5px,
+      transparent 5px,
+      transparent 8px
+    )
+    1;
+}
+
+.order-status-row .status-item:first-child div::after {
+  left: 0;
+  right: unset;
+}
+
+.order-status-row .status-item:last-child div::after {
+  right: 0;
+  left: unset;
+}
+
+.order-status-row .status-item:nth-child(2) div::after {
+  left: 0;
+  right: unset;
+}
+
+.order-status-row .status-item:nth-child(3) div::after {
+  left: 0;
+  right: unset;
+}
+
+.order-status-row .status-item:nth-child(4) div::after {
+  width: 0;
+}
+
+.order-status-row .status-item div img {
+  position: relative;
+  z-index: 1;
+  background: var(--ion-color-light-gray);
+  width: clamp(40px, 10vw, 50px);
+  height: clamp(40px, 10vw, 50px);
+  border-radius: 50%;
+}
+
+.order-status-row .status-item.active div img {
+  background: var(--ion-color-primary);
+}
+
+.order-details-row {
+  gap: 0.5rem;
+}
+
+.order-detail-info p span:first-child,
+.payment-detail-info p span:first-child {
+  min-width: fit-content;
+  color: var(--text-description-color);
+}
+
+.order-id-label {
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.address-item .address-icon {
+  position: relative;
+  width: 30px;
+}
+
+.address-item:first-child .address-icon::after {
+  content: '';
+  height: 100%;
+  position: absolute;
+  z-index: 0;
+  bottom: -55%;
+  left: 50%;
+  translate: -50% 0;
+  border: 1px dashed #000;
+  border-image: repeating-linear-gradient(180deg, #000, #000 3px, transparent 3px, transparent 6px)
+    1;
+}
+
+.address-item .address-icon ion-icon {
+  z-index: 1;
+  background: #fff;
+}
+
+.address-item .address-info {
+  width: 100%;
+}
+
+.order-item {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  height: 100px;
+  display: flex;
+  background: #fff;
+}
+
+.order-item img {
+  background: var(--ion-color-primary);
+  width: 110px;
+  object-fit: cover;
+  height: 100%;
+}
+
+.order-item .order-info {
+  padding: 0.5rem 0.8rem;
+  width: 100%;
+}
+
+.order-item .order-info .item-name {
+  min-height: 33px;
+}

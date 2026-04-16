@@ -1,0 +1,317 @@
+.container {
+  background: #d9d9d9;
+  height: 100%;
+  min-height: calc(100vh - 140px);
+  position: relative;
+  gap: 0;
+  padding: 0 0 85px 0;
+  align-items: center;
+}
+
+/* --- BlackLine --- */
+.BlackLine {
+  background-color: #292929;
+  position: absolute;
+  width: 34px;
+  height: 100%;
+  left: 3.6rem;
+  z-index: 98;
+}
+
+.BlackLine.First {
+  top: -11vh;
+  border-radius: 7px 7px 0px 0px;
+  background-color: rgba(242, 207, 125);
+}
+
+.Line_Last {
+  position: relative;
+  height: 340px;
+  width: 32px;
+  left: 3.6rem;
+  background-color: #292929; /* ✅ 默认黑 */
+}
+.Line_Last.active {
+  background-color: rgba(242, 207, 125); /* ✅ 达成最后一格才黄 */
+}
+
+.BlackLine.active {
+  background-color: rgba(242, 207, 125);
+}
+
+.BlackLine.last-active {
+  border-radius: 0 0 10px 10px;
+}
+
+/* ---First FoodCard --- */
+.first-item {
+  margin-top: 84px;
+}
+
+/* --- FoodCard --- */
+.FoodCard {
+  width: 37vh;
+  height: 286px;
+  position: relative;
+}
+
+/* --- FoodPic --- */
+.FoodPic {
+  background-color: #292929;
+  width: 11rem;
+  height: 11rem;
+  border-radius: 10px;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  top: 35px;
+  border: 11px solid #292929;
+  z-index: 99;
+}
+
+.FoodPic.active {
+  border-color: rgba(242, 207, 125);
+}
+
+/* Show Point */
+.PointArea {
+  position: absolute;
+  top: -60px;
+  right: 0px;
+  font-size: 2.3rem;
+  font-weight: 750;
+  color: #f2cf7d;
+
+  width: 74%;
+  text-align: center;
+  //白色描边
+  -webkit-text-stroke: 9px white;
+  paint-order: stroke fill;
+}
+
+/* Food Info */
+.FoodInfo {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 8px 12px 8px 8px;
+  width: 300px;
+  height: 85px;
+  bottom: 3rem;
+  right: 2%;
+  text-align: end;
+  border-radius: 10px;
+}
+
+.FoodName {
+  text-align: start;
+  width: 50%;
+  position: absolute;
+  right: 2rem;
+}
+
+.FoodName p {
+  font-size: 1rem;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  display: block;
+}
+
+.RedeemButtonDIV {
+  width: 100%;
+  position: absolute;
+  bottom: 8px;
+  right: 37px;
+}
+
+.RedeemButton {
+  position: relative;
+  width: 50%;
+  border-radius: 10px;
+  color: #777777;
+  background-color: #d4d4d4;
+  font-weight: bold;
+  border: none;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.RedeemButton.active {
+  color: rgb(34, 34, 34);
+  background-color: #f2cf7d;
+}
+
+/* Mobile S */
+@media (max-width: 375px) {
+  .FoodCard {
+    width: 19.5rem;
+    height: 207px;
+  }
+
+  .FoodPic {
+    width: 9rem;
+    height: 9rem;
+    border-width: 8px;
+  }
+
+  .BlackLine {
+    left: 3.6rem;
+    width: 26px;
+  }
+
+  .Line_Last {
+    left: 3.6rem;
+    width: 26px;
+  }
+
+  .FoodInfo {
+    width: 210px;
+  }
+
+  .PointArea {
+    top: -53px;
+    font-size: 1.9rem;
+  }
+
+  .FoodName {
+    width: 67%;
+    right: 0.7rem;
+  }
+
+  .RedeemButtonDIV {
+    right: 10px;
+  }
+
+  .RedeemButton {
+    width: 67%;
+  }
+}
+
+/* Mobile M (375px ~ 424px) */
+@media (min-width: 375px) and (max-width: 424px) {
+  .FoodCard {
+    width: 22rem;
+    height: 254px;
+    min-width: 98%;
+  }
+
+  .FoodPic {
+    width: 11rem;
+    height: 11rem;
+    border-width: 11px;
+  }
+
+  .BlackLine {
+    left: 4.5rem;
+    width: 33px;
+  }
+
+  .Line_Last {
+    left: 4.5rem;
+    width: 33px;
+  }
+
+  .PointArea {
+    font-size: 2.1rem;
+    width: 63%;
+  }
+
+  .FoodInfo {
+    width: 270px;
+  }
+
+  .FoodName {
+    right: 1rem;
+  }
+
+  .RedeemButtonDIV {
+    right: 18px;
+  }
+}
+
+/* Mobile L (425px ~ 767px) */
+@media (min-width: 425px) and (max-width: 767px) {
+  .FoodCard {
+    width: 26rem;
+    height: 254px;
+  }
+
+  .BlackLine {
+    left: 4.5rem;
+    width: 33px;
+  }
+
+  .Line_Last {
+    left: 4.5rem;
+    width: 33px;
+  }
+
+  :host-context(.ios) {
+    .FoodCard {
+      width: 25rem !important;
+    }
+  }
+}
+
+/* 💻 Tablet / Desktop */
+@media (min-width: 768px) {
+  .FoodCard {
+    width: 31rem;
+    height: 318px;
+  }
+
+  .FoodPic {
+    width: 14rem;
+    height: 14rem;
+    border-width: 15px;
+  }
+
+  .BlackLine {
+    left: 6rem;
+    width: 34px;
+  }
+
+  .Line_Last {
+    left: 6rem;
+    width: 34px;
+  }
+
+  .FoodInfo {
+    width: 295px;
+    bottom: 110px;
+    right: 6%;
+  }
+
+  .FoodName {
+    width: 72%;
+    right: 0.7rem;
+  }
+
+  .RedeemButtonDIV {
+    right: 27px;
+  }
+
+  .RedeemButton {
+    width: 67%;
+  }
+}
+
+:host-context(.model-iphone-13) {
+  .FoodCard {
+    width: 26rem;
+    height: 240px;
+  }
+  .FoodPic {
+    width: 12rem;
+    height: 12rem;
+  }
+
+  /* 如果你要调整 Ionic 组件内部样式，可能需要结合 ::ng-deep */
+  // ::ng-deep ion-content {
+  //   --padding-top: 20px;
+  // }
+}
+

@@ -1,0 +1,22 @@
+.about-title-container {
+  background: #fff;
+  position: relative;
+  height: clamp(160px, 23vw, 250px);
+  align-items: start;
+  padding-top: var(--base-padding-top-bottom);
+  overflow: hidden;
+}
+
+.title-bg {
+  position: absolute;
+  top: 0;
+  background: transparent;
+  height: clamp(160px, 23vw, 250px);
+  width: 100%;
+  object-fit: cover;
+  object-position: 50% 80%;
+}
+
+.title-eng {
+  font-size: var(--about-text-title-size);
+}

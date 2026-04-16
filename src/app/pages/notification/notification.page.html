@@ -1,0 +1,22 @@
+<app-header
+  [rootPage]="'home'"
+  [isBackHeader]="true"
+  [headerText]="'Notification'"
+  [page]="'notification'"
+  (notificationEvent)="markReadNotification()"></app-header>
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="notification-grid">
+      <div
+        class="notification-item unread"
+        *ngFor="let n of notifications"
+        [ngClass]="{ 'unread': n.isUnread }">
+        <div class="content">
+          <p class="title text-title text-md">{{n.title}}</p>
+          <p class="content truncate-two-line">{{n.content}}</p>
+        </div>
+        <p class="date text-description">{{dateHelper.formatDate(n.pushTime || '')}}</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

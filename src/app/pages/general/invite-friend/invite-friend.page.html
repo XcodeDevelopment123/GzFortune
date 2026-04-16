@@ -1,0 +1,26 @@
+<app-header [rootPage]="'account'" [isBackHeader]="true" [headerText]="'Referral'"></app-header>
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="card">
+      <div class="referral-banner">
+        <p class="text-title">Invite & Earn Rewards!</p>
+        <p>Share your referral link and earn exclusive rewards when your friends join.</p>
+      </div>
+
+      <app-referral-card [memberInfo]="memberInfo"></app-referral-card>
+    </div>
+
+    <div class="flex-auto card-border">
+      <div class="referral-item">
+        <p class="text-center text-title text-sm">Friends</p>
+        <p class="text-center text-description text-sm">signed up with your referral code</p>
+      </div>
+
+      <div class="split-line"></div>
+      <div class="referral-item">
+        <p class="text-center text-title text-sm">Friends</p>
+        <p class="text-center text-description text-sm">made their payment using app wallet</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

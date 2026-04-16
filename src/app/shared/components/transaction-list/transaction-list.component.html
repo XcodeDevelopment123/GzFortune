@@ -1,0 +1,84 @@
+<div class="container List-Container">
+  <!-- <div class="flex-space-between">
+    <p class="text-title text-md">My Transactions</p> -->
+  <!-- <ion-icon class="text-xxl" name="filter-circle-outline"></ion-icon>
+  </div> -->
+
+  <div *ngIf="ApiLoaded">
+    <div
+      *ngFor="let history of visibleTransactions; trackBy: trackByTxn"
+      class="card-border history-item">
+      <div class="order-info flex-auto">
+        <div class="info-details text-title text-sm">
+          <p class="truncate-two-line title">{{ history.description }}</p>
+          <p class="text-description time">{{ getLocaleDate(history.dateTime) }}</p>
+          <p class="text-description text-italic" *ngIf="history.balanceInfo">
+            {{ history.balanceInfo }}
+          </p>
+
+          <p class="text-description text-italic" *ngIf="history.pointsInfo">
+            {{ history.pointsInfo }}
+          </p>
+          <p
+            class="order-status"
+            [ngClass]="{
+              success: history.status === 'Success',
+              cancel: history.status === 'Cancelled',
+            }">
+            {{ history.status }}
+          </p>
+        </div>
+        <div
+          class="info-amount text-sm text-end"
+          *ngIf="
+            history.type === 'Payment' ||
+            history.type === 'Top Up' ||
+            history.type === 'Redeem Reward'
+          ">
+          <!-- 第一行：Payment/TopUp 显示 RM；Redeem Reward 显示 Points -->
+          <p class="text-title text-md money" [ngClass]="history.amountClass">
+            {{
+              history.type === 'Redeem Reward'
+                ? '- ' + history.point + ' Points'
+                : history.displayAmount
+            }}
+          </p>
+
+          <!-- 第二行：只有 Payment/TopUp 才显示 Points（并且 point>0 才显示） -->
+          <p
+            class="text-title text-sm money show-Poiny"
+            [ngClass]="history.amountClass"
+            *ngIf="history.type !== 'Redeem Reward' && history.point > 0">
+            + {{ history.point }}Points
+          </p>
+        </div>
+      </div>
+      <p class="flex-space-between text-description text-italic">
+        <span>Transaction ID: {{ history.historyId }}</span>
+      </p>
+
+      <div class="flex-space-between flex-auto">
+        <button class="ViewDetailBtn" mode="ios" (click)="goToDetails(history)">
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Place Holder -->
+  <div *ngIf="!ApiLoaded">
+    <div *ngFor="let history of [0, 1, 2, 3, 4, 5]" class="card-border history-item">
+      <p class="flex-space-between text-description text-italic">
+        <ion-skeleton-text [animated]="true" style="width: 70%; height: 30px"></ion-skeleton-text>
+      </p>
+
+      <ion-skeleton-text [animated]="true" style="width: 90%; height: 40px"></ion-skeleton-text>
+      <ion-skeleton-text [animated]="true" style="width: 60%; height: 40px"></ion-skeleton-text>
+    </div>
+  </div>
+</div>
+
+<ion-infinite-scroll threshold="120px" (ionInfinite)="loadMoreTransactions($event)">
+  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more orders...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>

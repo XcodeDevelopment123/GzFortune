@@ -1,0 +1,128 @@
+<div class="container">
+  <app-general-select
+    [options]="options"
+    [placeholder]="'All'"
+    [interface]="'action-sheet'"
+    [title]="'Status'"
+    [showSelectLabel]="true"
+    [multiple]="true"
+    (changeEvent)="onCategoryChange($event)">
+  </app-general-select>
+
+  <!-- Active -->
+  <ng-container *ngIf="showedLists.includes('Active') && activeVoucherList.length > 0">
+    <p class="voucher-category-label text-title text-md">Active</p>
+    <div
+      class="voucher-item"
+      *ngFor="let voucher of activeVoucherList"
+      [ngClass]="{ active: voucher.status === 'Active' }">
+      <img [src]="voucher.image" />
+      <div class="voucher-info flex-column">
+        <div class="info-message">
+          <p class="text-title text-md">{{ voucher.title }}</p>
+          <p class="text-description">
+            Period: {{ voucher.createDate | date: 'dd/MM/yyyy' }} -
+            {{ voucher.expireDate | date: 'dd/MM/yyyy' }}
+          </p>
+          <p class="description-button truncate-two-line" [innerHTML]="voucher.description"></p>
+        </div>
+        <div
+          class="status-label text-title text-sm text-center ion-activatable"
+          (click)="openQrModal(voucher)">
+          <ion-ripple-effect></ion-ripple-effect>
+          CLAIM NOW
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Used -->
+  <ng-container *ngIf="showedLists.includes('Used') && usedVoucherList.length > 0">
+    <p class="voucher-category-label text-title text-md">Used</p>
+    <div
+      class="voucher-item"
+      *ngFor="let voucher of usedVoucherList"
+      [ngClass]="{ used: voucher.status === 'Used' }">
+      <img [src]="voucher.image" />
+      <div class="voucher-info flex-column">
+        <div class="info-message">
+          <p class="text-title text-md">{{ voucher.title }}</p>
+          <p class="text-description">
+            Period: {{ voucher.createDate | date: 'dd/MM/yyyy' }} -
+            {{ voucher.expireDate | date: 'dd/MM/yyyy' }}
+          </p>
+          <p class="description-button truncate-two-line" [innerHTML]="voucher.description"></p>
+        </div>
+        <div class="status-label text-title text-sm text-center">USED</div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Ready -->
+  <ng-container *ngIf="showedLists.includes('Ready') && readyRedeemVoucherList.length > 0">
+    <p class="voucher-category-label text-title text-md">Ready To Redeem</p>
+    <div
+      class="voucher-item"
+      *ngFor="let voucher of readyRedeemVoucherList"
+      [ngClass]="{ active: voucher.status === 'Active' }">
+      <img [src]="voucher.image" />
+      <div class="voucher-info flex-column">
+        <div class="info-message">
+          <p class="text-title text-md">{{ voucher.title }}</p>
+          <p class="text-description">
+            Period: {{ voucher.createDate | date: 'dd/MM/yyyy' }} -
+            {{ voucher.expireDate | date: 'dd/MM/yyyy' }}
+          </p>
+          <p class="description-button truncate-two-line" [innerHTML]="voucher.description"></p>
+        </div>
+        <div
+          class="status-label text-title text-sm text-center ion-activatable"
+          (click)="openQrModal(voucher)">
+          <ion-ripple-effect></ion-ripple-effect>
+          CLAIM NOW
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Expired -->
+  <ng-container *ngIf="showedLists.includes('Expired') && expiredVoucherList.length > 0">
+    <p class="voucher-category-label text-title text-md">Expired</p>
+    <div
+      class="voucher-item"
+      *ngFor="let voucher of expiredVoucherList"
+      [ngClass]="{ expired: true }">
+      <img [src]="voucher.image" />
+      <div class="voucher-info flex-column">
+        <div class="info-message">
+          <p class="text-title text-md">{{ voucher.title }}</p>
+          <p class="text-description">
+            Period: {{ voucher.createDate | date: 'dd/MM/yyyy' }} -
+            {{ voucher.expireDate | date: 'dd/MM/yyyy' }}
+          </p>
+          <p class="description-button truncate-two-line" [innerHTML]="voucher.description"></p>
+        </div>
+        <div class="status-label text-title text-sm text-center">EXPIRED</div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!------- Loading Place Holder ------->
+  <!-- Active -->
+  <ng-container  *ngIf="!Loaded" >
+    <p class="voucher-category-label text-title text-md">
+      <ion-skeleton-text [animated]="true" style="width: 28%; height: 30px"></ion-skeleton-text>
+    </p>
+    <div class="voucher-item" *ngFor="let voucher of [0, 1, 2, 3, 4]">
+      <ion-skeleton-text [animated]="true" style="width: 130px; height: 135px"></ion-skeleton-text>
+      <div class="voucher-info flex-column">
+        <div class="info-message">
+          <ion-skeleton-text [animated]="true" style="width: 28%; height: 22px"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 90%; height: 17px"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 90%; height: 45px"></ion-skeleton-text>
+        </div>
+        <div class="status-label text-title text-sm text-center">...</div>
+      </div>
+    </div>
+  </ng-container>
+</div>

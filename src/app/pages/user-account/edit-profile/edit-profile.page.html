@@ -1,0 +1,39 @@
+<app-header [rootPage]="'account'" [isBackHeader]="true" [headerText]="'Edit Profile'"></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="card">
+      <form *ngIf="form" [formGroup]="form" (ngSubmit)="submit()">
+        <!-- <app-profile-picture-input
+          [isEditable]="true"
+          formControlName="image"></app-profile-picture-input> -->
+        <app-general-input
+          [title]="'Username'"
+          [placeholder]="'Username'"
+          [inputControl]="userCtrl"></app-general-input>
+        <app-general-input
+          [title]="'Email'"
+          [placeholder]="'JohnDee@gmail.com'"
+          [inputControl]="emailCtrl"></app-general-input>
+        <app-phone-number-input
+          [title]="'Phone Number'"
+          [placeholder]="'+60 xxxxxxxxx'"
+          formControlName="phoneNumber"></app-phone-number-input>
+        <app-general-date-input
+          [title]="'Birth Date'"
+          [placeholder]="' (Optional)'"
+          formControlName="birthDate"></app-general-date-input>
+
+        <div class="flex-center">
+          <ion-button
+            [disabled]="form.invalid && !form.dirty"
+            type="submit"
+            mode="ios"
+            class="text-title"
+            >Save Changes</ion-button
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

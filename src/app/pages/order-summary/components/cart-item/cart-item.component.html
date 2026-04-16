@@ -1,0 +1,29 @@
+<div class="cart-item flex-auto">
+  <img class="menu-image" load="lazy" [src]="item.image || 'assets/images/app-logo.png'" />
+
+  <div class="menu-info">
+    <p class="text-title text-md flex-space-between">
+      {{ item.title }}
+      <ion-icon name="close" class="text-xl text-theme" (click)="removeItem()"></ion-icon>
+    </p>
+    <div class="text-description">
+      <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut metus in nunc sollicitudin
+      ultrices id quis lectus. -->
+      <p *ngIf="item.remark?.trim()">Remark : {{ item.remark }}</p>
+    </div>
+    <div class="menu-footer-section flex-space-between">
+      <div class="quantity-control flex-center">
+        <span class="text-title text-sm">Qty:</span>
+        <span class="text-title text-sm">{{ item.qty }}</span>
+      </div>
+    </div>
+
+    <div class="flex-space-between">
+      <p class="menu-item-price text-sm">RM {{ totalUnitPrice | number: '1.2-2' }}</p>
+      <p class="text-title text-theme text-sm edit-label" (click)="toEdit()">
+        <ion-icon name="pencil"></ion-icon>
+        EDIT
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+.card {
+  background: rgba(133, 133, 133, 0.6);
+}
+
+.share-code-section .message {
+  padding: 0 2rem;
+  color: var(--ion-color-primary);
+}
+
+.referral-code {
+  width: 100%;
+  max-width: 460px;
+  gap: 0;
+  justify-content: space-between;
+}
+
+.referral-code span ion-icon {
+  color: var(--ion-color-primary);
+}
+
+.referral-code span {
+  background: #fff;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.3rem;
+  color: var(--ion-color-primary);
+}
+
+.referral-code span:first-child,
+.referral-code span:last-child {
+  background: transparent;
+  border: none;
+  align-self: end;
+}
+
+.referral-code ion-button {
+  max-width: 300px;
+  width: 100%;
+}
+
+ion-text {
+  color: var(--ion-color-primary);
+}

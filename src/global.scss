@@ -1,0 +1,829 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import '@ionic/angular/css/core.css';
+@import './theme/alert.scss';
+/* Basic CSS for apps built with Ionic */
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
+
+@media (--small) {
+  /* 适用于大屏手机 */
+}
+
+@media (--medium) {
+  /* 适用于平板竖屏 */
+}
+
+@media (--large) {
+  /* 适用于平板横屏和小型桌面 */
+}
+
+@media (--xlarge) {
+  /* 适用于标准桌面 */
+}
+
+@media (--xxlarge) {
+  /* 适用于大屏桌面 */
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('assets/fonts/nunito.ttf') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+/* 1. 全局重置与基础设置 */
+*,
+*::before,
+*::after {
+  font-family: var(--ion-font-family);
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  /* 移除移动端点击高光 */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+}
+
+html {
+  scroll-behavior: smooth;
+  /* 平滑滚动 */
+  scroll-padding-top: 2rem;
+  /* 防止 fixed header 遮挡 */
+}
+
+body {
+  font-family: var(--ion-font-family);
+  line-height: 1.6;
+  /* 最佳可读性行高 */
+  text-rendering: optimizeLegibility;
+  /* 字体渲染优化 */
+  -webkit-font-smoothing: antialiased;
+  /* macOS 字体平滑 */
+}
+
+/*** 流畅动画设置 ***/
+/*** 排版增强 ***/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--text-sm);
+  line-height: 1.2;
+  margin: calc(var(--space-unit) * 1.5) 0 var(--space-unit);
+}
+
+p {
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+// div {
+//   font-size: var(--text-sm);
+// }
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/*** 响应式媒体处理 ***/
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  /* 消除图片底部间隙 */
+}
+
+ion-content {
+  --background: var(--base-background-color);
+  // overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+ion-content.tabs::part(scroll) {
+  //padding-bottom: var(--bottom-nav-bar-height);
+}
+
+ion-content::part(scroll) {
+  padding: calc(92px + var(--android-status-height)) 0 0 0;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
+  // overscroll-behavior: none;
+  /* 阻止向外冒泡 overscroll */
+  -webkit-overflow-scrolling: touch;
+
+  /* 仍保留惯性滑动 */
+  @media screen and (min-width: 576px) {
+    padding: calc(99px + var(--android-status-height)) 0 0 0;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding: calc(108px + var(--android-status-height)) 0 0 0;
+  }
+}
+
+ion-modal ion-content::part(scroll) {
+  padding: calc(22px + var(--android-status-height)) 0 0 0;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
+
+  @media screen and (min-width: 576px) {
+    padding: calc(29px + var(--android-status-height)) 0 0 0;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding: calc(38px + var(--android-status-height)) 0 0 0;
+  }
+}
+
+ion-content::part(scroll)::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+}
+
+/* ion-refresher：保持背景透明 */
+ion-refresher {
+  background: transparent;
+}
+
+/* ion-list：重置内边距 */
+ion-list {
+  padding: 0;
+}
+
+/* ion-item：采用灵活布局及统一内外边距 */
+ion-item {
+  margin: var(--spacing-base) 0 0 calc(-1 * var(--spacing-base));
+  /* 如果 -1rem 的目的是覆盖默认内边距，建议注释说明 */
+
+  display: flex;
+  align-items: flex-start;
+}
+
+/* 重置 ion-item 内部 native 部分的 padding */
+ion-item::part(native) {
+}
+
+ion-input {
+  margin: 0.5rem 0;
+  border-radius: 0.5rem;
+  min-height: 44px;
+  background: #fff;
+}
+
+ion-input::part(input-wrapper) {
+  background: transparent;
+}
+
+.input-bottom {
+  position: absolute;
+  right: 0;
+}
+
+ion-button {
+  cursor: pointer;
+  transition:
+    transform 0.15s ease-out,
+    opacity 0.15s linear;
+  --background: var(--base-button-color-background);
+  width: 100%;
+  max-width: 300px;
+  --padding-bottom: 0.6rem;
+  --padding-top: 0.6rem;
+  font-size: var(--text-lg);
+  font-weight: bold;
+  min-height: clamp(2.5rem, 13vw, 3.5rem);
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 1;
+    cursor: not-allowed;
+  }
+}
+
+ion-button[disabled] {
+  opacity: 1;
+  --background: #a8a8a8;
+}
+
+ion-button.invalid,
+ion-button.invalid:hover,
+ion-button.invalid:active,
+ion-button.invalid.ion-activated {
+  --background: var(--ion-color-dark-tint) !important;
+  --background-activated: var(--ion-color-dark-tint) !important;
+  opacity: 0.5 !important;
+}
+
+ion-modal::part(content) {
+  z-index: 11;
+}
+
+ion-modal::part(backdrop) {
+  z-index: 11; //More than shadow box
+}
+
+ion-modal.qr-code-modal app-qr-code-modal {
+  justify-content: center;
+}
+
+ion-modal.qr-code-modal {
+  --backdrop-opacity: 0.5 !important;
+  canvas {
+    height: 350px !important;
+    width: 350px !important;
+  }
+}
+
+ion-modal.qr-code-modal::part(content) {
+  background: transparent;
+  height: 100%;
+  width: 100%;
+  max-height: 480px;
+  max-width: 420px;
+  border-radius: 1rem;
+}
+
+ion-modal.date-selector-modal {
+  --height: 330px;
+}
+
+ion-modal.stamp-tnc-modal {
+  --height: 100%;
+}
+
+app-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+ion-header ion-toolbar:first-of-type {
+  padding-top: var(--android-status-height);
+}
+
+/* 5. 通用激活状态 */
+.ion-activatable {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  /* 防止用户选择 */
+}
+
+.ion-activatable ion-ripple-effect {
+  color: rgba(0, 0, 0, 0.4);
+  opacity: 0.1;
+}
+
+.container {
+  padding: var(--base-padding-top-bottom) var(--base-padding-left-right);
+  padding-bottom: 106px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-unit);
+  max-width: 1080px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.container.no-padding {
+  padding: 0;
+}
+
+ion-content:not(.tabs) .container {
+  padding-bottom: 0.5rem;
+}
+
+.terms-list ul {
+  padding-left: 20px;
+}
+
+.terms-list ul li {
+  margin-bottom: 8px;
+}
+
+/*==========Dash line & divider==========*/
+.dashed-line {
+  width: 100%;
+  border-top: dashed 1px #cccace;
+  margin: 0;
+}
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  margin: 0 0 2rem;
+  word-break: normal;
+}
+
+.divider-line {
+  border: var(--base-border-line);
+}
+
+.divider-line-with-spacing {
+  border-top: var(--base-border-line);
+  margin: 0.5rem 0;
+}
+
+.or-divider span:nth-child(1),
+.or-divider span:nth-child(3) {
+  display: flex;
+  align-items: center;
+  height: 1px;
+  width: 100%;
+  border-top: dashed 1px #cccace;
+}
+
+.or-divider span:nth-child(2) {
+  min-width: 60px;
+  text-align: center;
+  color: #837c86;
+  font-size: 13px;
+  word-break: normal;
+}
+
+.line-divider {
+  margin: 0 -2rem;
+  border: solid 1px #e0e0e0;
+}
+
+/*==========Dash line & divider==========*/
+
+/*==========truncate==========*/
+.truncate-one-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 1.5em;
+  line-height: 1.2em;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+.truncate-two-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3em;
+  line-height: 1.2em;
+}
+
+/*==========truncate==========*/
+
+/*** 实用类速查 ***/
+/* 间距系统：基于 4px 增量 */
+.flow > * + * {
+  margin-top: var(--space-unit);
+}
+
+.pad {
+  padding: calc(var(--space-unit) * 1.5);
+}
+
+.gap {
+  gap: calc(var(--space-unit) * 1.5);
+}
+
+/* 弹性布局快捷方式 */
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-auto {
+  display: flex;
+  gap: var(--space-unit);
+}
+
+.flex-space-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-column-space-between {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 网格布局模板 */
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: var(--space-unit);
+}
+
+/*** 性能优化项 ***/
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+.disable-hover {
+  pointer-events: none;
+  /* 滚动时禁用 hover */
+}
+
+.text-title {
+  font-size: var(--text-lg);
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.text-description {
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  color: var(--text-description-color);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-end {
+  text-align: end;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+.text-xs {
+  font-size: var(--text-xs);
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+}
+
+.text-md {
+  font-size: var(--text-md);
+}
+
+.text-lg {
+  font-size: var(--text-lg);
+}
+
+.text-xl {
+  font-size: var(--text-xl);
+}
+
+.text-xxl {
+  font-size: var(--text-xxl);
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-theme {
+  color: var(--ion-color-primary);
+}
+
+/*App class*/
+.user-profile .user-profile-picture {
+  background: rgba(var(--ion-color-secondary-rgb), 0.4);
+  border-radius: 50%;
+  overflow: hidden;
+  width: 55px;
+  border: 2.5px solid var(--ion-color-primary);
+}
+
+.user-profile .user-profile-picture img {
+  height: 100%;
+  width: 100%;
+}
+
+.user-profile .scan-qr {
+  width: 50px;
+  min-width: 50px;
+}
+
+.card {
+  padding: var(--base-padding-top-bottom) var(--base-padding-left-right);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-unit);
+  background: #fffffd;
+  border-radius: 0.6rem;
+}
+
+.card-border {
+  padding: var(--base-padding-top-bottom) var(--base-padding-left-right);
+  border: var(--base-border-line);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-unit);
+  background: #fffffd;
+  border-radius: 0.6rem;
+}
+
+.card.no-gap {
+  gap: 0;
+}
+
+.card-title-label {
+  margin-bottom: 0.5rem;
+}
+
+.card.card-title {
+  border-radius: 1rem;
+  background: var(--ion-color-primary);
+  overflow: hidden;
+}
+
+.card-title .card-content {
+  margin: 0 calc(0px - var(--base-padding-left-right)) calc(0px - var(--base-padding-top-bottom));
+  border-radius: 0.6rem 0.6rem 0 0;
+}
+
+.card-title .card-content .card-title-label {
+  margin-bottom: 0.2rem;
+}
+
+.view-all {
+  color: var(--ion-color-primary);
+  gap: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.theme-gradient-bg {
+}
+
+.modal.close-icon {
+  border-radius: 0 0 1rem 1rem;
+  z-index: 999;
+  padding: var(--base-padding);
+  background: #fff;
+  box-shadow: var(--base-shadow);
+}
+
+.close-icon {
+  justify-content: end;
+}
+
+.close-icon ion-icon {
+  font-size: var(--text-xxl);
+}
+
+.inline-error small {
+  font-size: 82%;
+}
+
+.inline-error {
+  margin-top: 0.5rem;
+}
+
+.inline-error ion-text {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: var(--ion-color-danger);
+  width: calc(100% - 60px);
+}
+
+.inline-error ion-icon {
+  min-width: 0.8rem;
+  height: 1rem;
+}
+
+.gmnoprint {
+  display: none;
+}
+
+.app-theme-card {
+  border-radius: 1rem;
+  background: var(--base-button-background);
+  padding: var(--base-padding-top-bottom) 0 0 0;
+  overflow: hidden;
+}
+
+.app-theme-card .text-title {
+  padding: 0 var(--base-padding-left-right);
+  color: #fff;
+}
+
+.app-theme-card .card-content {
+  border-radius: 1rem 1rem 0 0;
+}
+
+.empty-record-img {
+  width: 200px;
+}
+
+.order-status {
+  font-style: normal;
+  border: 2px solid #000;
+  border-radius: 5rem;
+  padding: 0.1rem 0.5rem;
+}
+
+.order-status.success {
+  color: var(--ion-color-success);
+  border-color: var(--ion-color-success);
+}
+
+.mg-0 {
+  margin: 0;
+}
+
+.pd-0 {
+  padding: 0;
+}
+
+/*Skeleton*/
+.menu-skeleton-item {
+  .menu-skeleton-image {
+    width: 100%;
+    height: 120px;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+    background-color: #f2f2f2;
+  }
+
+  .item-name,
+  .item-price {
+    border-radius: 6px;
+  }
+}
+
+.tag {
+  font-size: var(--text-xs);
+  border: var(--base-border-line);
+  padding: 0.1rem 0.3rem;
+}
+
+.tag-free-shipping {
+  color: #2ecc71; // 清新绿
+  border-color: #27ae60;
+}
+
+.tag-free-drink {
+  color: #f39c12; // 果橙黄
+  border-color: #e67e22;
+}
+
+.tag-discount {
+  color: #d61b2a; // Juicy品牌红
+  border-color: #c0392b;
+}
+
+.tag-buy1free1 {
+  color: #9b59b6; // 葡萄紫 🍇
+  border-color: #8e44ad;
+}
+
+.tag-new-user {
+  color: #00bcd4; // 水蓝
+  border-color: #0097a7;
+}
+
+.tag-birthday {
+  color: #e91e63; // 柔粉红
+  border-color: #c2185b;
+}
+
+.tag-invalid {
+  color: #414141;
+  border-color: #2e2e2e;
+}
+
+.banner-container {
+  z-index: -1;
+  position: fixed;
+  top: calc(80px + var(--android-status-height));
+  left: 0;
+  width: 100%;
+
+  @media screen and (min-width: 576px) {
+    top: calc(80px + var(--android-status-height));
+  }
+
+  @media screen and (min-width: 768px) {
+    top: calc(80px + var(--android-status-height));
+  }
+}
+
+.banner {
+  width: 100%;
+  max-width: 600px;
+  max-height: 400px;
+}
+
+.input-disabled {
+  opacity: 1 !important;
+  background-color: #e9e9e9;
+}
+
+ion-skeleton-text {
+  --border-radius: 0.5rem;
+  --background: rgb(255, 183, 27);
+  --background-rgb: 255, 183, 27;
+  border-radius: 0.5rem;
+}
+
+@supports (-webkit-touch-callout: none) {
+  /* 对普通表单控件 */
+  input,
+  textarea,
+  select {
+    font-size: 18px !important;
+  }
+
+  /* 对 Ionic 的 ion-input / ion-textarea 内部原生 input */
+  ion-input,
+  ion-textarea {
+    font-size: 18px !important;
+  }
+
+  ion-input::part(native),
+  ion-textarea::part(native) {
+    font-size: 18px !important;
+  }
+
+  ion-content {
+    overscroll-behavior: auto !important;
+  }
+
+  ion-content::part(scroll) {
+    overscroll-behavior: auto !important;
+    overscroll-behavior-y: auto !important;
+  }
+}
+
+.home-refresher {
+  /* 往下移：数字自己微调到你要的位置 */
+  top: calc(env(safe-area-inset-top) + 110px);
+  z-index: 20;
+}

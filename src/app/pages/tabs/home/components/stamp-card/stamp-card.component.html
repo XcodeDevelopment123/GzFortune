@@ -1,0 +1,16 @@
+<div class="flex-space-between card-title-label">
+  <p class="text-lg text-title">Loyalty Stamp Card</p>
+  <div class="view-all" [routerLink]="['/rewards']" [queryParams]="{ tab: 'stamp' }">
+    View Details
+    <ion-icon class="text-lg" name="arrow-forward-outline"></ion-icon>
+  </div>
+</div>
+
+<div class="flex-space-between card-content">
+  <div class="stamp-card">
+    <div class="stamp-item flex-center" *ngFor="let img of stampImages">
+      <img load="lazy" [src]="img" />
+    </div>
+  </div>
+  <div class="empty-box"></div>
+</div>

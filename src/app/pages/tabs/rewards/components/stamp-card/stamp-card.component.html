@@ -1,0 +1,24 @@
+<div class="stamp-container">
+  <swiper-container
+    #swiper
+    [slidesPerView]="config.slidesPerView"
+    [loop]="config.loop"
+    [freeMode]="config.freeMode"
+    [spaceBetween]="config.spaceBetween"
+    [slidesOffsetAfter]="config.slidesOffsetAfter"
+    [roundLengths]="config.roundLengths"
+    [pagination]="config.pagination"
+    [width]="config.width"
+    [slidesOffsetBefore]="config.slidesOffsetBefore"
+    [breakpoints]="config.breakpoints"
+    [width]="config.width"
+    [centeredSlides]="config.centeredSlides"
+    [initialSlide]="config.initialSlide">
+    <swiper-slide *ngFor="let i of stampList">
+      <div>
+        <img class="stamp-image" [src]="i.image || 'assets/images/reward-sample.webp'" />
+        <p class="stamp-requirement text-center text-sm text-muted">Requires {{ i.point }} Stamp</p>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+</div>

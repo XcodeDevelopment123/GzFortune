@@ -1,0 +1,16 @@
+ion-content {
+  --background: #ffffffe0; /* 你想要的背景色 */
+}
+.loading-img{
+    width: 250px;
+    height: 250px;
+    margin-top: 200px;
+    border-radius: 20px;
+    filter: blur(6px);
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+
+}

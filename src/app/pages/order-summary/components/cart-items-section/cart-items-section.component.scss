@@ -1,0 +1,6 @@
+.items-info {
+  app-cart-item.not-last {
+    padding-bottom: 0.5rem;
+    border-bottom: var(--base-border-line);
+  }
+}

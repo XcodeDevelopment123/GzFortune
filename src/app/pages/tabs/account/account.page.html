@@ -1,0 +1,15 @@
+<app-header [rootPage]="'account'" [page]="'account'" [headerText]="'ACCOUNT'"></app-header>
+
+<ion-content [fullscreen]="true" class="tabs">
+  <!-- ✅ 下拉刷新 -->
+  <ion-refresher slot="fixed" class="home-refresher" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="container">
+    <app-account-user-card [memberInfo]="memberInfo"></app-account-user-card>
+    <app-option-page-card [memberInfo]="memberInfo"></app-option-page-card>
+
+    <ion-label class="text-center text-sm text-description"> Version {{ Appvertion }} </ion-label>
+  </div>
+</ion-content>

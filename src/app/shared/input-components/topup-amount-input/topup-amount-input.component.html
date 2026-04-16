@@ -1,0 +1,18 @@
+<div class="amount-field">
+  <span class="prefix">RM</span>
+  <ion-input
+    mode="ios"
+    type="text"
+    inputmode="decimal"
+    maxlength="6"
+    fill="none"
+    placeholder="0.00"
+    [(ngModel)]="amount"
+    (ionInput)="inputTyping($event)"
+    (ionChange)="inputChange()"
+    [formControl]="input"
+    (keypress)="onKeyPress($event)"></ion-input>
+</div>
+
+<p class="input-line"></p>
+<span class="text-description">*Amount between RM10.00 - RM200.00</span>

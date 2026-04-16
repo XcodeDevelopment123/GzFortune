@@ -1,0 +1,10 @@
+.ios .container {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+:host-context(.ios) {
+  ion-content::part(scroll) {
+    padding: calc(130px + var(--android-status-height)) 0 0 0;
+  }
+}

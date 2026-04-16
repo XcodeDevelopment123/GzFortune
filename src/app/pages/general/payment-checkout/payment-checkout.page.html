@@ -1,0 +1,50 @@
+<app-header
+  [rootPage]="'home'"
+  [page]="'payment-checkout'"
+  [isBackHeader]="true"
+  [headerText]="'Processing Payment'"></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <section class="processing-container" *ngIf="processing">
+      <figure class="mascot-figure flex-center">
+        <img
+          src="/assets/images/processing-payment.png"
+          alt="Processing Payment"
+          class="mascot-image" />
+      </figure>
+
+      <div class="processing-text">
+        <div class="loading-spinner"></div>
+
+        <h2 class="text-title text-theme text-lg">Processing Your Payment...</h2>
+        <p class="text-description text-sm">Please hold tight while we squeeze your Juicy drink</p>
+        <p class="text-xl">🍹</p>
+      </div>
+    </section>
+
+    <section *ngIf="!processing && isPaymentSuccess">
+      <div class="flex-center">
+        <lottie-player
+          class="success-image"
+          src="/assets/animations/success-check.json"
+          background="transparent"
+          speed="1"
+          autoplay></lottie-player>
+      </div>
+      <div class="success-text">
+        <h2 class="text-title text-theme text-lg">Payment Successful!</h2>
+        <p class="text-description text-sm">Your Juicy drink is on the way</p>
+        <p class="text-xl">🍹</p>
+
+        <div class="flex-center">
+          <ion-button class="view-order-btn" mode="ios" (click)="viewOrder()">
+            View Order
+          </ion-button>
+        </div>
+
+        <span class="back-to-home-label" (click)="backToHome()"> Back to Home </span>
+      </div>
+    </section>
+  </div>
+</ion-content>

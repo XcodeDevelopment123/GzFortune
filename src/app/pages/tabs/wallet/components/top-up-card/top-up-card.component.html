@@ -1,0 +1,53 @@
+<div class="card">
+  <div>
+    <p>Enter you preferred amount* (RM)</p>
+    <app-topup-amount-input
+      (changeEvent)="updateAmount($event)"
+      [setValue]="topupAmount"></app-topup-amount-input>
+
+    <div class="flex-center flex-column">
+      <div class="fast-topup text-title text-sm flex-center">
+        <div
+          class="topup-item"
+          (click)="updateAmount(10)"
+          [ngClass]="{ active: topupAmount == 10 }">
+          10
+        </div>
+        <div
+          class="topup-item"
+          (click)="updateAmount(20)"
+          [ngClass]="{ active: topupAmount == 20 }">
+          20
+        </div>
+        <div
+          class="topup-item"
+          (click)="updateAmount(50)"
+          [ngClass]="{ active: topupAmount == 50 }">
+          50
+        </div>
+      </div>
+      <div class="fast-topup text-title text-sm flex-center">
+        <div
+          class="topup-item"
+          (click)="updateAmount(100)"
+          [ngClass]="{ active: topupAmount == 100 }">
+          100
+        </div>
+        <div
+          class="topup-item"
+          (click)="updateAmount(200)"
+          [ngClass]="{ active: topupAmount == 200 }">
+          200
+        </div>
+      </div>
+      <ion-button
+        mode="ios"
+        [disabled]="topupAmount < 10"
+        class="text-title"
+        (click)="handleTopup()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        TOP UP
+      </ion-button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<p *ngIf="boldClass" class="text-title text-md">{{ title }}</p>
+<p *ngIf="!boldClass">{{ title }}</p>
+
+<div>
+  <ion-textarea
+    mode="md"
+    fill="outline"
+    [placeholder]="placeholder"
+    [autoGrow]="true"
+    [value]="value"
+    (ionChange)="handleChange($event)"
+    [disabled]="isDisabled"></ion-textarea>
+</div>

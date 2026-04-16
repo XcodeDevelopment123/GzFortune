@@ -1,0 +1,34 @@
+.highlight-list {
+  padding: 0 0.5em;
+  overflow: auto;
+}
+
+.card-title-label {
+  margin-top: 0.5rem;
+  padding: 0 var(--base-padding-left-right);
+}
+
+.highlight-item {
+  padding: 0.2rem;
+  min-width: 180px;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: var(--text-description-color);
+  filter: drop-shadow(var(--base-shadow));
+}
+
+.highlight-item img {
+  border-radius: 0.5rem;
+}
+
+.text-title {
+
+  color: var(--ion-color-yellow);
+}
+
+.view-all {
+  color: #fff;
+}

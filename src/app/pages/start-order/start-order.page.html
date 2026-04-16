@@ -1,0 +1,44 @@
+<ion-content [fullscreen]="true">
+  <app-header [rootPage]="'home'" [isBackHeader]="true" [headerText]="'Start Order'"></app-header>
+
+  <div class="container">
+    <p class="text-lg">Please select your order type to continue.</p>
+    <p class="text-title text-xl">Order:</p>
+    <div class="order-type-options">
+      <div>
+        <ion-buttons
+          class="order-type ion-activatable"
+          (click)="selectType(OrderType.PICKUP)"
+          [ngClass]="{'disabled':!isPickupAvailable}">
+          <ion-ripple-effect></ion-ripple-effect>
+          <ion-icon name="storefront-outline"></ion-icon>
+          <span>Pick Up</span>
+        </ion-buttons>
+
+        <ion-text
+          class="unavailable-note text-xs flex-center text-center"
+          *ngIf="!isPickupAvailable">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          Currently unavailable
+        </ion-text>
+      </div>
+      <div>
+        <ion-buttons
+          class="order-type ion-activatable"
+          (click)="selectType(OrderType.DELIVERY)"
+          [ngClass]="{'disabled':!isDeliveryAvailable}">
+          <ion-ripple-effect></ion-ripple-effect>
+          <ion-icon name="car-outline"></ion-icon>
+          <span>Delivery</span>
+        </ion-buttons>
+
+        <ion-text
+          class="unavailable-note text-xs flex-center text-center"
+          *ngIf="!isDeliveryAvailable">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          Currently unavailable
+        </ion-text>
+      </div>
+    </div>
+  </div>
+</ion-content>

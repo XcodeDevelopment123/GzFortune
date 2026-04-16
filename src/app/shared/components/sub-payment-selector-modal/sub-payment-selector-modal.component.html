@@ -1,0 +1,12 @@
+<app-header [isModalHeader]="true" [headerText]="'Select ' + type" [rootPage]="'home'"></app-header>
+
+<ion-content>
+  <div class="container">
+    <div class="card">
+      <div class="flex-auto item" *ngFor="let opt of subOptions" (click)="select(opt)">
+        <img [src]="opt.img" width="36" slot="start" />
+        <ion-label class="text-title text-md">{{ opt.name }}</ion-label>
+      </div>
+    </div>
+  </div>
+</ion-content>

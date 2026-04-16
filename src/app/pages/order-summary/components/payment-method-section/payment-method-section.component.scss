@@ -1,0 +1,17 @@
+.payment-method-info {
+  flex-direction: row;
+
+  .text-description {
+    gap: 0.3rem;
+
+    ion-icon {
+      min-width: 20px;
+    }
+  }
+}
+
+.inline-img {
+  margin-right: 6px;
+  vertical-align: middle;
+  border-radius: 4px;
+}

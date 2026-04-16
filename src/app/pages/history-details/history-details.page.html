@@ -1,0 +1,11 @@
+<app-header [isBackHeader]="true" [headerText]="historyHeaderText"></app-header>
+
+<ion-content [fullscreen]="true">
+  <div [ngSwitch]="historyType">
+    <app-order-history-details
+      *ngSwitchCase="'order'"
+      [orderDetails]="orderDetails"></app-order-history-details>
+    <app-transaction-history-details
+      *ngSwitchCase="'transaction'"></app-transaction-history-details>
+  </div>
+</ion-content>

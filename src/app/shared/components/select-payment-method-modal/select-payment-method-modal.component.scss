@@ -1,0 +1,58 @@
+.footer {
+  position: fixed;
+  bottom: var(--base-padding-top-bottom);
+  width: 100%;
+}
+
+.card {
+  padding: 0;
+  overflow: hidden;
+  margin-top: 55px;
+}
+
+ion-radio[disabled] {
+  opacity: 1;
+}
+
+ion-list {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+ion-item {
+  --inner-padding-end: 0px;
+}
+
+ion-item ion-label .payment-item {
+  padding: var(--base-padding-top-bottom) var(--base-padding-left-right);
+}
+
+ion-item:first-child ion-label .payment-item {
+  padding-bottom: 0;
+}
+
+ion-item:last-child ion-label .payment-item {
+  padding-top: 0;
+}
+
+ion-item:not(:first-child):not(:last-child) ion-label .payment-item {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.icon-space {
+  min-width: 25px;
+}
+
+.payment-method-icon {
+  border-radius: 0.5rem;
+  border: var(--base-border-line);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  padding: 0.3rem;
+}
+
+.top-up-label {
+  border: 1.5px solid var(--ion-color-primary);
+  padding: 6px 8px;
+  border-radius: 0.5rem;
+}

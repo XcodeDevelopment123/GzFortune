@@ -1,0 +1,137 @@
+<p *ngIf="title" [ngClass]="{ 'text-title text-md': boldTitle }">
+  {{ title + ' ( Optional )' }}
+</p>
+
+<div class="date-row" [class.disabled]="isDisabled">
+  <ion-input
+    mode="md"
+    fill="outline"
+    class="date-part"
+    [disabled]="isDisabled"
+    [readonly]="true"
+    inputmode="none"
+    placeholder="DD"
+    [value]="dd"
+    (click)="openList('dd', $event)"
+    (ionBlur)="onAnyBlur()"
+    [class.ion-invalid]="hasInvalidDate && touchedForUi"
+    [class.ion-touched]="touchedForUi"></ion-input>
+
+  <span class="sep">-</span>
+
+  <ion-input
+    mode="md"
+    fill="outline"
+    class="date-part"
+    [disabled]="isDisabled"
+    [readonly]="true"
+    inputmode="none"
+    placeholder="MM"
+    [value]="mm"
+    (click)="openList('mm', $event)"
+    (ionBlur)="onAnyBlur()"
+    [class.ion-invalid]="hasInvalidDate && touchedForUi"
+    [class.ion-touched]="touchedForUi"></ion-input>
+
+  <span class="sep">-</span>
+
+  <ion-input
+    mode="md"
+    fill="outline"
+    class="date-part year"
+    [disabled]="isDisabled"
+    [readonly]="true"
+    inputmode="none"
+    placeholder="YYYY"
+    [value]="yyyy"
+    (click)="openList('yyyy', $event)"
+    (ionBlur)="onAnyBlur()"
+    [class.ion-invalid]="hasInvalidDate && touchedForUi"
+    [class.ion-touched]="touchedForUi"></ion-input>
+</div>
+
+<ion-button
+  class="clear-btn"
+  fill="clear"
+  size="small"
+  *ngIf="hasAnyValue && !isDisabled"
+  (click)="clearDate($event)"
+  aria-label="Clear date">
+  <p>Clear Date</p>
+</ion-button>
+
+<!-- DD list -->
+<ion-popover
+  cssClass="date-popover"
+  [isOpen]="openPart === 'dd'"
+  [event]="popoverEvent"
+  side="bottom"
+  alignment="start"
+  (didDismiss)="closeList()">
+  <ng-template>
+    <div class="dropdown-scroll">
+      <ion-list>
+        <ion-item
+          button
+          detail="false"
+          *ngFor="let d of dayOptions"
+          (click)="selectDay(d)"
+          [class.selected]="d === dd">
+          <ion-label>{{ d }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ng-template>
+</ion-popover>
+
+<!-- MM list -->
+<ion-popover
+  cssClass="date-popover month-popover"
+  [isOpen]="openPart === 'mm'"
+  [event]="popoverEvent"
+  side="bottom"
+  alignment="start"
+  (didDismiss)="closeList()">
+  <ng-template>
+    <div class="dropdown-scroll">
+      <ion-list>
+        <ion-item
+          button
+          detail="false"
+          *ngFor="let m of monthOptions"
+          (click)="selectMonth(m.value)"
+          [class.selected]="m.value === mm">
+          <ion-label>{{ m.label }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ng-template>
+</ion-popover>
+
+<!-- YYYY list -->
+<ion-popover
+  cssClass="date-popover year-popover"
+  [isOpen]="openPart === 'yyyy'"
+  [event]="popoverEvent"
+  side="bottom"
+  alignment="start"
+  (didDismiss)="closeList()">
+  <ng-template>
+    <div class="dropdown-scroll">
+      <ion-list>
+        <ion-item
+          button
+          detail="false"
+          *ngFor="let y of yearOptions"
+          (click)="selectYear(y)"
+          [class.selected]="y === yyyy">
+          <ion-label>{{ y }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ng-template>
+</ion-popover>
+
+<ion-text color="danger" *ngIf="hasInvalidDate && touchedForUi">
+  <small>Please select a complete date.</small>
+</ion-text>

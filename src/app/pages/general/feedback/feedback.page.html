@@ -1,0 +1,42 @@
+<app-header [rootPage]="'account'" [isBackHeader]="true" [headerText]="'Feedback'"></app-header>
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <p class="page-description">
+      Your opinion matters! Let us know how we’re doing so we can continue to enhance your
+      experience.
+    </p>
+    <p class="text-title text-md">What do you think about our restaurant?</p>
+    <form *ngIf="form" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="flex-auto flex-center">
+        <div
+          class="emoji-item"
+          *ngFor="let i of [1,2,3,4,5]"
+          [ngClass]="{'active':selectedEmoji===i}"
+          (click)="selectEmoji(i)">
+          <img load="lazy" src="assets/icon/feedback-emoji-{{i}}.png" />
+        </div>
+      </div>
+
+      <app-general-select
+        [title]="'Outlet'"
+        [placeholder]="'Select the outlet'"
+        [options]="outletOptions"
+        formControlName="outlet"></app-general-select>
+
+      <app-general-select
+        [title]="'Category'"
+        [placeholder]="'Select the category'"
+        [options]="categoryOptions"
+        formControlName="category"></app-general-select>
+
+      <app-general-textarea
+        [title]="'Description'"
+        [placeholder]="'(Optional)'"
+        formControlName="description"></app-general-textarea>
+
+      <div class="flex-center">
+        <ion-button mode="ios" type="submit">Submit</ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

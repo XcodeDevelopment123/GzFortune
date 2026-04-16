@@ -1,0 +1,39 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom" class="custom-nav-bar">
+    <ion-tab-button tab="home" href="/home">
+      <ion-icon aria-hidden="true" src="/assets/icon/nav-home.svg"></ion-icon>
+      <ion-label>Home</ion-label>
+      <div class="bottomLine"></div>
+    </ion-tab-button>
+
+    <ion-tab-button tab="outlets" href="/outlets">
+      <ion-icon aria-hidden="true" src="/assets/icon/nav-maps.svg"></ion-icon>
+      <ion-label>Outlet</ion-label>
+      <div class="bottomLine"></div>
+    </ion-tab-button>
+
+    <ion-tab-button class="empty-button" tab="wallet" href="/wallet">
+      <ion-label>Wallet</ion-label>
+      <ion-icon name="wallet-outline"></ion-icon>
+      <div class="bottomLine"></div>
+    </ion-tab-button>
+
+    <!-- <ion-tab-button class="wallet-bg" tabindex="-1" aria-hidden="true" role="presentation">
+    </ion-tab-button> -->
+
+    <ion-tab-button tab="rewards" href="/rewards">
+      <ion-icon aria-hidden="true" src="/assets/icon/nav-reward.svg"></ion-icon>
+      <ion-label>Rewards</ion-label>
+      <div class="bottomLine"></div>
+    </ion-tab-button>
+
+    <ion-tab-button tab="account" href="/account">
+      <ion-icon aria-hidden="true" src="/assets/icon/nav-account.svg"></ion-icon>
+      <ion-label>Account</ion-label>
+      <div class="bottomLine"></div>
+    </ion-tab-button>
+  </ion-tab-bar>
+  <div class="flex-column wallet text-center" (click)="navToWallet()">
+    <img load="lazy" src="/assets/icon/applogo.png" />
+  </div>
+</ion-tabs>

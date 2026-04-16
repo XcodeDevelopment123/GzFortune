@@ -1,0 +1,15 @@
+<app-header [isBackHeader]="true" [headerText]="historyHeaderText"></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" class="home-refresher"  (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="container">
+    <div [ngSwitch]="historyType">
+      <app-order-list *ngSwitchCase="'order'"></app-order-list>
+      <app-transaction-list *ngSwitchCase="'transaction'"></app-transaction-list>
+      <app-stamp-list *ngSwitchCase="'stamp'"></app-stamp-list>
+    </div>
+  </div>
+</ion-content>

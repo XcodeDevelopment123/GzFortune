@@ -1,0 +1,15 @@
+<div class="flex-space-between modal close-icon" (click)="dismissModal()">
+  <p class="text-title text-md">Terms and Conditions</p>
+  <ion-icon name="close-outline"></ion-icon>
+</div>
+
+<ion-content [fullscreen]="true" class="modal">
+  <div class="container">
+    <div class="terms-list" [innerHTML]="tncContent"></div>
+
+    <div class="flex-center noted-btn">
+      <ion-button mode="ios" (click)="dismissModal()">Noted</ion-button>
+    </div>
+  </div>
+</ion-content>
+s

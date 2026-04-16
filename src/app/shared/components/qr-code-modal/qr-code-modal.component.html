@@ -1,0 +1,13 @@
+<div class="container">
+  <!-- <img load="lazy" class="brand-orange" src="assets/icon/juicy-brand-orange.png" /> -->
+  <div class="card">
+    <div class="flex-auto close-icon" (click)="dismissModal()">
+      <ion-icon name="close-outline"></ion-icon>
+    </div>
+
+    <div class="qr-container flex-center">
+      <qrcode [qrdata]="qrData" [scale]="scale"></qrcode>
+      <p class="text-title text-sm text-center qr-data">{{ labelText }}</p>
+    </div>
+  </div>
+</div>

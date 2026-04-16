@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="flex-center flex-column flex-auto">
+    <ion-datetime
+      [(ngModel)]="selectedDate"
+      presentation="date"
+      [preferWheel]="true"></ion-datetime>
+    <div class="action-section flex-center flex-column">
+      <ion-button mode="ios" (click)="confirmDate()">Confirm</ion-button>
+      <p class="cancel-label text-md" (click)="dismissModal()">Cancel</p>
+    </div>
+  </div>
+</div>

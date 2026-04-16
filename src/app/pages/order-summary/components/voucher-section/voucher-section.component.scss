@@ -1,0 +1,21 @@
+.voucher-info {
+  flex-direction: column;
+  gap: 0.3rem;
+  .voucher-title {
+    width: 100%;
+  }
+
+  .text-description {
+    gap: 0.3rem;
+
+    ion-icon {
+      min-width: 20px;
+    }
+  }
+
+  .voucher-detail {
+    gap: 0.3rem;
+    align-items: center;
+    flex: 1;
+  }
+}

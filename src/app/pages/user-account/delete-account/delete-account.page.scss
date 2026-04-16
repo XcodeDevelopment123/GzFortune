@@ -1,0 +1,47 @@
+.card-title-label {
+  font-size: var(--base-text-xl);
+  font-weight: bold;
+  color: var(--ion-color-danger);
+}
+
+.warning-text {
+  line-height: 1rem;
+  color: #333;
+  text-align: justify;
+}
+
+.delete-list {
+  list-style: none;
+  padding: 0;
+}
+
+.delete-list li {
+  color: #d32f2f;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.delete-list ion-icon {
+  margin-right: 8px;
+  color: #d32f2f;
+}
+
+.confirm-text {
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.delete-input {
+  width: 100%;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}

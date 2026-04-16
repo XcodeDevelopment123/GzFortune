@@ -1,0 +1,76 @@
+<div class="container">
+  <p class="text-title tnc-label text-sm flex-center" (click)="openTncModal()">
+    Stamp T&C
+    <ion-icon class="text-md" name="chevron-forward-outline"></ion-icon>
+  </p>
+  <div>
+    <app-stamp-card
+      [stampList]="stampList"
+      (selectedStampChanged)="onStampChanged($event)"></app-stamp-card>
+    <div class="flex-center">
+      <ion-button
+        mode="ios"
+        [disabled]="!selectedStamp || userTotalStamp < selectedStamp.point"
+        (click)="openQrModal(selectedStamp.stampId)"
+        >Redeem</ion-button
+      >
+    </div>
+  </div>
+
+  <div class="card-border app-theme-card">
+    <p class="text-center text-title">My Stamps</p>
+
+    <div class="card card-content">
+      <div class="stamp-card">
+        <div class="stamp-item flex-center" *ngFor="let img of stampImages">
+          <img load="lazy" [src]="img" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-border app-theme-card">
+    <p
+      class="flex-center text-center text-title"
+      [routerLink]="['/history-list/stamp']"
+      [state]="{ stampData: stampHistoryResult, phoneNumber: userPhoneNumber }">
+      Stamp Redeem History
+      <ion-icon class="text-xl" name="chevron-forward-outline"></ion-icon>
+    </p>
+
+    <!-- ✅ 有记录 -->
+    <div class="card card-content" *ngIf="stampHistoryResult && stampHistoryResult.length > 0">
+      <div class="card-border history-item" *ngFor="let stamp of stampHistoryResult.slice(0, 5)">
+        <p class="flex-space-between text-italic">
+          <span>Reference ID: {{ stamp.referenceNumber }}</span>
+          <span class="order-status success">{{ stamp.status }}</span>
+        </p>
+
+        <div class="order-info flex-auto">
+          <div class="info-details text-sm">
+            <p class="truncate-two-line">
+              {{ stamp.type || 'Unnamed Stamp' }}
+            </p>
+            <p class="text-description">
+              {{ stamp.description }}
+            </p>
+          </div>
+          <div class="order-info flex-auto">
+            <p class="text-description flex-space-between">
+              {{ stamp.stamp > 0 ? stamp.stamp + ' Stamps' : 'No stamp issued' }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <p *ngIf="stampHistoryResult.length > 5" class="text-center text-sm text-muted mt-2">
+        Showing latest 5 records only
+      </p>
+    </div>
+
+    <div class="card card-content" *ngIf="stampHistoryResult && stampHistoryResult.length === 0">
+      <img class="empty-record-img" src="assets/images/no-record-found.png" />
+      <p>You have not make any stamp transaction yet</p>
+    </div>
+  </div>
+</div>

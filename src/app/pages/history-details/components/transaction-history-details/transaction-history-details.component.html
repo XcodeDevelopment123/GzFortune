@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="card" *ngIf="history">
+    <div>
+      <p class="amount-label text-title flex-center" [ngClass]="{ increase: incOrDec === 'inc' }">
+        {{ history.displayAmount }}
+      </p>
+      <!-- ✅ 新增：显示 points -->
+      <p class="text-title text-sm flex-center" *ngIf="showPoints">
+        {{ pointsText }}
+      </p>
+    </div>
+    <div class="line-divider"></div>
+    <div class="info">
+      <div class="info-Item">
+        <p>Transaction Id</p>
+        <p class="text-title text-sm">{{ history.historyId }}</p>
+      </div>
+      <div class="info-Item">
+        <p>Transaction Type</p>
+        <p class="text-title text-sm">{{ history.type }}</p>
+      </div>
+      <div class="info-Item">
+        <p>Date</p>
+        <p class="text-title text-sm">{{ getLocaleDate(history.dateTime) }}</p>
+      </div>
+      <div class="info-Item">
+        <p>Payment Details</p>
+        <p class="text-title text-sm">{{ history.description }}</p>
+      </div>
+      <div class="info-Item">
+        <p>Payment Method</p>
+        <p class="text-title text-sm">{{ history.type }}</p>
+      </div>
+      <div class="info-Item">
+        <p>Status</p>
+        <p class="text-title text-sm">{{ history.status }}</p>
+      </div>
+    </div>
+    <div class="line-divider"></div>
+    <div>
+      <p class="text-description text-italic flex-center text-md" *ngIf="showBalanceInfo">
+        {{ balanceInfoText }}
+      </p>
+
+      <!-- ✅ 新增：Points before/after -->
+      <p class="text-description text-italic flex-center text-md" *ngIf="showPointsInfo">
+        {{ pointsInfoText }}
+      </p>
+    </div>
+  </div>
+  <!-- 
+  <div class="flex-center">
+    <ion-button mode="ios">Contact Us</ion-button>
+  </div> -->
+</div>

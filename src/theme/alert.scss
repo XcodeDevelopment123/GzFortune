@@ -1,0 +1,54 @@
+ion-alert.juicy-alert {
+  --backdrop-opacity: 0.2;
+  --background: #fdfbe6; // 粉调果汁背景
+  --color: var(--ion-color-primary); // juicy pink text
+  --border-radius: 16px;
+  --box-shadow: 0 4px 16px rgba(241, 246, 106, 0.2);
+}
+
+.juicy-alert .alert-button-group {
+  padding: 12px;
+  gap: 0.5rem;
+}
+
+button.alert-button.alert-button-confirm {
+  background-color: #fcffd0 !important;
+  color: #949e00;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.md button.alert-button.alert-button-confirm {
+  border-radius: 8px;
+}
+
+.ios .juicy-alert button.alert-button {
+  border: 0.5px solid rgba(216, 213, 63, 0.3);
+  border-radius: 8px;
+}
+
+.juicy-toast {
+  --color: #ffffff;
+  --border-radius: 12px;
+  --box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  padding: calc(var(--base-padding-top-bottom) + var(--android-status-height))
+    var(--base-padding-left-right);
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.juicy-toast::part(button cancel) {
+  color: black;
+}
+
+.juicy-toast-success {
+  --background: linear-gradient(90deg, #2c1a0e, #ffb347);
+}
+.juicy-toast-info {
+  --background: linear-gradient(90deg, #2c1a0e, #ffd26f); /* 更柔和一点 */
+}
+.juicy-toast-failed {
+  --background: #5c3b2e; /* 深棕红色，温暖但有警示感 */
+}

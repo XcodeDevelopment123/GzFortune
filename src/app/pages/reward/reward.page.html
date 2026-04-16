@@ -1,0 +1,75 @@
+<app-header
+  [rootPage]="'home'"
+  [page]="'reward'"
+  [isBackHeader]="true"
+  [headerText]="'Reward Details'"
+  (notificationEvent)="share(this.rewardDetail?.type ?? 'default', this.rewardDetail?.rewardId ?? '')"></app-header>
+
+<ion-content [fullscreen]="true" *ngIf="rewardDetail">
+  <div class="container">
+    <div class="flex-center">
+      <!-- <img load="lazy" class="reward-image" [src]="'assets/images/app-offer.jpg'" /> -->
+      <img class="reward-image" [src]="rewardDetail.image" />
+    </div>
+
+    <div class="card card-title">
+      <p class="text-title card-title-label text-white">{{rewardDetail.title}}</p>
+
+      <div class="card card-content">
+        <p class="text-title text-md">{{rewardDetail.subTitle}}</p>
+
+        <div [innerHTML]="rewardDetail.description"></div>
+
+        <div [innerHTML]="rewardDetail.tnC"></div>
+
+        <div class="flex-center">
+          <ion-button
+            mode="ios"
+            class="text-title"
+            [disabled]="point < (rewardDetail.point ?? 0)"
+            (click)="point >= (rewardDetail.point ?? 0) ? confirmRedeem(rewardDetail) : null">
+            <ion-text>
+              <!-- 若分数足够 -->
+              <ng-container *ngIf="point >= (rewardDetail.point ?? 0); else needMore">
+                Redeem Now
+              </ng-container>
+
+              <!-- 若分数不足 -->
+              <ng-template #needMore>
+                Need {{ (rewardDetail.point ?? 0) - point }} Points
+              </ng-template>
+            </ion-text>
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Show Loading -->
+
+<ion-content [fullscreen]="true" *ngIf="!rewardDetail">
+  <div class="container">
+    <div class="flex-center">
+      <ion-skeleton-text
+        [animated]="true"
+        style="max-width: 460px; width: 100%; height: 373px"></ion-skeleton-text>
+    </div>
+
+    <div class="card card-title">
+      <ion-skeleton-text [animated]="true" style="width: 100%; height: 30px"></ion-skeleton-text>
+
+      <div class="card card-content">
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 25px"></ion-skeleton-text>
+
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 90px"></ion-skeleton-text>
+
+        <div class="flex-center">
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 100%; height: 50px"></ion-skeleton-text>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,210 @@
+.container {
+  padding: var(--base-padding-top-bottom);
+}
+
+ion-content::part(scroll) {
+  padding-top: 0;
+}
+
+.order-info-section {
+  border-radius: 0 !important;
+  margin-bottom: 0;
+  padding-top: calc(var(--base-padding-top-bottom) + var(--android-status-height));
+  .order-info {
+    margin-bottom: 0.5rem;
+  }
+
+  .order-info .change-label {
+    text-decoration: underline;
+    color: var(--ion-color-primary);
+    font-weight: bold;
+  }
+
+  .full-detail {
+    transition: all 0.4s ease;
+    overflow: hidden;
+  }
+
+  .simple-detail {
+    transition: all 0.4s ease;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+
+    .simple-info-center {
+      align-items: center;
+    }
+  }
+
+  &.scrolled-bottom {
+    .full-detail {
+      opacity: 0;
+      min-height: 0px;
+      height: 0px !important;
+    }
+
+    .simple-detail {
+      height: 55px;
+      opacity: 1;
+    }
+  }
+}
+
+.change-label {
+  text-decoration: underline;
+  color: var(--ion-color-primary);
+  font-weight: bold;
+}
+
+.container {
+  position: relative;
+  padding: 0;
+
+  .shadow-display {
+    height: 6px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.05) 50%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  .card {
+    border-radius: 0 !important;
+    padding-left: 0 !important;
+    padding-top: 0 !important;
+    overflow-y: auto;
+    height: 100vh;
+    .menu-header {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #ffffff;
+      gap: 10px;
+    }
+
+    .menu-content {
+      display: flex;
+      height: calc(100% - 60px);
+      overflow: hidden;
+    }
+
+    .menu-left {
+      border-right: var(--base-border-line);
+      padding-top: 1rem;
+      padding-bottom: 100px;
+      width: clamp(90px, 10vw, 150px);
+      overflow-y: auto;
+      position: sticky;
+      .category-item {
+        text-align: center;
+        padding: 10px;
+        cursor: pointer;
+      }
+
+      .category-item.active {
+        background: #e0f0ff;
+        border-left: 4px solid var(--ion-color-primary);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      }
+    }
+
+    .menu-right {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 0.5rem 110px;
+      .title {
+        padding: 1rem 0 0;
+      }
+
+      .subtitle {
+        padding-bottom: 0.5rem;
+      }
+
+      .items-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(clamp(110px, 12vw, 180px), 1fr));
+        gap: 12px;
+        max-width: 900px;
+
+        .item-name {
+          padding-top: 1rem;
+        }
+      }
+
+      .menu-item {
+        background: #fff;
+        border-radius: 8px;
+        padding: 8px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+
+.mini-cart-summary {
+  position: absolute;
+  bottom: 6rem;
+  right: 1.5rem;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--ion-color-primary);
+  box-shadow: var(--base-shadow);
+  filter: drop-shadow(var(--base-shadow));
+
+  ion-icon {
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: calc(var(--text-base-size) * var(--text-scale-ratio) * 2.5);
+  }
+
+  .badge-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    color: #d61b2a;
+    font-weight: bold;
+    font-size: 12px;
+    position: absolute;
+    top: 2px;
+    right: -10%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .badge-animate {
+    animation: bounceUp 400ms ease;
+  }
+}
+
+@keyframes bounceUp {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  30% {
+    transform: scale(1.3) translateY(-20%);
+  }
+  60% {
+    transform: scale(0.9) translateY(10%);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}

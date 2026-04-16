@@ -1,0 +1,92 @@
+.container {
+  margin-top: -0.8rem;
+  height: 100vh;
+}
+
+ion-content::part(scroll) {
+  padding-top: 0 !important;
+  height: 100vh;
+}
+
+.form-content {
+  .card {
+    width: 100%;
+    max-width: 600px;
+    padding-bottom: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.submit-btn {
+  position: fixed;
+  width: 100%;
+  bottom: var(--ion-safe-area-bottom);
+}
+
+.otp-inputs {
+  display: flex;
+  justify-content: space-between;
+  max-width: 320px;
+  margin: auto;
+  gap: 10px;
+  padding: 20px;
+
+  div {
+    width: 42px;
+    height: 56px;
+    line-height: 56px;
+    border: 2px solid #313131;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #f8f8f8;
+    transition:
+      border-color 0.2s,
+      background-color 0.2s;
+
+    &.filled {
+      border-color: var(--ion-color-primary);
+      background-color: var(--gold-dark);
+      color: #fff;
+    }
+
+    &.active {
+      border-color: var(--ion-color-primary);
+      background-color: var(--gold-light);
+    }
+  }
+}
+ion-input.otp-input {
+  opacity: 0;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+
+/* 同卡片内的新密码区域样式，尽量不影响原有布局 */
+.set-password {
+  margin-top: 12px;
+
+  h3 {
+    margin: 8px 0 12px;
+  }
+}
+
+.divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+  margin: 8px 0 16px;
+}
+
+/* 给固定按钮留出空间，避免遮挡内容 */
+.page-bottom-spacer {
+  height: 84px; /* 可按实际按钮高度微调 */
+}
+
+.otp-resend a.disabled {
+  pointer-events: none;  // 不响应点击
+  opacity: 0.5;          // 看起来是灰掉的
+  cursor: default;
+}

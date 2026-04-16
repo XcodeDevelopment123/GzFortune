@@ -1,0 +1,100 @@
+<ion-content [fullscreen]="true" scrollY="false">
+  <!-- Order Type Section -->
+  <div
+    class="card order-info-section"
+    [ngClass]="{
+    'scrolled-bottom': isScrolledBottom
+  }">
+    <div>
+      <!--Full Info UI-->
+      <div
+        class="full-detail"
+        #orderInfoFullDetail
+        [ngStyle]="{ height: orderInfoFullDetailHeight===0? 'auto': orderInfoFullDetailHeight + 'px' }">
+        <div class="order-info flex-space-between">
+          <div class="flex-auto flex-center text-title text-sm">
+            <p>Order:</p>
+            <span>{{ orderTypeLabels[orderType] || 'N/A' }}</span>
+          </div>
+          <ion-label class="change-label" (click)="changeOrderType()"> Change </ion-label>
+        </div>
+
+        <div *ngIf="orderType===ORDER_TYPE_PRE.PICKUP">
+          <div class="flex-auto">
+            <ion-icon class="text-xl" name="location-outline"></ion-icon>
+            <div *ngIf="selectedOutlet">
+              <p class="text-title text-sm">{{selectedOutlet.name}}</p>
+              <p>{{selectedOutlet.address}}</p>
+            </div>
+          </div>
+
+          <ion-label class="change-label" (click)="changeOutletBranch()">
+            Change Pickup location
+          </ion-label>
+        </div>
+      </div>
+      <!--Search Info UI-->
+      <div class="simple-detail">
+        <div class="menu-header">
+          <ion-searchbar
+            routerLink="/menu-search"
+            placeholder="Search categories or drinks..."></ion-searchbar>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="shadow-display"></div>
+    <div class="card">
+      <div class="menu-content">
+        <div
+          class="menu-left"
+          #menuLeft
+          [ngStyle]="{ height: orderInfoFullDetailHeight === 0 ? 'auto' : 'calc(100vh - {{orderInfoFullDetailHeight}}px)' }">
+          <div
+            *ngFor="let category of categories"
+            class="category-item"
+            #categorySection
+            [id]="category.name"
+            [class.active]="category.name === selectedCategoryId"
+            (click)="selectCategory(category)">
+            <img loading="lazy" [src]="category.image" alt="{{category.name}}" />
+            <div class="category-name truncate-two-line">{{category.name}}</div>
+          </div>
+        </div>
+
+        <div class="menu-right" #menuRight (scroll)="onContentScroll($event)">
+          <div
+            *ngFor="let cat of menuItems"
+            #menuSection
+            [id]="cat.categoryName"
+            class="category-section">
+            <p class="text-title text-xl text-theme title">{{ cat.categoryName | titlecase }}</p>
+            <p class="text-md mg-0 subtitle">Freshly brewed, made for you</p>
+            <div class="items-grid">
+              <app-menu-item
+                *ngFor="let item of cat.items"
+                [routerLink]="['/menu-details', item.menuId]"
+                [queryParams]="{ 
+                  cartId: currentCartId,
+                  outletAddress: selectedOutlet?.address
+                   }"
+                [id]="item.menuId"
+                #menuItem
+                [item]="item"></app-menu-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mini-cart-summary" #cartFab (click)="goToOrderSummary()">
+    <ion-icon name="cart"></ion-icon>
+    <span
+      #cartBadge
+      class="text-theme text-title text-sm badge-number"
+      [ngClass]="{'badge-animate':triggerCartBadgeAnimate}"
+      >0</span
+    >
+  </div>
+</ion-content>

@@ -1,0 +1,26 @@
+<app-header [rootPage]="'wallet'" [headerText]="'E-WALLET'"></app-header>
+
+<ion-content [fullscreen]="true" class="tabs">
+  <!-- ✅ 下拉刷新 -->
+  <ion-refresher slot="fixed" class="home-refresher" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="container">
+    <div class="wallet-container text-center text-title">
+      <p class="balance-label text-lg">Wallet Balance</p>
+
+      <p class="balance-amount-label text-xxl flex-center flex-auto">
+        <span class="text-lg">RM</span>
+        {{ wallet?.balance | number: '1.2-2' }}
+
+        <ion-skeleton-text
+          *ngIf="!Loaded"
+          [animated]="true"
+          style="width: 30%; height: 30px"></ion-skeleton-text>
+      </p>
+    </div>
+
+    <app-transaction-list></app-transaction-list>
+  </div>
+</ion-content>

@@ -1,0 +1,35 @@
+<swiper-container
+  #swiper
+  [slidesPerView]="config.slidesPerView"
+  [loop]="config.loop"
+  [freeMode]="config.freeMode"
+  [spaceBetween]="config.spaceBetween"
+  [slidesOffsetAfter]="config.slidesOffsetAfter"
+  [roundLengths]="config.roundLengths"
+  [pagination]="config.pagination"
+  [width]="config.width"
+  [slidesOffsetBefore]="config.slidesOffsetBefore"
+  [breakpoints]="config.breakpoints"
+  [width]="config.width"
+  [centeredSlides]="config.centeredSlides"
+  [initialSlide]="config.initialSlide">
+  <swiper-slide *ngFor="let i of membershipDetails">
+    <div class="membership-header">
+      <div class="flex-space-between membership-level">
+        <p class="text-title level-label">{{ i.name }}</p>
+        <p class="text-title point-label">{{ this.point }} Pts</p>
+      </div>
+      <ion-progress-bar [value]="getProgressValue(i)"></ion-progress-bar>
+      <p class="level-status-label text-center" [innerHTML]="getIndicatorMessage(i)"></p>
+    </div>
+    <div class="card-border membership-content">
+      <div class="flex-auto info-row">
+        <div class="benefit-item flex-center flex-column" *ngFor="let b of i.benefits">
+          <img [src]="b.image" />
+          <p class="text-center text-xs">{{ b.name }}</p>
+        </div>
+      </div>
+      <!-- <p class="view-more-label text-end text-xs">View more</p> -->
+    </div>
+  </swiper-slide>
+</swiper-container>

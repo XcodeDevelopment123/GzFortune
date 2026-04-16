@@ -1,0 +1,139 @@
+ion-menu::part(container) {
+  width: 80%;
+  max-width: 350px;
+}
+
+ion-content::part(scroll) {
+  padding-top: 0;
+}
+ion-menu {
+  border: none;
+}
+ion-list {
+  padding-top: calc(60px + var(--android-status-height)) !important;
+}
+
+ion-menu.md ion-content {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+}
+
+ion-menu.md ion-list {
+  padding: 0 0 20px;
+}
+
+ion-menu.md ion-item {
+  --padding-start: 10px;
+  --padding-end: 10px;
+  border-radius: 4px;
+}
+
+ion-item ion-icon {
+  margin-left: 1rem;
+}
+
+ion-menu.md ion-item ion-icon {
+  color: #fff;
+}
+
+ion-menu.md ion-item ion-label {
+  font-weight: 500;
+}
+
+ion-menu.ios ion-content {
+  --padding-bottom: 20px;
+}
+
+ion-menu.ios ion-list {
+  padding: 0 0 20px 0;
+}
+
+ion-menu.ios ion-note {
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+
+ion-menu.ios ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 50px;
+}
+
+ion-item.selected {
+  --color: var(--ion-color-primary);
+}
+
+.app-logo {
+  padding: var(--android-status-height) 0.5rem 0;
+  align-items: center;
+  background: var(--base-button-background);
+  margin-bottom: 0.5rem;
+  box-shadow: var(--base-shadow);
+  color: #fff;
+  position: fixed;
+  width: 100%;
+  height: calc(60px + var(--android-status-height));
+  top: 0;
+  z-index: 2;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.app-logo img {
+  width: 50px;
+}
+
+.category-label {
+  padding: 0 0.5rem;
+  color: var(--ion-color-primary);
+  margin-top: 1rem;
+}
+
+.account-option-item {
+  align-items: center;
+}
+.account-option-item ion-icon {
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  background: var(--ion-color-primary);
+  color: #fff;
+  border-radius: 50%;
+}
+.social-logo {
+  padding: 0 0 0 0.5rem;
+  margin-top: 4rem;
+  margin-left: 1rem;
+  gap: 0.5rem;
+}
+
+.social-logo ion-icon {
+  font-size: var(--text-xl);
+}
+.version-text {
+  padding: 0 1rem;
+  margin-top: 1rem;
+  gap: 0.5rem;
+}
+
+.version-text p {
+  font-size: calc(var(--text-xs));
+}
+
+.curlec-logo {
+  width: 50px;
+}
+
+ion-content::part(scroll) {
+  background: #fff;
+}
+
+ion-item {
+  --padding-end: 0;
+  --padding-start: 0;
+}
+
+ion-item::part(native) {
+  padding: 0;
+}

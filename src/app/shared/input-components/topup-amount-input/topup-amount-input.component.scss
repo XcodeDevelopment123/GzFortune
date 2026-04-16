@@ -1,0 +1,63 @@
+.amount-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.amount-field .prefix {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  font-size: var(--text-xxl);
+  font-weight: 700;
+  color: var(--ion-color-yellow);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.amount-field ion-input {
+  position: relative;
+  z-index: 1;
+  --padding-start: 3.2rem;
+  --color: var(--ion-color-yellow);
+  --padding-top: 10px;
+}
+
+.amount-field ion-input::part(native) {
+  font-size: var(--text-xxl);
+  font-weight: 700;
+  color: var(--ion-color-yellow);
+}
+
+/* 占位符颜色（未输入时） */
+.amount-field ion-input::part(native)::placeholder {
+  color: var(--ion-color-yellow);
+  font-weight: 700;
+}
+
+/* 也可以按是否有值切换颜色（可选） */
+.amount-field ion-input:not(.has-value)::part(native) {
+  color: var(--ion-color-yellow);
+}
+
+/* 细线（下划线） */
+.input-line {
+  border: 0;
+  border-top: 1px solid #e0e0e0;
+  margin-top: -5px;
+}
+
+/* 你之前的样式保留/整合 */
+ion-input::ng-deep .native-input {
+  /* 如果你的项目仍用这套深选器，也可以留着字体设置；
+     但有了 ::part(native) 基本就不必了 */
+  font-size: var(--text-xxl);
+  font-weight: bold;
+}
+
+/* 如果你需要“有值变色”的老方案，确保类名生效 */
+ion-input.has-value {
+  /* 有 ::part 时，此处可不需要；保留不影响 */
+}

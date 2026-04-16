@@ -1,0 +1,17 @@
+<div class="card flex-column-space-between share-code-section">
+  <p class="text-center message">Share to your family and friend to get more point and discount!</p>
+
+  <div class="referral-code flex-center flex-auto text-title text-lg">
+    <span></span>
+    <span *ngFor="let i of memberInfo?.referralCode?.split('')">
+      {{ i }}
+    </span>
+    <span (click)="copyToClipboard()">
+      <ion-icon class="text-md" name="copy-outline"></ion-icon>
+    </span>
+  </div>
+
+  <ion-button mode="ios" (click)="shareReferralCode()">
+    <ion-text>Share</ion-text>
+  </ion-button>
+</div>

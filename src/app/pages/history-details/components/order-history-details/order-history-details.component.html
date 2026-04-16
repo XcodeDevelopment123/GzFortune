@@ -1,0 +1,124 @@
+<div class="order-status-row card flex-column">
+  <div class="flex-center status-row">
+    <div class="status-item flex-center flex-column text-center active">
+      <div><img /></div>
+      <p class="truncate-two-line">Order Received</p>
+    </div>
+
+    <div class="status-item flex-center flex-column text-center">
+      <div><img /></div>
+
+      <p class="truncate-two-line">Preparing</p>
+    </div>
+
+    <div class="status-item flex-center flex-column text-center">
+      <div><img /></div>
+      <p class="truncate-two-line">Collecting Order</p>
+    </div>
+
+    <div class="status-item flex-center flex-column text-center">
+      <div><img /></div>
+      <p class="truncate-two-line">Delivering</p>
+    </div>
+    <div class="status-item flex-center flex-column text-center">
+      <div><img /></div>
+      <p class="truncate-two-line">Delivered</p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card order-details-row">
+    <p class="text-title text-md">Order Detail</p>
+    <div class="order-detail-info">
+      <p class="order-id-label text-italic text-description text-xs flex-auto">
+        Order Id : {{ orderDetails?.orderId }}
+        <ion-icon class="text-sm" name="clipboard-outline"></ion-icon>
+      </p>
+      <p class="flex-space-between">
+        <span>Order Date :</span>
+        <span>{{ getLocaleDate(orderDetails?.orderDateTime || '') }}</span>
+      </p>
+      <p class="flex-space-between">
+        <span>Order Status :</span>
+        <span>{{ orderDetails?.orderStatus }}</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="addresss-card flex-column flex-auto">
+      <div class="flex-auto address-item">
+        <div class="address-icon flex-center">
+          <ion-icon class="text-xl" name="location-outline"></ion-icon>
+        </div>
+        <div class="address-info">
+          <p class="text-description">Order From</p>
+          <p class="truncate-one-line text-title text-sm">{{ outlets?.name }}</p>
+          <p class="truncate-one-line">{{ outlets?.phoneNumber }}</p>
+          <p class="truncate-two-line">
+            {{ orderDetails?.merchantDeliveryAddress }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex-auto address-item">
+        <div class="address-icon flex-center">
+          <ion-icon class="text-xl" name="location-outline"></ion-icon>
+        </div>
+        <div class="address-info">
+          <p class="text-description">Deliver To</p>
+          <p class="truncate-one-line text-title text-sm">Developer</p>
+          <p class="truncate-one-line">{{ orderDetails?.memberPhone }}</p>
+          <p class="truncate-two-line">
+            Address 132123123, HaloooAddress 132123123, HaloooAddress 132123123, HaloooAddress
+            132123123, HaloooAddress 132123123, Halooo
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngFor="let item of menuItemList" class="order-item">
+    <img [src]="item.image" load="lazy" />
+
+    <div class="order-info text-title text-sm">
+      <p class="item-name truncate-two-line">{{ item.title }}</p>
+      <p>RM {{ item.menuUnitPrice | number: '1.2-2' }}</p>
+
+      <p class="quantity-amount-label flex-space-between">
+        <span class="text-description">Quantity : {{ item.qty }}</span>
+        <span>RM {{ item.menuUnitPrice * item.qty | number: '1.2-2' }}</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="card payment-details-row">
+    <p class="text-title text-md">Payment Summary</p>
+    <div class="payment-detail-info">
+      <p class="flex-space-between">
+        <span>Incl. SST:</span>
+        <span>RM {{ orderDetails?.tax | number: '1.2-2' }}</span>
+      </p>
+      <p class="flex-space-between">
+        <span>Subtotal :</span>
+        <span>RM {{ orderDetails?.subTotal | number: '1.2-2' }}</span>
+      </p>
+      <p class="flex-space-between">
+        <span>Delivery Fee :</span>
+        <span>RM {{ orderDetails?.deliveryFee | number: '1.2-2' }}</span>
+      </p>
+
+      <p class="flex-space-between">
+        <span class="text-title text-lg text-theme">Grandtotal :</span>
+        <span class="text-title text-lg text-theme"
+          >RM {{ orderDetails?.grandTotal | number: '1.2-2' }}</span
+        >
+      </p>
+    </div>
+  </div>
+
+  <div class="flex-center">
+    <ion-button mode="ios" (click)="orderAgain()">Order Again</ion-button>
+  </div>
+</div>

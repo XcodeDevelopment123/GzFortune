@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Luckypot幸湘菜馆</string>
+    <string name="title_activity_main">Luckypot幸湘菜馆</string>
+    <string name="package_name">com.luckypot.luckypotapp</string>
+    <string name="custom_url_scheme">com.luckypot.luckypotapp</string>
+</resources>

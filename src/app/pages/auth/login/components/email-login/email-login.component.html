@@ -1,0 +1,25 @@
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="login()">
+  <app-general-input
+    [title]="'Email'"
+    [placeholder]="'JohnDee@gmail.com'"
+    [boldTitle]="true"
+    [inputControl]="emailCtrl">
+  </app-general-input>
+  <app-password-input
+    [title]="'Password'"
+    [placeholder]="'Enter Password'"
+    [boldTitle]="true"
+    formControlName="password"></app-password-input>
+
+  <div class="text-end forgot-container">
+    <span class="forgot-password-label text-theme" routerLink="/auth/forgot-password">
+      Forgot password?
+    </span>
+  </div>
+
+  <div class="flex-center login-btn">
+    <ion-button type="submit" mode="ios" [disabled]="form.invalid || form.disabled">
+      Log In
+    </ion-button>
+  </div>
+</form>

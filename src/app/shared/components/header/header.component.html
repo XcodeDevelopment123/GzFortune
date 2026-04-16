@@ -1,0 +1,82 @@
+<ion-header mode="md" #header>
+  <ng-container *ngIf="isModalHeader; else headerType">
+    <!-- ✅ Modal Header Template -->
+    <ion-toolbar class="title-header-toolbar back-header" #toolbar>
+      <div class="flex-space-between">
+        <div class="flex-auto flex-space-between" style="width: 100%">
+          <ion-label class="text-title text-xl">{{ headerText }}</ion-label>
+          <ion-icon name="close" (click)="navBack()"></ion-icon>
+        </div>
+      </div>
+    </ion-toolbar>
+  </ng-container>
+
+  <ng-template #headerType>
+    <ng-container *ngIf="isBackHeader; else openHeader">
+      <!-- Back Header -->
+      <ion-toolbar class="title-header-toolbar back-header" #toolbar>
+        <div class="flex-space-between">
+          <div class="flex-auto flex-center">
+            <ion-buttons mode="ios" slot="start" aria-label="Back" (click)="navBack()">
+              <ion-icon name="arrow-back-outline"></ion-icon>
+            </ion-buttons>
+            <ion-label class="text-title text-xl">{{ headerText }}</ion-label>
+          </div>
+          <div class="right-section">
+            <div
+              *ngIf="page === 'notification'"
+              (click)="notificationEvent.emit(true)"
+              class="notification-label">
+              Mark as read
+            </div>
+            <div
+              *ngIf="page === 'highlight' || page === 'reward'"
+              class="header-share action-icon"
+              (click)="onShareClicked()"></div>
+          </div>
+        </div>
+      </ion-toolbar>
+    </ng-container>
+
+    <ng-template #openHeader>
+      <!-- Default Tab Header -->
+      <ion-toolbar class="tab-header title-header-toolbar back-header">
+        <div class="flex-space-between">
+          <div *ngIf="page === 'home'">
+            <ng-container *ngIf="isLoggedIn; else walletGuest">
+              <p class="text-title">Wallet Balance</p>
+              <div class="flex-auto flexGap-1">
+                <span class="text-title MoneyLabel text-sm" style="font-weight: 900;">RM</span>
+                
+                <!-- Loading placeholder... -->
+                <ion-skeleton-text class="text-title MoneyLabel text-xxl" [animated]="true" *ngIf="!loaded"></ion-skeleton-text>
+                <!-- Loading End -->
+
+                <span class="text-title MoneyLabel text-xxl" *ngIf="loaded">{{ walletAmount | number: '1.2-2' }}</span>
+              </div>
+            </ng-container>
+
+            <ng-template #walletGuest>
+              <p class="text-title">Wallet</p>
+              <div class="flex items-center gap-2">
+                <span class="text-sm" (click)="goLogin()">Login to view your wallet balance</span>
+              </div>
+            </ng-template>
+          </div>
+
+          <ion-label class="text-title text-lg">{{ headerText }}</ion-label>
+          <div class="flex-auto">
+            <div class="notification action-icon" [routerLink]="'/notification'">
+              <div *ngIf="notificationCount > 2" class="notification-badge text-xs flex-center">
+                {{ notificationCount }}
+              </div>
+            </div>
+            <ion-menu-button
+              *ngIf="page === 'account'"
+              class="setting-options action-icon"></ion-menu-button>
+          </div>
+        </div>
+      </ion-toolbar>
+    </ng-template>
+  </ng-template>
+</ion-header>

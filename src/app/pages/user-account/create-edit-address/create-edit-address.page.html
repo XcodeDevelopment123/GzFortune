@@ -1,0 +1,96 @@
+<ion-content [fullscreen]="true">
+  <app-header [rootPage]="'account'" [isBackHeader]="true" [headerText]="'Address'"></app-header>
+
+  <div
+    class="map-out-container"
+    [ngClass]="
+  {
+    'is-confirmed':isConfirmLocation
+  }
+  ">
+    <div #mapContainer class="map-container"></div>
+    <div [ngClass]="{'dragging':isDragging}" class="center-marker">
+      <img load="lazy" src="assets/images/juicy-brand-full-red.avif" />
+    </div>
+
+    <div *ngIf="!isConfirmLocation" class="search-container flex-column flex-center">
+      <div class="search-input">
+        <ion-searchbar
+          mode="md"
+          [ngClass]="{'has-searched':locations.length>0}"
+          (ionClear)="locations=[]"
+          [formControl]="searchControl"></ion-searchbar>
+      </div>
+
+      <ion-list lines="none" *ngIf="locations.length>0">
+        <ion-item
+          class="location-item"
+          *ngFor="let item of locations"
+          (click)="onSelectedPlace(item.placeId)">
+          <ion-icon name="location-outline"></ion-icon>
+          <ion-text>{{item.address}}</ion-text>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <div
+    class="tool-container flex-column"
+    [ngClass]="
+  {
+    'is-confirmed':isConfirmLocation
+  }
+  ">
+    <div *ngIf="isConfirmLocation && selectedLocation" class="container location-detail">
+      <div class="card">
+        <app-general-textarea
+          [boldClass]="true"
+          [title]="'Address'"
+          [placeholder]="'Enter address'"
+          [setValue]="selectedLocation.formattedAddress"></app-general-textarea>
+
+        <app-general-input [title]="'Receiver'" [placeholder]="'John Dee'"></app-general-input>
+        <app-general-input
+          [title]="'Phone Number'"
+          [placeholder]="'+60 xxxxxxxxx'"></app-general-input>
+
+        <app-general-input
+          [boldTitle]="true"
+          [title]="'Remarks'"
+          [placeholder]="'(optional)'"></app-general-input>
+      </div>
+    </div>
+
+    <div
+      *ngIf="!isConfirmLocation"
+      class="current-location flex-center"
+      (click)="updateUserLocation()">
+      <ion-icon class="text-xxl" name="locate"></ion-icon>
+    </div>
+
+    <div
+      class="apply-footer text-center"
+      [ngClass]="
+    {
+      'is-confirmed':isConfirmLocation
+    }
+    ">
+      <div
+        class="flex-center apply-btn"
+        (click)="applyLocation()"
+        [ngClass]="{'confirmed':isConfirmLocation}">
+        <ion-button mode="ios">
+          {{isConfirmLocation ?'Save Location':'Apply Location'}}
+        </ion-button>
+      </div>
+
+      <ion-label
+        *ngIf="actionType==='create'"
+        class="cancel-label"
+        [ngClass]="{'confirmed':isConfirmLocation}"
+        (click)="blurLocation()">
+        Cancel
+      </ion-label>
+    </div>
+  </div>
+</ion-content>

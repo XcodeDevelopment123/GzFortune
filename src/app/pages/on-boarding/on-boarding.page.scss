@@ -1,0 +1,54 @@
+.container {
+  justify-content: space-between;
+  min-height: 100%;
+  padding-bottom: var(--base-padding-top-bottom) !important;
+  padding-top: var(--android-status-height);
+  background-color: white;
+}
+
+ion-content::part(scroll) {
+  padding-top: 0;
+}
+.skip-label {
+  text-decoration: underline;
+}
+
+.boarding-content {
+  flex: 1;
+}
+
+.on-boarding-page {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.indicator {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: (var(--ion-color-midgray));
+  transition: all 0.4s linear;
+  cursor: pointer;
+}
+
+.indicator.active {
+  background: var(--gold-dark);
+}
+
+.next-section {
+  justify-self: end;
+}
+
+.next-button ion-buttons {
+  background: var(--gold-dark);
+  border-radius: 50%;
+  padding: 0.5rem;
+  color: black;
+}
+
+.header {
+  padding-top: var(--ion-safe-area-top) !important;
+}
+

@@ -1,0 +1,79 @@
+<app-header [rootPage]="'home'" [isBackHeader]="true" [headerText]="'Register'"></app-header>
+
+<ion-content [fullscreen]="true" class="register-page">
+  <!-- 顶部横幅 -->
+  <div class="banner-container">
+    <div class="banner-content">
+      <h2 class="banner-title">Nice to Meet You!</h2>
+      <p class="banner-subtitle">
+        Register today and receive more rewards.<br />
+        Fill in the details to complete your registration.
+      </p>
+    </div>
+  </div>
+
+  <!-- 白底区域：从横幅下开始，铺到底 -->
+  <div class="sheet">
+    <div class="container no-padding">
+      <div class="form-content flex-center">
+        <div class="card">
+          <form *ngIf="form" id="registerForm" [formGroup]="form" (ngSubmit)="submit()">
+            <!-- <app-profile-picture-input
+              [isEditable]="true"
+              formControlName="image"></app-profile-picture-input> -->
+
+            <app-general-input
+              [title]="'Username'"
+              [placeholder]="'Username'"
+              [controlName]="'name'"></app-general-input>
+
+            <app-general-input
+              [title]="'Email'"
+              [placeholder]="'JohnDee@gmail.com'"
+              [controlName]="'email'"></app-general-input>
+
+            <app-phone-number-input
+              formControlName="phoneNumber"
+              [title]="'Phone Number'"
+              [placeholder]="'+60 xxxxxxxxx'"></app-phone-number-input>
+
+            <app-general-date-input
+              [title]="'Birth Date'"
+              [placeholder]="' (Optional)'"
+              formControlName="birthday"></app-general-date-input>
+
+            <app-password-input
+              [title]="'Password'"
+              [placeholder]="'Enter Password'"
+              formControlName="password"></app-password-input>
+
+            <app-password-input
+              [title]="'Confirm Password'"
+              [placeholder]="'Confirm Password'"
+              formControlName="rePassword"></app-password-input>
+
+            <!-- <app-general-input
+              [title]="'Referral By'"
+              [placeholder]="'(Optional)'"
+              [controlName]="'referralBy'"></app-general-input> -->
+               <div style="height: 140px;"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</ion-content>
+
+<ion-footer class="register-footer ion-no-border">
+  <ion-toolbar>
+    <ion-button
+      mode="ios"
+      expand="block"
+      type="submit"
+      form="registerForm"
+      [disabled]="!enableToSubmit()">
+      Submit
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,68 @@
+<ion-content [fullscreen]="true" scrollY="false">
+  <app-header
+    [isBackHeader]="true"
+    [headerText]="isEditMode?'Edit Cart':'Order Details'"
+    [rootPage]="'order'"></app-header>
+
+  <div class="details-container">
+    <div class="image-container">
+      <img class="menu-image" [src]="menuDetail?.image||'/assets/images/on-boarding-3.png'" />
+    </div>
+
+    <div #detailContainer class="detail-info">
+      <div class="card card-title">
+        <div class="flex-center flex-space-between menu-title">
+          <p class="text-title text-white">
+            {{menuDetail?.itemName || "Filled With Crunchy Biscoff & Spread"}}
+          </p>
+          <ion-icon
+            name="heart{{isFavorite?'':'-outline'}}"
+            class="favourite-icon text-xl"
+            (click)="favorite()"></ion-icon>
+        </div>
+
+        <div class="card card-content">
+          <div class="description-section">
+            <p class="text-title text-md">Description</p>
+            <p>
+              {{menuDetail?.itemDescription||"Lorem ipsum dolor sit amet, consectetur adipiscing
+              elit. Nulla ut metus in nunc sollicitudin ultrices id quis lectus. Mauris at diam non
+              massa malesuada aliquam eget nec erat."}}
+            </p>
+          </div>
+
+          <!-- Remark Section -->
+          <div class="remark-section">
+            <app-general-textarea
+              [title]="'Remark'"
+              [placeholder]="'(Optional)'"
+              [(ngModel)]="remark"></app-general-textarea>
+          </div>
+
+          <!-- Quantity Section -->
+          <div class="quantity-section">
+            <p class="text-title text-md">Quantity</p>
+            <div class="flex-center quantity-control">
+              <ion-button mode="ios" size="small" (click)="decreaseQty()" [disabled]="quantity===1">
+                -
+              </ion-button>
+              <p class="text-xl">{{quantity}}</p>
+              <ion-button mode="ios" size="small" (click)="increaseQty()"> + </ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="add-to-cart-section flex-center">
+      <ion-button mode="ios" (click)="addToCart()" *ngIf="!isEditMode">
+        <ion-text class="price-label text-md"> $ {{ calculatedPrice.toFixed(2) }} </ion-text>
+        - Add to Cart
+      </ion-button>
+
+      <ion-button mode="ios" (click)="saveToCart()" *ngIf="isEditMode">
+        <ion-text class="price-label text-md"> $ {{ calculatedPrice.toFixed(2) }} </ion-text>
+        - Save
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

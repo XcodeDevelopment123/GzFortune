@@ -1,0 +1,25 @@
+.profile-pic label {
+  background: var(--base-button-background);
+  position: relative;
+  border-radius: 50%;
+  height: 110px;
+  width: 110px;
+}
+.profile-pic img {
+  width: 94px;
+  height: 94px;
+  border-radius: 50%;
+  background: var(--base-background-color);
+}
+
+.camera-icon {
+  position: absolute;
+  right: -0.5rem;
+  bottom: 0;
+  border-radius: 50%;
+}
+.camera-icon ion-icon {
+  background: var(--ion-color-yellow);
+  padding: 0.3rem;
+  border-radius: 50%;
+}

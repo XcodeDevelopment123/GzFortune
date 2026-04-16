@@ -1,0 +1,49 @@
+ion-select.select-list {
+  --background: #fff;
+  --border-color: #d1d5db;
+  --border-radius: 6px;
+  --color: #111;
+  --placeholder-color: #111;
+  --padding-start: 20px;
+  --padding-end: 40px;
+  --min-height: 36px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--border-color);
+  background: var(--background);
+  border-radius: var(--border-radius);
+  position: relative;
+  text-align: left;
+}
+
+/* 隐藏默认 outline 样式 */
+ion-select.select-list::part(container) {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+ion-select.select-list::part(icon) {
+  margin-right: 3px;
+}
+
+/* 模拟分隔线 + 自定义箭头 */
+ion-select.select-list::after {
+  content: '';
+  position: absolute;
+  right: 36px;
+  top: 0px;
+  bottom: 0px;
+  width: 1px;
+  background-color: #d1d5db;
+}
+
+ion-select.select-list::part(icon) {
+  color: #333;
+  right: 10px;
+  font-size: 14px;
+}
+
+/* 点击时的高亮边框 */
+ion-select.select-list:focus-within {
+  border-color: #0077ff00;
+}

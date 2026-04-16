@@ -1,0 +1,25 @@
+.container {
+  padding-bottom: 88px;
+}
+
+.price-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  padding: var(--base-padding-top-bottom) var(--base-padding-left-right);
+  box-shadow: var(--base-shadow);
+  .footer-info {
+    .items-label {
+      color: var(--text-description-color);
+    }
+    .price-label {
+      color: var(--ion-color-primary);
+      font-weight: 900;
+    }
+  }
+  .continue-btn {
+    max-width: 40%;
+  }
+}

@@ -1,0 +1,50 @@
+<app-header [isModalHeader]="true" [headerText]="'Select Voucher'" [rootPage]="'home'"></app-header>
+
+<ion-content>
+  <div class="container">
+    <div
+      class="voucher-item card flex-center"
+      *ngFor="let vc of voucherList"
+      [ngClass]="{ active: selectedVoucherId === vc.id.toString(), invalid: !isVoucherValid(vc) }"
+      (click)="selectVoucher(vc.id.toString())">
+      <img class="voucher-image" load="lazy" [src]="vc.image || '/assets/images/app-logo.png'" />
+
+      <div class="voucher-info card">
+        <div class="flex-auto">
+          <!-- <span class="tag text-title" [ngClass]="getTagClass(vc.Type as VoucherType)">
+  {{ vc.Type }}
+</span> -->
+          <span class="tag text-title">
+            {{ vc.type }}
+          </span>
+
+          <span class="tag text-title tag-invalid" *ngIf="!isVoucherValid(vc)"> Invalid </span>
+        </div>
+
+        <div>
+          <div class="text-title text-md flex-space-between">
+            <p class="truncate-two-line text-title text-md">{{ vc.name }}</p>
+            <ion-icon class="text-lg text-theme" name="information-circle-outline"></ion-icon>
+          </div>
+          <p class="text-description" [innerHTML]="vc.description"></p>
+        </div>
+
+        <p class="text-description">use before {{ vc.expireDate | date: 'dd-MM-yyyy' }}</p>
+
+        <div class="detail-section flex-space-between">
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer flex-center">
+    <ion-button
+      mode="ios"
+      (click)="use()"
+      [disabled]="!selectedVoucherId || !selectedVoucherIsValid()">
+      Use Now
+    </ion-button>
+  </div>
+</ion-content>

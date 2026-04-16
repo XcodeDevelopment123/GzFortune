@@ -1,0 +1,53 @@
+.share-code-section .message {
+  padding: 0 2rem;
+}
+
+.referral-code {
+  width: 100%;
+  max-width: 460px;
+  gap: 0;
+  justify-content: space-between;
+  background: transparent;
+}
+
+.referral-code span ion-icon {
+  color: var(--ion-color-primary);
+}
+
+.referral-code span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: #fff;
+  border-radius: 0.3rem;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.referral-code span:first-child,
+.referral-code span:last-child {
+  border: none;
+  align-self: end;
+}
+.referral-code span:first-child {
+  visibility: hidden; /* 隐藏内容 */
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.referral-code ion-button {
+  max-width: 300px;
+  width: 100%;
+}
+
+.card-border {
+  background: rgba(133, 133, 133, 0.6);
+}
+
+ion-button {
+  color: var(--ion-color-primary);
+}

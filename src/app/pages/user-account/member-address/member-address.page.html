@@ -1,0 +1,41 @@
+<app-header
+  [rootPage]="'account'"
+  [isBackHeader]="true"
+  [headerText]="'Member Addresses'"></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="card address-card">
+      <p class="title-label text-title text-md">My Addresses</p>
+
+      <div *ngIf="hasAddress">
+        <div
+          routerLink="/account/edit-address/{{ i.addressId }}"
+          class="address-item ion-activatable"
+          *ngFor="let i of addressList let index=index">
+          <ion-ripple-effect></ion-ripple-effect>
+          <div class="address-info">
+            <p class="flex-space-between">
+              <span>
+                <span class="text-title text-sm">{{ i.receiverName }}</span>
+                <span class="text-description">| {{ i.receiverPhone }}</span>
+              </span>
+              <ion-icon class="text-xl" name="create-outline"></ion-icon>
+            </p>
+            <p class="text-description">{{ i.address }}</p>
+
+            <p class="default-label">Default</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!hasAddress" class="text-center text-description" style="margin-top: 2rem">
+      Haven't Add Any Address
+    </div>
+
+    <div class="flex-center">
+      <ion-button mode="ios" routerLink="/account/create-address"> + Add new address </ion-button>
+    </div>
+  </div>
+</ion-content>

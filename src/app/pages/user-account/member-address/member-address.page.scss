@@ -1,0 +1,27 @@
+.title-label {
+  padding: 0 var(--base-padding-left-right);
+}
+
+.address-item {
+  border-bottom: var(--base-border-line);
+  padding: 0.5rem var(--base-padding-left-right);
+}
+
+.address-item:last-child {
+  border-bottom: none;
+}
+
+.default-label {
+  border: var(--base-border-line);
+  padding: 0.1rem 0.3rem;
+  margin-top: 0.3rem;
+  width: fit-content;
+  border-radius: 0.3rem;
+  color: var(--ion-color-primary);
+  border-color: var(--ion-color-primary);
+}
+
+.address-card {
+  padding-left: 0;
+  padding-right: 0;
+}

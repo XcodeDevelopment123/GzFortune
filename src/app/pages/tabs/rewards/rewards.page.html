@@ -1,0 +1,48 @@
+<app-header [rootPage]="'rewards'" [headerText]="'REWARD'"></app-header>
+
+<ion-segment mode="md" [(ngModel)]="selectedTab" class="custom-tab">
+  <ion-segment-button value="voucher" (click)="changeTab('voucher')">
+    <p class="text-title">Voucher</p>
+  </ion-segment-button>
+  <ion-segment-button value="point" (click)="changeTab('point')">
+    <p class="text-title">Points</p>
+  </ion-segment-button>
+</ion-segment>
+
+<div class="level-container" *ngIf="selectedTab==='point'">
+  <div class="flex-space-between level-details text-title">
+    <div class="flex-auto level-label">
+      <span class="text-md Level-Text-White">{{userTier}}</span>
+      <span class="Level-Text-Gray">Level</span>
+    </div>
+    <div class="flex-auto point-label">
+      <span class="text-md Level-Text-White">{{userPoint}}</span>
+      <span class="Level-Text-Gray">Points</span>
+    </div>
+  </div>
+</div>
+
+<ion-content
+  [fullscreen]="true"
+  class="tabs">
+  <!-- ✅ 下拉刷新 -->
+  <ion-refresher slot="fixed" class="home-refresher rewards-refresher" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div [ngSwitch]="selectedTab" class="tab-content">
+    <app-voucher-tab
+      *ngSwitchCase="'voucher'"
+      [userPhoneNumber]="userPhoneNumber"
+      [voucherList]="voucherList"
+      [Loaded]="Loaded"></app-voucher-tab>
+
+    <app-point-tab
+      *ngSwitchCase="'point'"
+      [rewards]="pointRewardList"
+      [userPhoneNumber]="userPhoneNumber"
+      [userPoint]="userPoint"
+      (redeemed)="onRewardRedeemed()">
+    </app-point-tab>
+  </div>
+</ion-content>

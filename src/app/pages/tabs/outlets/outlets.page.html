@@ -1,0 +1,79 @@
+<app-header [rootPage]="'account'" [headerText]="'OUTLETS'"></app-header>
+
+<ion-content [fullscreen]="true" class="outlets-page tabs">
+  <!-- 顶部地图卡片 -->
+  <div class="container" *ngIf="Loaded">
+    <div class="map-card" style="background-color: white">
+      <div #mapContainer class="map-canvas"></div>
+
+      <!-- 文字覆盖层（图一样式） -->
+      <div class="map-overlay">
+        <div class="title">{{ selectedOutlet?.name || '' }}</div>
+        <div class="subtitle">{{selectedOutlet?.address}}</div>
+      </div>
+
+      <!-- 浮动定位按钮 -->
+      <button class="fab-locate" type="button" (click)="resetZoomLevels()">
+        <ion-icon name="locate"></ion-icon>
+      </button>
+    </div>
+    <div class="outletList">
+      <div
+        class="outLetCard"
+        *ngFor="let o of outlets"
+        [class.active]="o === selectedOutlet"
+        (click)="focusOutlet(o)">
+        <div class="thumb-wrap" *ngIf="o?.image">
+          <img class="thumb" [src]="o.image" alt="Outlet" />
+        </div>
+
+        <div class="info">
+          <div>
+            <div class="name">{{ o?.name }}</div>
+            <div class="desc">{{o.address}}</div>
+            <div class="outletStatus">
+              <p class="status-pill success">Open Now</p>
+            </div>
+          </div>
+
+          <div
+            class="ShowDistanceArea"
+            (click)="$event.stopPropagation(); (isOrderOutletSelectPage ? selectOutlet(o) : openMap(o))">
+            <ion-icon name="location-sharp"></ion-icon>
+            <span class="distance" *ngIf="o?.distanceKm as d">{{ d }} km</span>
+          </div>
+
+          <button class="BookBtn" mode="ios" expand="block" (click)="OpenWhatsapp(o.phoneNumber)">
+            {{ isOrderOutletSelectPage ? 'Select This' : 'Book Now' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Place Holder -->
+  <div class="container" *ngIf="!Loaded">
+    <div class="map-card" style="background-color: white">
+      <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%"></ion-skeleton-text>
+    </div>
+    <div class="outletList">
+      <div class="outLetCard" *ngFor="let o of [0, 1, 2, 3, 4]">
+        <ion-skeleton-text [animated]="true" style="width: 33%; height: 100%"></ion-skeleton-text>
+
+        <div class="info">
+          <div>
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 50%; height: 19px"></ion-skeleton-text>
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 96%; height: 65px"></ion-skeleton-text>
+            <div class="outletStatus"></div>
+          </div>
+
+          <ion-skeleton-text [animated]="true" style="width: 96%; height: 30px"></ion-skeleton-text>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

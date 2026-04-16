@@ -1,0 +1,24 @@
+<div class="flex-space-between card-title-label">
+  <p class="text-lg text-title">Highlights</p>
+  <!-- <div class=" view-all">
+    View All
+    <ion-icon class="text-lg" name="arrow-forward-outline"></ion-icon>
+  </div> -->
+</div>
+
+<div class="highlight-list flex-auto" *ngIf="isLoaded">
+  <div
+    class="highlight-item"
+    *ngFor="let i of highlightList"
+    routerLink="/highlight/{{ i.highlightId }}">
+    <img load="lazy" [src]="i?.image ?? 'assets/images/reward-sample.webp'" />
+  </div>
+</div>
+
+<div *ngIf="!isLoaded">
+  <div class="highlight-list flex-auto">
+    <div class="highlight-item" *ngFor="let i of [0, 1, 2, 3, 4, 5]">
+      <ion-skeleton-text style="width: 173px; height: 173px" [animated]="true"></ion-skeleton-text>
+    </div>
+  </div>
+</div>

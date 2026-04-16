@@ -1,0 +1,35 @@
+.container{
+  padding-top: 11rem;
+}
+
+.redeem-button {
+  max-width: 400px;
+}
+
+.points-list {
+  margin-top: 1px;
+  padding-left: 16px;
+  font-size: 14px;
+  color: #333;
+  list-style: none;
+  padding-left: 0;
+}
+.card{
+  margin-top: 10px;
+}
+
+.points-list li {
+  margin-bottom: 4px;
+  line-height: 1.5;
+    display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgb(83, 83, 83);
+}
+.List-Title{
+  font-weight: 700;
+}
+
+.points-list .icon {
+  font-size: 75px;
+}

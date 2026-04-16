@@ -1,0 +1,28 @@
+.amount-label {
+  text-align: center;
+  justify-content: center;
+  font-size: x-large;
+  margin-top: 0.5rem;
+}
+
+.amount-label.increase {
+  color: var(--ion-color-primary);
+}
+
+.info-Item {
+  margin-bottom: 10px;
+  :first-child{
+    color: rgb(100, 100, 100);
+  }
+  :last-child{
+    font-weight: bold;
+  }
+}
+
+.line-divider {
+  margin: 0;
+}
+
+.container {
+  padding: 3.5rem var(--base-padding-left-right);
+}

@@ -1,0 +1,50 @@
+.page-description {
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.order-type-options {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+
+  .order-type {
+    width: 150px;
+    height: 150px;
+    background-color: #f0f0f0;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: var(--base-shadow);
+
+    span {
+      font-weight: bold;
+    }
+
+    ion-icon {
+      font-size: var(--text-xxl);
+      margin-bottom: 0.5rem;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+  }
+
+  .unavailable-note {
+    color: var(--ion-color-primary);
+    margin-top: 0.25rem;
+    gap: 0.25rem;
+  }
+
+  .unavailable-note ion-icon {
+    font-size: var(--text-sm);
+  }
+}

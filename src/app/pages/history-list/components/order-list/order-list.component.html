@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="flex-space-between">
+    <p class="text-title text-md">My Orders</p>
+    <ion-icon class="text-xxl" name="filter-circle-outline"></ion-icon>
+  </div>
+
+  <div class="flex-center order-type-option text-sm">
+    <div class="active-bg  {{ orderType }}"></div>
+    <span
+      [ngClass]="{ active: orderType === 'at-restaurant' }"
+      (click)="changeHistoryType('at-restaurant')">
+      At Restaurant
+    </span>
+    <span [ngClass]="{ active: orderType === 'delivery' }" (click)="changeHistoryType('delivery')">
+      Delivery
+    </span>
+  </div>
+  <p *ngIf="filteredOrderHistory.length === 0" class="text-description">No orders found.</p>
+
+  <div *ngFor="let order of visibleOrders; trackBy: trackById" class="card-border history-item">
+    <p class="flex-space-between text-description text-italic">
+      <span>Order ID: {{ order.orderId }}</span>
+
+      <span
+        class="order-status"
+        [ngClass]="{
+          success: order.orderStatus === 'COMPLETED',
+          pending: order.orderStatus === 'Pending' || order.orderStatus === 'PendingPayment',
+          cancelled: order.orderStatus === 'Cancelled' || order.orderStatus === 'Expired',
+        }">
+        {{ order.orderStatus }}
+      </span>
+    </p>
+
+    <div class="order-info flex-auto">
+      <div class="image-badge-wrapper">
+        <img
+          *ngIf="order.menuItemList.length > 0"
+          [src]="order.menuItemList[0].image"
+          class="main-image"
+          onerror="this.src='assets/images/reward-sample.webp'" />
+
+        <div *ngIf="order.menuItemList.length > 1" class="badge">
+          +{{ order.menuItemList.length - 1 }}
+        </div>
+      </div>
+
+      <div class="info-details text-title text-sm">
+        <p class="truncate-two-line">{{ getMenuSummary(order.menuItemList) }}</p>
+        <p class="text-description">{{ getLocaleDate(order.orderDateTime) }}</p>
+      </div>
+
+      <div class="info-amount text-sm text-end">
+        <p class="text-title text-md">RM{{ order.grandTotal }}</p>
+        <p class="text-description">+1 stamp</p>
+        <p class="text-description">+13 points</p>
+      </div>
+    </div>
+
+    <div class="flex-space-between flex-auto">
+      <p
+        class="view-more"
+        [routerLink]="['/history-details/order', order.orderId]"
+        [queryParams]="{ phone: order.memberPhone }">
+        View Details
+      </p>
+
+      <ion-button
+        *ngIf="order.orderStatus === 'PendingPayment'"
+        mode="ios"
+        class="order-again-btn text-sm"
+        (click)="continuePayment(order)">
+        Continue Payment
+      </ion-button>
+
+      <ion-button
+        *ngIf="
+          order.orderStatus === 'COMPLETED' ||
+          order.orderStatus === 'Cancelled' ||
+          order.orderStatus === 'Expired'
+        "
+        mode="ios"
+        class="order-again-btn text-sm"
+        (click)="orderAgain(order)">
+        Order Again
+      </ion-button>
+    </div>
+  </div>
+</div>
+
+<ion-infinite-scroll threshold="120px" (ionInfinite)="loadMoreOrders($event)">
+  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more orders...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>

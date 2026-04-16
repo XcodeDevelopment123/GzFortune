@@ -1,0 +1,13 @@
+.container {
+  min-height: calc(100vh - 30px);
+  justify-content: space-between;
+  padding-top: 1.5rem;
+}
+
+.close-icon {
+  justify-content: space-between;
+}
+
+.noted-btn {
+  justify-self: end;
+}

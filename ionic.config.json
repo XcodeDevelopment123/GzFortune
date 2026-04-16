@@ -1,0 +1,7 @@
+{
+  "name": "lucky-pot-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

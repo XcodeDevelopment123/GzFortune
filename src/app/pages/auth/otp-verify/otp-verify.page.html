@@ -1,0 +1,101 @@
+<app-header [rootPage]="'home'" [isBackHeader]="true" [headerText]="'Verify Otp'"></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container no-padding flex-center">
+    <div class="form-content flex-center">
+      <div class="card">
+        <section class="otp-container">
+          <h2 class="text-title text-theme">Verify Your Code </h2>
+          <p class="text-title text-md">{{ phonenumber }}</p>
+          <p class="otp-subtext text-description text-sm">
+            We’ve sent a 6-digit code to your
+            <b>SMS </b>
+            <br />
+            Please enter it below 🍹
+          </p>
+
+          <div class="otp-inputs" (click)="focusInput()">
+            <div
+              *ngFor="let digit of otpDigits; let i = index"
+              [class.filled]="digit"
+              [class.active]="i === currentIndex">
+              {{ digit || '' }}
+            </div>
+          </div>
+
+          <ion-input
+            #otpInput
+            class="otp-input"
+            inputmode="numeric"
+            type="tel"
+            maxlength="6"
+            [disabled]="isVerified"
+            (ionInput)="onOtpInput($event)">
+          </ion-input>
+
+          <p class="otp-resend" *ngIf="!isVerified">
+            Didn't get the code?
+            <a
+              (click)="resendOtp()"
+              [class.disabled]="smsResendCooldown > 0"
+              [attr.aria-disabled]="smsResendCooldown > 0 ? true : null">
+              {{ smsResendCooldown > 0 ? ('Resend in ' + smsResendCooldown + 's') : 'Resend' }}
+            </a>
+          </p>
+
+          <p style="margin-top: 8px" class="otp-resend" *ngIf="!isVerified && canResendEmail">
+            Didn't get the code via SMS?
+            <a
+              (click)="resendOtpWithEmail()"
+              [class.disabled]="emailResendCooldown > 0"
+              [attr.aria-disabled]="emailResendCooldown > 0 ? true : null">
+              {{ emailResendCooldown > 0 ? ('Resend in ' + emailResendCooldown + 's') : 'Resend with
+              EMAIL' }}
+            </a>
+          </p>
+        </section>
+
+        <!-- 验证成功后，同卡片内展开“设置新密码” -->
+        <div *ngIf="isVerified && !isRegisterFlow" class="set-password">
+          <div class="divider"></div>
+
+          <h3 class="text-title text-theme">Set a new password</h3>
+          <h3 class="Description">*Mininum 8 characters</h3>
+
+          <ion-item lines="full">
+            <ion-label position="stacked">New Password</ion-label>
+            <ion-input
+              type="password"
+              [(ngModel)]="newPassword"
+              placeholder="Enter new password"
+              autocomplete="new-password">
+            </ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="mt-2">
+            <ion-label position="stacked">Confirm Password</ion-label>
+            <ion-input
+              type="password"
+              [(ngModel)]="confirmPassword"
+              placeholder="Re-enter new password"
+              autocomplete="new-password">
+            </ion-input>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 固定在底部的唯一按钮：根据状态切换动作与文案 -->
+  <div class="flex-center submit-btn">
+    <ion-button
+      mode="ios"
+      [disabled]="!isVerified ? (otpCode.length !== 6) : !canSubmitPassword()"
+      (click)="!isVerified ? onComplete() : submitNewPassword()">
+      {{ !isVerified ? (isRegisterFlow ? 'Verify & Continue' : 'Verify') : 'Set Password' }}
+    </ion-button>
+  </div>
+
+  <!-- 给底部固定按钮留出滚动空间，避免内容被遮住 -->
+  <div class="page-bottom-spacer"></div>
+</ion-content>

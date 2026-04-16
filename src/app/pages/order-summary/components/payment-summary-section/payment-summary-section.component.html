@@ -1,0 +1,54 @@
+<div class="payment-info card">
+  <p class="text-title text-md">Payment Summary</p>
+
+  <div>
+    <div class="price-detail-row flex-space-between">
+      <p class="detail-title text-description text-sm">Subtotal</p>
+      <p class="detail-price text-title text-sm">RM {{ cartData?.subTotal?.toFixed(2) }}</p>
+    </div>
+
+    <div class="price-detail-row flex-space-between">
+      <p class="detail-title text-description text-sm">Voucher discount</p>
+      <p class="detail-price text-title text-sm">RM {{ voucherDiscount.toFixed(2) }}</p>
+    </div>
+
+    <div class="price-detail-row flex-space-between">
+      <p class="detail-title text-description text-sm">Point discount</p>
+      <p class="detail-price text-title text-sm">
+        RM {{ pointDiscount.toFixed(2) }}
+        <ng-container *ngIf="redeemedPoints && redeemedPoints > 0">
+          ({{ redeemedPoints }} pts)
+        </ng-container>
+      </p>
+    </div>
+
+    <div class="divider-line-with-spacing"></div>
+
+    <div class="price-detail-row flex-space-between">
+      <p class="detail-title text-description text-sm">Amount (Before SST)</p>
+      <p class="detail-price text-title text-sm">RM {{ subtotalBeforeTax.toFixed(2) }}</p>
+    </div>
+
+    <div class="price-detail-row flex-space-between">
+      <p class="detail-title text-description text-sm">6% SST</p>
+      <p class="detail-price text-description text-sm">(RM {{ sstAmount }})</p>
+    </div>
+
+    <div class="price-detail-row flex-space-between">
+      <p class="detail-title text-description text-sm">Delivery Fee</p>
+      <p class="detail-price text-title text-sm">RM 0.00</p>
+    </div>
+
+    <div class="price-detail-row flex-space-between">
+      <p class="detail-title text-description text-sm">Rounding Adjust</p>
+      <p class="detail-price text-title text-sm">RM 0.00</p>
+    </div>
+
+    <div class="price-detail-row flex-space-between">
+      <p class="detail-title text-title text-lg text-theme">Grand Total</p>
+      <p class="detail-price text-title text-lg text-theme">
+        RM {{ cartData?.grandTotal?.toFixed(2) }}
+      </p>
+    </div>
+  </div>
+</div>

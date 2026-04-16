@@ -1,0 +1,101 @@
+<div class="card" *ngIf="isLoaded">
+  <div class="flex-space-between user-profile">
+    <div>
+      <!-- <p class="text-lg text-title">
+        {{ (memberInfo?.name || '').trim().length > 0 ? 'Welcome back !' : 'Hi !' }}
+      </p> -->
+      <p class="text-xl text-title truncate-two-line name" (click)="GoLogin()">
+        {{ memberInfo?.name ?? 'Please Login' }}
+      </p>
+      <div class="birthDate">
+        <ion-icon
+          *ngIf="memberInfo?.birthDate != null"
+          aria-hidden="true"
+          src="/assets/icon/cake.svg"></ion-icon>
+        <p class="text-xl text-title truncate-two-line" (click)="GoLogin()">
+          {{ memberInfo?.birthDate ?? '' | date: 'dd MMM yyyy' }}
+        </p>
+      </div>
+    </div>
+    <div class="user-profile-picture flex-center">
+      <img
+        load="lazy"
+        [src]="
+          memberInfo?.image && memberInfo?.image?.trim() !== ''
+            ? memberInfo?.image
+            : 'assets/images/user-profile-placeholder.png'
+        " />
+    </div>
+  </div>
+
+  <div class="flex-space-between flex-auto membership-container">
+    <div
+      class="membership"
+      [routerLink]="['/account/membership']"
+      [queryParams]="{
+        phone: memberInfo?.phoneNumber,
+        point: memberInfo?.point,
+        tier: memberInfo?.tier,
+      }">
+      <div class="membership-point">
+        <span class="text-lg text-title point">
+          {{ memberInfo?.point ?? '0' }}
+        </span>
+        Points /
+        <span class="text-lg text-title level"> {{ memberInfo?.pointIndicatorText ?? 'VIP' }} </span>
+        level
+      </div>
+    </div>
+    <ion-icon
+      class="text-xxl"
+      name="chevron-forward-outline"
+      routerLink="/account/membership"></ion-icon>
+    <div class="scan-qr flex-center" (click)="showQrModal()">
+      <img load="lazy" src="assets/images/scan-qr.png" />
+    </div>
+  </div>
+</div>
+
+<!-- skeleton area -->
+<div class="card" *ngIf="!isLoaded">
+  <div class="flex-space-between user-profile">
+    <div>
+      <ion-skeleton-text [animated]="true" style="width: 150px; height: 15px"></ion-skeleton-text>
+      <ion-skeleton-text [animated]="true" style="width: 80px; height: 15px"></ion-skeleton-text>
+    </div>
+    <div class="user-profile-picture flex-center">
+      <img
+        load="lazy"
+        [src]="
+          memberInfo?.image && memberInfo?.image?.trim() !== ''
+            ? memberInfo?.image
+            : 'assets/images/user-profile-placeholder.png'
+        " />
+    </div>
+  </div>
+
+  <div class="flex-space-between flex-auto membership-container">
+    <div
+      class="membership"
+      [routerLink]="['/account/membership']"
+      [queryParams]="{
+        phone: memberInfo?.phoneNumber,
+        point: memberInfo?.point,
+        tier: memberInfo?.tier,
+      }">
+      <div class="membership-point">
+        <span class="text-lg text-title point"> 0 </span>
+        Points /
+        <span class="text-lg text-title level"> VIP </span>
+        level
+      </div>
+    </div>
+    <ion-icon
+      class="text-xxl"
+      name="chevron-forward-outline"
+      routerLink="/account/membership"></ion-icon>
+    <div class="scan-qr flex-center" (click)="showQrModal()">
+      <img load="lazy" src="assets/images/scan-qr.png" />
+    </div>
+  </div>
+</div>

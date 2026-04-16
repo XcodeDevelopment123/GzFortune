@@ -1,0 +1,63 @@
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="header flex-space-between flex-center">
+      <ion-buttons *ngIf="currentPage!==1" (click)="backToPrevious()">
+        <ion-icon name="arrow-back-outline" class="text-lg"></ion-icon>
+      </ion-buttons>
+      <span></span>
+      <ion-text (click)="navToHome()" class="text-description text-md skip-label"> Skip </ion-text>
+    </div>
+
+    <div [ngSwitch]="currentPage" class="flex-center">
+      <app-on-boarding-1 class="on-boarding-page" *ngSwitchCase="1"></app-on-boarding-1>
+      <app-on-boarding-2 class="on-boarding-page" *ngSwitchCase="2"></app-on-boarding-2>
+      <app-on-boarding-3 class="on-boarding-page" *ngSwitchCase="3"></app-on-boarding-3>
+      <app-on-boarding-4 class="on-boarding-page" *ngSwitchCase="4"></app-on-boarding-4>
+      <app-on-boarding-5 class="on-boarding-page" *ngSwitchCase="5"></app-on-boarding-5>
+    </div>
+
+    <div class="next-section flex-space-between">
+      <div class="indicator-row flex-auto flex-center">
+        <span
+          class="indicator indicator-1"
+          (click)="currentPage=1"
+          [ngClass]="{'active':currentPage===1}"></span>
+        <span
+          class="indicator indicator-2"
+          (click)="currentPage=2"
+          [ngClass]="{'active':currentPage===2}"></span>
+        <span
+          class="indicator indicator-3"
+          (click)="currentPage=3"
+          [ngClass]="{'active':currentPage===3}"></span>
+        <span
+          class="indicator indicator-4"
+          (click)="currentPage=4"
+          [ngClass]="{'active':currentPage===4}"></span>
+        <span
+          class="indicator indicator-5"
+          (click)="currentPage=5"
+          [ngClass]="{'active':currentPage===5}"></span>
+      </div>
+
+      <div class="next-button">
+        <ion-buttons
+          class="ion-activatable"
+          *ngIf="currentPage!==5"
+          (click)="currentPage = currentPage+1">
+          <ion-ripple-effect></ion-ripple-effect>
+
+          <ion-icon class="text-xxl" name="chevron-forward-outline"></ion-icon>
+        </ion-buttons>
+
+        <ion-button
+          mode="ios"
+          class="ion-activatable"
+          *ngIf="currentPage===5"
+          (click)="navToHome()">
+          <ion-text>Get Start</ion-text>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,55 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: var(--base-padding-top-bottom);
+}
+
+.container {
+  padding-bottom: 85px !important;
+}
+
+.voucher-item {
+  margin-top: 80px;
+  overflow: hidden;
+  padding: 0;
+  flex-direction: column;
+  gap: 0.3rem;
+  box-shadow: var(--base-shadow);
+  .voucher-image {
+    width: 100%;
+    object-fit: contain;
+    padding: 0.5rem;
+    max-height: 120px;
+    background: #fdf1ef;
+  }
+
+  .voucher-info {
+    width: 100%;
+    gap: 0.3rem;
+
+    ion-icon {
+      cursor: pointer;
+    }
+
+    .detail-section {
+      div {
+        flex: 1;
+      }
+    }
+  }
+}
+
+.voucher-item.active {
+  border: 2px solid var(--ion-color-primary);
+  box-shadow: 0 0 12px rgba(var(--ion-color-primary-rgb), 0.3);
+  transform: scale(1.02);
+}
+
+.voucher-item.invalid {
+  pointer-events: none;
+  opacity: 0.9;
+  box-shadow: none;
+  filter: grayscale(80%);
+}

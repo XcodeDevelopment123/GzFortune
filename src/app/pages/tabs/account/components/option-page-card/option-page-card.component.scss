@@ -1,0 +1,18 @@
+.action-item {
+  justify-content: start;
+  border-bottom: var(--base-border-line);
+  padding-bottom: 0.5rem;
+}
+.action-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.action-item ion-icon {
+  background: var(--gold-dark);
+  color: var(--ion-color-primary);
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+}

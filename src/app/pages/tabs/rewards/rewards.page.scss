@@ -1,0 +1,117 @@
+ion-segment {
+  --background: var(--gray-light);
+  padding-top: calc(1.5rem + var(--android-status-height));
+  top: 80px;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  position: absolute;
+}
+
+ion-content {
+  --background: white;
+}
+
+.tab-content {
+  padding-top: 60px;
+}
+
+.segment-button-checked::part(native) {
+  border-radius: 1rem 1rem 0 0;
+  background: #fff;
+}
+
+ion-segment-button {
+  --ripple-color: transparent;
+}
+
+ion-segment-button p {
+  font-size: var(--text-md);
+}
+
+.level-container {
+  max-width: 720px;
+  padding: 0.8rem 2.8rem;
+  position: absolute;
+  top: 175px;
+  left: 50%;
+  translate: -50% 0;
+  width: 100%;
+  z-index: 1;
+  color: #fff;
+}
+
+.level-container * {
+  color: #fff;
+}
+
+.level-details {
+  border-radius: 0.5rem;
+  background: #efca6cbf;
+  padding: 0.6rem 1.2rem;
+  box-shadow: var(--base-shadow);
+}
+
+.Level-Text-White {
+  color: #fff !important;
+}
+
+.Level-Text-Gray {
+  color: #8f8f8f !important;
+}
+
+.level-label,
+.point-label {
+  gap: 0.3rem;
+  align-items: end;
+}
+
+.level-label span:first-child,
+.point-label span:first-child,
+.message-level-label {
+  color: var(--ion-color-primary);
+}
+
+@media screen and (min-width: 576px) {
+  ion-segment {
+    top: 87px;
+  }
+
+  .level-container {
+    top: 157px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  ion-segment {
+    top: 96px;
+  }
+
+  .level-container {
+    top: 166px;
+  }
+}
+
+.ios .container {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+.home-refresher {
+  /* 往下移：数字自己微调到你要的位置 */
+  top: calc(env(safe-area-inset-top) + 130px);
+  z-index: 20;
+}
+
+:host-context(.ios) {
+  ion-content::part(scroll) {
+    padding: calc(125px + var(--android-status-height)) 0 0 0;
+  }
+
+  .level-container {
+    top: 200px !important;
+  }
+
+  .custom-tab {
+    margin-top: 35px;
+  }
+}
