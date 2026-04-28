@@ -36,7 +36,7 @@ export class AuthApiService {
 
   getAccessToken(): Observable<string | null> {
     const username = 'admin';
-    const password = 'kl4934A4!';
+    const password = 'admin123';
     return this.baseApi
       .post<AuthTokenResponse>(`/JWTToken/Post?UserName=${username}&Password=${password}`, null)
       .pipe(
