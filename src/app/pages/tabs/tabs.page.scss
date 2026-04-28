@@ -4,7 +4,6 @@
   --wallet-icon: 40px;
 }
 
-
 .custom-nav-bar {
   position: relative;
   height: var(--bottom-nav-bar-height);
@@ -42,7 +41,7 @@ ion-tab-button {
     background-color: var(--color-selected);
     border-radius: 2px 2px 0 0;
     display: none;
-    animation: fadeUp 0.6s ease-out forwards
+    animation: fadeUp 0.6s ease-out forwards;
   }
 
   @keyframes fadeUp {
@@ -54,8 +53,6 @@ ion-tab-button {
       width: 100%;
     }
   }
-
-
 }
 
 ion-tab-button.tab-selected {
@@ -66,12 +63,10 @@ ion-tab-button.tab-selected {
   }
 }
 
-
 ion-tab-bar {
   filter: drop-shadow(var(--base-shadow));
   background: var(--ion-color-primary);
 }
-
 
 ion-tab-button ion-icon,
 ion-tab-button img {
@@ -100,16 +95,9 @@ ion-tab-button img {
   width: 65px;
   height: 65px;
   border-radius: 50%;
-  background-color: linear-gradient(var(--gold-dark) 100%);
-  /* Gold2C 渐变 */
-  background: linear-gradient(var(--gold-dark) 100%);
-  /* Gold2C 渐变 */
-
-
+  background-color: linear-gradient(rgb(36, 31, 18) 100%);
+  background: linear-gradient(rgb(36, 31, 18) 100%);
 }
-
-
-
 
 .wallet-bg {
   position: absolute;
@@ -125,7 +113,6 @@ ion-tab-button img {
   z-index: 15;
 }
 
-
 ion-tab-bar,
 ion-tab-button,
 ion-tab-button ion-icon {
@@ -133,7 +120,7 @@ ion-tab-button ion-icon {
   z-index: 20;
 }
 
-ion-tab-bar{
+ion-tab-bar {
   padding-bottom: var(--ion-safe-area-bottom);
 }
 

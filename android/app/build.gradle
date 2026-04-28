@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.luckypot.luckypotapp"
+    namespace "com.gzfortune.gzfortuneapp"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.luckypot.luckypotapp"
+        applicationId "com.gzfortune.gzfortuneapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 15

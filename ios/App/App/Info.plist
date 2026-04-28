@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Luckypot幸湘菜馆</string>
+	<string>Fortune Claypot</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -31,9 +31,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Your location is used to help you find nearby Luckypot restaurants and contact them through WhatsApp for reservations, even when the app is running in the background.</string>
+	<string>Your location is used to help you find nearby Fortune Claypot restaurants and contact them through WhatsApp for reservations, even when the app is running in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is used to show nearby Luckypot restaurants and allow you to contact them via WhatsApp to make a booking.</string>
+	<string>Your location is used to show nearby Fortune Claypot restaurants and allow you to contact them via WhatsApp to make a booking.</string>
 	<key>NSPrivacyAccessedAPITypes</key>
 	<array>
 		<dict>

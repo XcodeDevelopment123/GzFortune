@@ -1,4 +1,4 @@
-package com.luckypot.luckypotapp;
+package com.gzfortune.gzfortuneapp;
 
 import android.graphics.Color;
 import android.os.Bundle;

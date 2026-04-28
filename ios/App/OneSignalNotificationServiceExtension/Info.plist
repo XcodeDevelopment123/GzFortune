@@ -9,7 +9,7 @@
 		<key>NSExtensionPrincipalClass</key>
 		<string>$(PRODUCT_MODULE_NAME).NotificationService</string>
 		<key>OneSignal_app_groups_key</key>
-		<string>com.luckypot.luckypotapp.OneSignalNotificationServiceExtension</string>
+		<string>com.gzfortune.gzfortuneapp.OneSignalNotificationServiceExtension</string>
 	</dict>
 </dict>
 </plist>

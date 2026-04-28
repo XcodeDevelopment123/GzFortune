@@ -162,7 +162,7 @@ export class AppComponent implements OnInit {
     const OneSignal = window.plugins.OneSignal;
 
     // 1) init oneSignal
-    OneSignal.initialize('363b873c-4b44-494c-9c7f-fc8948ef5ac0');
+    OneSignal.initialize('491eab16-2d96-4351-afb9-2186f4e07d7e');
 
     // 2) Request notification access
     OneSignal.Notifications.requestPermission(true).then((accepted: boolean) => {

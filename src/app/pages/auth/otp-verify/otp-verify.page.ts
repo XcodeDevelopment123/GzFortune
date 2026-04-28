@@ -222,7 +222,9 @@ export class OtpVerifyPage implements OnInit {
   private handleRegisterVerifyThenRegister() {
     if (!this.verifyOtpRes) return;
     if (!this.registerRequest) {
-      this.toastHelper.presentFailedToast('Missing register data. Please go back and register again.');
+      this.toastHelper.presentFailedToast(
+        'Missing register data. Please go back and register again.',
+      );
       return;
     }
 
@@ -244,7 +246,10 @@ export class OtpVerifyPage implements OnInit {
             .subscribe({
               next: () => {
                 this.loadingHelper.hide();
-                this.toastHelper.presentSuccessToast('Register success, Welcome to Lucky Pot', 'top');
+                this.toastHelper.presentSuccessToast(
+                  'Register success, Welcome to Fortune Claypot!',
+                  'top',
+                );
                 this.stateSession.consumeReturnUrl('/home');
                 this.navCtrl.navigateRoot(this.redirectUrl, { replaceUrl: true });
               },
@@ -311,26 +316,25 @@ export class OtpVerifyPage implements OnInit {
       Channel: 1, // SMS
     };
 
-    const resend$ = this.verifyType === 'register'
-      ? this.authApiService.requestRegisterOtpSms(req)
-      : this.authApiService.requestLoginOTP(req);
+    const resend$ =
+      this.verifyType === 'register'
+        ? this.authApiService.requestRegisterOtpSms(req)
+        : this.authApiService.requestLoginOTP(req);
 
-    resend$
-      .pipe(take(1))
-      .subscribe({
-        next: (res) => {
-          this.loadingHelper.hide();
-          this.verifyOtpRes = res;
-          this.updateOtpDigits();
-          this.toastHelper.presentSuccessToast('OTP resent to your SMS.');
+    resend$.pipe(take(1)).subscribe({
+      next: (res) => {
+        this.loadingHelper.hide();
+        this.verifyOtpRes = res;
+        this.updateOtpDigits();
+        this.toastHelper.presentSuccessToast('OTP resent to your SMS.');
 
-          this.startSmsResendCooldown(180);
-        },
-        error: (err: HttpErrorResponse) => {
-          this.loadingHelper.hide();
-          this.toastHelper.presentFailedToast(err.error ?? 'Resend failed, please try again.');
-        },
-      });
+        this.startSmsResendCooldown(180);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.loadingHelper.hide();
+        this.toastHelper.presentFailedToast(err.error ?? 'Resend failed, please try again.');
+      },
+    });
   }
 
   private handleResendOtpByEmail() {
