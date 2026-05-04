@@ -96,7 +96,7 @@ export class RewardPage implements OnInit, OnDestroy {
 
       // 2️⃣ 兑换成功后，马上拿最新钱包 / point
       if (this.phoneNumber) {
-        const phonenumber = '+6' + this.phoneNumber;
+        const phonenumber = this.phoneNumber;
 
         const walletRes: any = await this.userApiService.getWalletDetails(phonenumber).toPromise();
 

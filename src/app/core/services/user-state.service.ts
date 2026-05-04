@@ -54,6 +54,11 @@ export class UserStateService {
   }
 
   updateMemberInfo(member: Member) {
+    if (member.contactId === undefined) {
+      member.contactId = localStorage.getItem('ContactId')
+        ? parseInt(localStorage.getItem('ContactId')!, 10)
+        : undefined;
+    }
     this._memberInfo.next(member);
   }
 

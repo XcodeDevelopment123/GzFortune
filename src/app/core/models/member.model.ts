@@ -35,6 +35,7 @@ export interface Member {
   totalTopupAmount: number;
   userId: string;
   walletId: string;
+  contactId?: number;
 }
 
 export interface MemberAddress {

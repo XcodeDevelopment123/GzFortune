@@ -51,7 +51,7 @@ export class HomePage implements OnInit, OnDestroy {
         tap((m) => (this.memberInfo = m)), // ✅ 关键：保证 this.memberInfo 有值
         tap(() => this.userStateService.setWalletLoading(true)),
         switchMap((m) =>
-          this.userApiService.getWalletDetails('+6' + m.phoneNumber).pipe(
+          this.userApiService.getWalletDetails( m.phoneNumber).pipe(
             take(1),
             catchError((err) => {
               console.error(err);
@@ -75,7 +75,7 @@ export class HomePage implements OnInit, OnDestroy {
       .pipe(
         filter((m): m is Member => !!m?.phoneNumber),
         take(1),
-        switchMap((m) => this.userApiService.getWalletDetails('+6' + m.phoneNumber).pipe(take(1))),
+        switchMap((m) => this.userApiService.getWalletDetails( m.phoneNumber).pipe(take(1))),
         takeUntil(this.destroy$),
       )
       .subscribe({
@@ -113,7 +113,7 @@ export class HomePage implements OnInit, OnDestroy {
   private loadWalletOnce() {
     if (!this.memberInfo?.phoneNumber) return of(null);
 
-    const phonenumber = '+6' + this.memberInfo.phoneNumber;
+    const phonenumber = this.memberInfo.phoneNumber;
     return this.userApiService.getWalletDetails(phonenumber).pipe(
       take(1),
       tap((res: any) => this.handleWalletResponse(res)),

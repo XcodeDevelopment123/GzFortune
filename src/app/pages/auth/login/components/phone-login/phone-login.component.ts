@@ -66,13 +66,15 @@ export class PhoneLoginComponent implements OnInit {
       Channel: 1, // SMS
     };
 
-
     this.authApiService.requestLoginOTP(req).subscribe({
       next: (res) => {
         this.loadingHelper.hide();
         if (res) {
-
-
+          console.log('OTP requested successfully', res);
+          localStorage.setItem(
+            'ContactId',
+            res.ContactId ? res.ContactId.toString() : res.contactId?.toString() || '',
+          );
           const redirect = this.stateSession.getReturnUrl('/home');
           this.stateSession.setDataAndNavigate(
             `auth/otp-verify/${this.verifyOTPPageType}`,
