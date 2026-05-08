@@ -28,6 +28,7 @@ import { UserStateService } from 'src/app/core/services/user-state.service';
 })
 export class TransactionListComponent implements OnInit, OnDestroy {
   phoneNumber: string = '';
+  contactId?: number;
   transactionHistory: TransactionWithSource[] = [];
   visibleTransactions: TransactionWithSource[] = [];
 
@@ -52,6 +53,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     const member = await firstValueFrom(this.userStateService.memberInfo);
     this.phoneNumber = member?.phoneNumber || '';
+    this.contactId = member?.contactId;
 
     this.route.queryParamMap.pipe(takeUntil(this.destroy$)).subscribe(() => {
       if (this.phoneNumber) {
@@ -106,7 +108,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   }
 
   private loadCombinedHistory$(): Observable<TransactionWithSource[]> {
-    return this.historyApiService.getAllRecordByPhoneNumber(this.phoneNumber).pipe(
+    return this.historyApiService.getAllRecordByPhoneNumber(this.phoneNumber, this.contactId).pipe(
       take(1),
       map((res) =>
         (res || [])
@@ -116,60 +118,53 @@ export class TransactionListComponent implements OnInit, OnDestroy {
             let source: TransactionWithSource['source'];
             switch (t) {
               case 'Payment':
+              case 'sale_spend':
                 source = 'payment';
                 break;
               case 'Top Up':
+              case 'wallet_topup':
                 source = 'topup';
                 break;
               case 'Redeem Voucher':
-                source = 'Redeem Voucher'; // 如果你 type union 里面真的有这个值
+              case 'coupon_issued':
+                source = 'Redeem Voucher';
+                break;
+              case 'points_adjustment':
+                source = 'redeem'; // Use redeem for points changes
                 break;
               default:
                 source = 'redeem';
                 break;
             }
 
-            // 默认（Payment/TopUp）显示 RM
+            // 默认（Payment/TopUp/SaleSpend/TopUp）显示 RM
             let displayAmount = `${source === 'payment' ? '-' : '+'} RM${Number(item.amount ?? 0).toFixed(2)}`;
             let amountClass = source === 'payment' ? 'text-danger' : 'text-success';
 
-            if (t === 'Redeem Reward') {
-              displayAmount = `- ${Number(item.point ?? 0)} Points`;
-              amountClass = 'text-danger';
+            if (t === 'Redeem Reward' || t === 'points_adjustment') {
+              displayAmount = `${Number(item.point ?? 0) < 0 ? '-' : '+'} ${Math.abs(Number(item.point ?? 0))} Points`;
+              amountClass = Number(item.point ?? 0) < 0 ? 'text-danger' : 'text-success';
             }
 
-            if (t === 'Redeem Voucher') {
+            if (t === 'Redeem Voucher' || t === 'coupon_issued') {
               displayAmount = 'Voucher Redeemed';
               amountClass = 'text-success';
             }
-            
+
             const prevBal = item.previousBalance ?? null;
             const prevPts = item.previousPoints ?? null;
 
             let balanceInfo: string | undefined;
             let pointsInfo: string | undefined;
 
-            // ✅ Balance before/after（只在 Payment / Top Up 且 previousBalance 有值时显示）
-            if (prevBal !== null && (t === 'Top Up' || t === 'Payment')) {
-              const amt = Number(item.amount ?? 0);
+            // ✅ Balance before/after
+            if (prevBal !== null && (source === 'topup' || source === 'payment')) {
               balanceInfo = `Balance Before: RM${prevBal.toFixed(2)}`;
             }
 
-            // ✅ Points before/after（只在 previousPoints 有值时显示）
+            // ✅ Points before/after
             if (prevPts !== null) {
-              const deltaPts = Number(item.point ?? 0);
-              let afterPts = prevPts;
-
-              if (t === 'Redeem Reward') {
-                afterPts = prevPts - deltaPts;
-              } else if (t === 'Payment' || t === 'Top Up') {
-                afterPts = prevPts + deltaPts;
-              }
-
-              // ✅ 只有有变化才显示
-              if (afterPts !== prevPts) {
-                pointsInfo = `Points Before: ${prevPts}`;
-              }
+              pointsInfo = `Points Before: ${prevPts}`;
             }
 
             return {

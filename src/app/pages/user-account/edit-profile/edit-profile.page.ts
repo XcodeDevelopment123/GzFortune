@@ -80,12 +80,7 @@ export class EditProfilePage implements OnInit, OnDestroy {
     this.form?.markAllAsTouched();
     this.form?.updateValueAndValidity();
 
-    const birthCtrl = this.form?.get('birthDate');
 
-    if (birthCtrl?.errors?.['invalidDate']) {
-      this.toastHelper.presentFailedToast('Invalid birth date (DD-MM-YYYY)', 'middle');
-      return;
-    }
 
     if (this.form?.invalid) {
       this.toastHelper.presentFailedToast('Please check your input', 'middle');

@@ -30,25 +30,17 @@
         </div>
         <div
           class="info-amount text-sm text-end"
-          *ngIf="
-            history.type === 'Payment' ||
-            history.type === 'Top Up' ||
-            history.type === 'Redeem Reward'
-          ">
-          <!-- 第一行：Payment/TopUp 显示 RM；Redeem Reward 显示 Points -->
+          *ngIf="history.displayAmount">
+          <!-- 第一行：显示格式化后的金额或点数 -->
           <p class="text-title text-md money" [ngClass]="history.amountClass">
-            {{
-              history.type === 'Redeem Reward'
-                ? '- ' + history.point + ' Points'
-                : history.displayAmount
-            }}
+            {{ history.displayAmount }}
           </p>
 
-          <!-- 第二行：只有 Payment/TopUp 才显示 Points（并且 point>0 才显示） -->
+          <!-- 第二行：只有在有额外点数变化且不是纯点数交易时显示 -->
           <p
             class="text-title text-sm money show-Poiny"
             [ngClass]="history.amountClass"
-            *ngIf="history.type !== 'Redeem Reward' && history.point > 0">
+            *ngIf="history.source !== 'redeem' && history.point > 0 && history.type !== 'points_adjustment'">
             + {{ history.point }}Points
           </p>
         </div>
