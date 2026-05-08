@@ -63,12 +63,18 @@ export class VoucherTabComponent implements OnInit {
     const now = new Date();
 
     this.usedVoucherList = onlyVoucher.filter((v) => v.status === 'Used');
-    this.readyRedeemVoucherList = onlyVoucher.filter((v) => v.type === 'Reward' && v.status === 'Active');
+    this.readyRedeemVoucherList = onlyVoucher.filter(
+      (v) => v.type?.toLowerCase() === 'reward' && v.status === 'Active',
+    );
     this.activeVoucherList = onlyVoucher.filter(
-      (v) => v.status === 'Active' && new Date(v.expireDate) > now && v.type === 'Voucher',
+      (v) =>
+        v.status === 'Active' &&
+        new Date(v.expireDate) > now &&
+        (v.type?.toLowerCase() === 'voucher' || !v.type),
     );
     this.expiredVoucherList = onlyVoucher.filter((v) => new Date(v.expireDate) <= now);
   }
+
 
   /** 当用户选择 Active / Used / Expired */
   onCategoryChange(selected: string[]) {

@@ -26,13 +26,14 @@ export class RewardApiService {
       .pipe(map((dto) => dtoToModel<Reward, any>(dto, rewardMapper)));
   }
 
-  userGetVoucherByPhone(phoneNumber: string): Observable<Voucher[]> {
-    const body = { PhoneNumber: phoneNumber };
+  userGetVoucherByPhone(phoneNumber: string, contactId?: number): Observable<Voucher[]> {
+    const body = { PhoneNumber: phoneNumber, ContactId: contactId };
 
     return this.baseApi
       .post<Voucher[]>(`${this.ctrl2}/GetVoucherByPhone`, body)
       .pipe(map((list) => list.map((dto) => dtoToModel<Voucher, any>(dto, voucherMapper))));
   }
+
 
   getAllVoucher(): Observable<Voucher[]> {
     return this.baseApi

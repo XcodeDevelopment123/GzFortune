@@ -92,7 +92,7 @@ export class RewardsPage implements OnInit, OnDestroy {
       .pipe(
         switchMap((user) =>
           (user?.phoneNumber
-            ? this.rewardApi.userGetVoucherByPhone(user.phoneNumber)
+            ? this.rewardApi.userGetVoucherByPhone(user.phoneNumber, user.contactId)
             : this.rewardApi.getAllVoucher()
           ).pipe(
             catchError((err) => {
@@ -102,6 +102,7 @@ export class RewardsPage implements OnInit, OnDestroy {
           ),
         ),
         tap((list) => {
+          console.log(list);
           this.voucherList = list;
           this.Loaded = true;
         }),
@@ -166,12 +167,13 @@ export class RewardsPage implements OnInit, OnDestroy {
     const phone = this.userPhoneNumber;
 
     const req$ = phone
-      ? this.rewardApi.userGetVoucherByPhone(phone)
+      ? this.rewardApi.userGetVoucherByPhone(phone, this.memberInfo?.contactId)
       : this.rewardApi.getAllVoucher();
 
     return req$.pipe(
       take(1),
       tap((list) => {
+        console.log(list);
         this.voucherList = list;
         this.Loaded = true;
       }),
