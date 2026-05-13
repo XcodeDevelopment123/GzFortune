@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.gzfortune.gzfortuneapp"
+    namespace "com.gz.fortune"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.gzfortune.gzfortuneapp"
+        applicationId "com.gz.fortune"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 15
-        versionName "1.3.6"
+        versionCode 1
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

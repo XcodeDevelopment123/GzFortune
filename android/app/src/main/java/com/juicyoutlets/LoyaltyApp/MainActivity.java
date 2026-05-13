@@ -1,4 +1,4 @@
-package com.gzfortune.gzfortuneapp;
+package com.gz.fortune;
 
 import android.graphics.Color;
 import android.os.Bundle;

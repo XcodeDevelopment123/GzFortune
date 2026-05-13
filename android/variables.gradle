@@ -16,5 +16,5 @@ ext {
 
     appVersionCode = 1 // build code
     appVersionName = "1.0.0" // version name
-    appPackageName = "com.gzfortune.gzfortuneapp" 
+    appPackageName = "com.gz.fortune" 
 }

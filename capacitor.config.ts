@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.gzfortune.gzfortuneapp',
+  appId: 'com.gz.fortune',
   appName: 'GzFortune',
   webDir: 'www',
   plugins: {
