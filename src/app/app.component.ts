@@ -254,17 +254,19 @@ export class AppComponent implements OnInit {
     try {
       await this.auth.logout();
 
-      await (this.userState as any).clearKeepLoginRequest?.();
-      (this.userState as any).updateMemberInfo?.(null);
-      (this.userState as any).reset?.();
+      await this.userState.removeKeepLoginRequest();
+      this.userState.updateMemberInfo(null);
+      this.userState.reset();
 
       await this.menuCtrl.close();
 
       await this.router.navigate(['/auth/login'], { replaceUrl: true });
 
-      const OneSignal = window.plugins.OneSignal;
-      OneSignal.logout();
+      if (window.plugins && window.plugins.OneSignal) {
+        window.plugins.OneSignal.logout();
+      }
     } catch (e) {
+      console.error('Logout failed error:', e);
       const err = await this.alertHelper.createBasicAlert('Logout failed', 'Please try again.');
       await err.present();
     }

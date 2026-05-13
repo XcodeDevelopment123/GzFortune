@@ -39,7 +39,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userStateService.memberInfo.pipe(takeUntil(this.destroy$)).subscribe((m) => {
-      if (m) this.memberInfo = m;
+      this.memberInfo = m!;
       this.memberInforLoaded = true;
     });
 

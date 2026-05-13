@@ -53,8 +53,8 @@ export class UserStateService {
     return this._walletInfo.asObservable();
   }
 
-  updateMemberInfo(member: Member) {
-    if (member.contactId === undefined) {
+  updateMemberInfo(member: Member | null) {
+    if (member && member.contactId === undefined) {
       member.contactId = localStorage.getItem('ContactId')
         ? parseInt(localStorage.getItem('ContactId')!, 10)
         : undefined;
@@ -72,5 +72,11 @@ export class UserStateService {
 
   removeWalletInfo() {
     this._walletInfo.next(null);
+  }
+
+  reset() {
+    this._memberInfo.next(null);
+    this._walletInfo.next(null);
+    this.pointSubject.next(null);
   }
 }
