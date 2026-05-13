@@ -247,7 +247,7 @@ export class OtpVerifyPage implements OnInit {
               next: () => {
                 this.loadingHelper.hide();
                 this.toastHelper.presentSuccessToast(
-                  'Register success, Welcome to Fortune Claypot!',
+                  'Register success, Welcome to GzFortune!',
                   'top',
                 );
                 this.stateSession.consumeReturnUrl('/home');
