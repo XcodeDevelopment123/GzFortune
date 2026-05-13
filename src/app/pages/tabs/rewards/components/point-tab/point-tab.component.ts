@@ -16,6 +16,7 @@ export class PointTabComponent implements OnInit {
   //userPoint = 20;
   @Input() rewards: Reward[] = [];
   @Input() userPhoneNumber: string = '';
+  @Input() contactId?: number;
   @Output() redeemed = new EventEmitter<void>();
 
   sortedRewards: Reward[] = [];
@@ -82,7 +83,7 @@ export class PointTabComponent implements OnInit {
   async RedeemReward(reward: Reward) {
     try {
       const res = await this.rewardApi
-        .RedeemVoucher(reward.rewardId, this.userPhoneNumber)
+        .RedeemVoucher(reward.rewardId, this.userPhoneNumber, this.contactId)
         .toPromise();
 
       this.userPoint -= reward.point;

@@ -41,6 +41,7 @@
       *ngSwitchCase="'point'"
       [rewards]="pointRewardList"
       [userPhoneNumber]="userPhoneNumber"
+      [contactId]="memberInfo?.contactId"
       [userPoint]="userPoint"
       (redeemed)="onRewardRedeemed()">
     </app-point-tab>

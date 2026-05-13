@@ -11,7 +11,8 @@
     class="reward-item"
     *ngFor="let i of displayRewards"
     [routerLink]="['/reward', i.rewardId]"
-    [queryParams]="{ phoneNumber: memberInfo?.phoneNumber, point: memberInfo?.point }">
+    [queryParams]="{ phoneNumber: memberInfo?.phoneNumber, point: memberInfo?.point }"
+    [state]="{ rewardDetail: i }">
     <img load="lazy" [src]="i?.image ?? 'assets/images/app-offer.jpg'" />
     <p class="truncate-two-line reward-title">{{ i.title }}</p>
 

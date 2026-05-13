@@ -3,7 +3,7 @@ import { BaseApiService } from './base-api.service';
 import { Observable } from 'rxjs';
 import { Reward, rewardMapper } from '../../models/reward.model';
 import { dtoToModel } from 'src/app/shared/utils/dto-to-model';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Voucher, voucherMapper } from '../../models/voucher.model';
 
 @Injectable({ providedIn: 'root' })
@@ -22,8 +22,11 @@ export class RewardApiService {
   userGetRewardById(rewardId: string): Observable<Reward> {
     const body = { RewardId: rewardId };
     return this.baseApi
-      .post<Reward>(`${this.ctrl}/FindReward`, body)
-      .pipe(map((dto) => dtoToModel<Reward, any>(dto, rewardMapper)));
+      .post<any>(`${this.ctrl}/FindReward`, body)
+      .pipe(
+        tap((dto) => console.log('Raw FindReward DTO:', dto)), // 添加这一行来查看原始数据
+        map((dto) => dtoToModel<Reward, any>(dto, rewardMapper))
+      );
   }
 
   userGetVoucherByPhone(phoneNumber: string, contactId?: number): Observable<Voucher[]> {
@@ -41,10 +44,11 @@ export class RewardApiService {
       .pipe(map((list) => list.map((dto) => dtoToModel<Voucher, any>(dto, voucherMapper))));
   }
 
-  RedeemVoucher(RewardId: string, PhoneNumber: string): Observable<any> {
+  RedeemVoucher(RewardId: string, PhoneNumber: string, ContactId?: number): Observable<any> {
     const body = {
       RewardId,
       PhoneNumber,
+      ContactId,
     };
 
     return this.baseApi.post(`${this.ctrl}/RedeemReward`, body, {

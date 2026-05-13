@@ -48,19 +48,29 @@ export class RewardPage implements OnInit, OnDestroy {
     this.phoneNumber = this.route.snapshot.queryParamMap.get('phoneNumber') ?? '';
     this.point = Number(this.route.snapshot.queryParamMap.get('point')) || 0;
 
+    // 优先从 router state 获取数据（包含图片）
+    const state = window.history.state;
+    if (state && state.rewardDetail) {
+      this.rewardDetail = state.rewardDetail;
+      this.loaded = true;
+    }
+
     if (!id) {
       this.toastHelper.presentFailedToast('Something went wrong, Try again later');
       return;
     }
 
-    this.rewardApi
-      .userGetRewardById(id)
-      .pipe(take(1), delay(2000))
-      .subscribe((rewardDetail) => {
-        this.rewardDetail = rewardDetail;
-        this.loaded = true;
-        console.log('rewardDetail', this.rewardDetail);
-      });
+    // 如果 state 没数据，再请求接口
+    if (!this.rewardDetail) {
+      this.rewardApi
+        .userGetRewardById(id)
+        .pipe(take(1), delay(2000))
+        .subscribe((rewardDetail) => {
+          this.rewardDetail = rewardDetail;
+          this.loaded = true;
+          console.log('rewardDetail from API', this.rewardDetail);
+        });
+    }
   }
 
   ngOnDestroy() {}
@@ -87,9 +97,13 @@ export class RewardPage implements OnInit, OnDestroy {
   }
   async RedeemReward(reward?: Reward) {
     try {
+      // 获取 contactId
+      const user = await firstValueFrom(this.userStateService.memberInfo.pipe(take(1)));
+      const contactId = user?.contactId;
+
       // 1️⃣ 先兑换
       const res = await this.rewardApi
-        .RedeemVoucher(reward?.rewardId ?? '', this.phoneNumber ?? '')
+        .RedeemVoucher(reward?.rewardId ?? '', this.phoneNumber ?? '', contactId)
         .toPromise();
 
       alert(res);
