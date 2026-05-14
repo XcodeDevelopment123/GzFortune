@@ -10,8 +10,8 @@ export const environment = {
   serverUrl: 'https://gzfortune.api2.xcode.com.my',
   //apiUrl: 'https://gzfortuneapi.letianse.com/api',
   //serverUrl: 'https://gzfortuneapi.letianse.com',
-  androidAppVersion: '1.0.0',
-  iosAppVersion: '1.0.0',
+  androidAppVersion: '1.3.6',
+  iosAppVersion: '1.3.6',
   androidStore: 'https://play.google.com/store/apps/details?id=com.gz.fortune',
   appleStore:
     'https://apps.apple.com/my/app/luckypot%E5%B9%B8%E6%B9%98%E8%8F%9C%E9%A6%86/id6753709372',
