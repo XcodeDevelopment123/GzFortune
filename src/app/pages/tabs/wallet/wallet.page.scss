@@ -5,12 +5,7 @@
   margin: 0 calc(0px - var(--base-padding-left-right));
   border-radius: 1rem;
 
-  background: linear-gradient(
-    180deg,
-    var(--gold-dark) 0%,
-    var(--gold-light) 50%,
-    var(--gold-dark) 100%
-  );
+  background: var(--gold-mid);
 
   /* ✅ 让黄色区域更高 */
   min-height: 220px; // 想更高就 240/260

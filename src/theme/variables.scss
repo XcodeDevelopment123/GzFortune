@@ -7,12 +7,12 @@
 
   --bottom-nav-bar-height: 65px;
 
-  --ion-color-primary: #221b1a;
+  --ion-color-primary: #191918;
   --ion-color-primary-rgb: 214, 27, 42;
   --ion-color-primary-contrast: #fff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #221b1a;
-  --ion-color-primary-tint: #221b1a;
+  --ion-color-primary-shade: #191918;
+  --ion-color-primary-tint: #191918;
 
   --ion-color-secondary: #302928;
   --ion-color-secondary-rgb: 232, 130, 138;
@@ -49,7 +49,7 @@
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
-  --ion-color-medium: #b1b1b1;
+  --ion-color-medium: #8a8a8a;
   --ion-color-medium-rgb: 146, 148, 156;
   --ion-color-medium-contrast: #000;
   --ion-color-medium-contrast-rgb: 0, 0, 0;
@@ -66,9 +66,9 @@
   --ion-font-family: 'Nunito', -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, sans-serif;
 
   --ion-color-yellow: #dcb86c;
-  --gold-light: #ffecad;
-  --gold-mid: #ffe19d;
-  --gold-dark: #f2cf7d;
+  --gold-light: #fcf8ef;
+  --gold-mid: #f8e9ce;
+  --gold-dark: #ae8c5d;
   --gray-light: #f3f2f7;
   --ion-color-pink: #fcd5d9;
   --ion-color-light-gray: #cccccc;
@@ -96,7 +96,7 @@
   --breakpoint-xxl: 1440px; /* 大桌面 */
 
   --text-description-color: #666;
-  --base-background-color: #d3d3d3;
+  --base-background-color: #fefaf1;
   // #F0F7FF blue bg
   //  #FFF5F5 theme bg
 
@@ -104,10 +104,8 @@
   --base-padding-left-right: 1.2rem;
   --base-padding: var(--base-padding-top-bottom) var(--base-padding-left-right);
   --base-border-line: 1px solid #c4c4c4;
-  --base-button-background: linear-gradient(to right, var(--gold-light), 60%, var(--gold-dark));
-  --base-button-color-background:
-    radial-gradient(130% 180% at 82% 22%, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 36%),
-    linear-gradient(var(--gold-dark) 100%);
+  --base-button-background: var(--gold-dark);
+  --base-button-color-background:var(--gold-dark);
   --base-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
   --base-shadow-dark: 0 4px 6px rgba(0, 0, 0, 0.5);
 

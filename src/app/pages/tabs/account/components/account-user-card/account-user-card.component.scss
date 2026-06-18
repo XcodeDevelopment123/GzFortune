@@ -55,21 +55,14 @@
 .membership-progress-card {
   margin: 0 calc(0px - var(--base-padding-left-right)) calc(0px - var(--base-padding-top-bottom));
   padding: var(--base-padding-top-bottom) var(--base-padding-left-right);
-  background: var(--ion-color-primary);
-  color: #fff;
+  background: var(--gold-mid);
+  color: var(--gold-dark);
 }
 
 .user-info-card {
   overflow: hidden;
   border-radius: 1rem;
-  background:
-    /* 顶部高光柔光 */
-    /* 主体金色渐变（中间亮，两边暗） */ linear-gradient(
-    180deg,
-    var(--gold-dark) 0%,
-    var(--gold-light) 50%,
-    var(--gold-dark) 100%
-  );
+  background:var(--gold-mid) 50%;
 }
 
 .membership-point .point,

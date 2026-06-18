@@ -23,7 +23,7 @@
 
 ion-tab-button {
   --color: #fff;
-  --color-selected: #f2cf7d;
+  --color-selected: var(--gold-mid);
   --ripple-color: #f2cf7d13;
   color: var(--color);
   background: var(--ion-color-primary);

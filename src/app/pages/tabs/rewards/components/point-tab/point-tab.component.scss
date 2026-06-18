@@ -1,5 +1,5 @@
 .container {
-  background: #d9d9d9;
+  background: var(--base-background-color);
   height: 100%;
   min-height: calc(100vh - 140px);
   position: relative;
@@ -21,7 +21,7 @@
 .BlackLine.First {
   top: -11vh;
   border-radius: 7px 7px 0px 0px;
-  background-color: rgba(242, 207, 125);
+  background-color: var(--gold-dark);
 }
 
 .Line_Last {
@@ -32,11 +32,11 @@
   background-color: #292929; /* ✅ 默认黑 */
 }
 .Line_Last.active {
-  background-color: rgba(242, 207, 125); /* ✅ 达成最后一格才黄 */
+  background-color: var(--gold-dark); /* ✅ 达成最后一格才黄 */
 }
 
 .BlackLine.active {
-  background-color: rgba(242, 207, 125);
+  background-color: var(--gold-dark);
 }
 
 .BlackLine.last-active {
@@ -70,7 +70,7 @@
 }
 
 .FoodPic.active {
-  border-color: rgba(242, 207, 125);
+  border-color: var(--gold-dark);
 }
 
 /* Show Point */
@@ -80,7 +80,7 @@
   right: 0px;
   font-size: 2.3rem;
   font-weight: 750;
-  color: #f2cf7d;
+  color: var(--gold-dark);
 
   width: 74%;
   text-align: center;
@@ -140,8 +140,8 @@
 }
 
 .RedeemButton.active {
-  color: rgb(34, 34, 34);
-  background-color: #f2cf7d;
+  color: rgb(255, 255, 255);
+  background-color: var(--gold-dark);
 }
 
 /* Mobile S */

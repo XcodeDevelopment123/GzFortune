@@ -1,5 +1,5 @@
 ion-segment {
-  --background: var(--gray-light);
+  --background: var(--base-background-color);
   padding-top: calc(1.5rem + var(--android-status-height));
   top: 80px;
   left: 0;
@@ -47,7 +47,7 @@ ion-segment-button p {
 
 .level-details {
   border-radius: 0.5rem;
-  background: #efca6cbf;
+  background: var(--gold-dark);
   padding: 0.6rem 1.2rem;
   box-shadow: var(--base-shadow);
 }
@@ -57,7 +57,7 @@ ion-segment-button p {
 }
 
 .Level-Text-Gray {
-  color: #8f8f8f !important;
+  color: #fff !important;
 }
 
 .level-label,

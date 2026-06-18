@@ -40,7 +40,7 @@ ion-toolbar.tab-header {
 }
 
 .notification {
-  background: url('/assets/icon/notification.png') no-repeat center;
+  background: url('/assets/icon/notification2.png') no-repeat center;
 }
 
 .setting-options {
@@ -53,9 +53,8 @@ ion-toolbar.tab-header {
 
 .action-icon.notification {
   background:
-    url('/assets/icon/notification.png') center/60% no-repeat,
-    radial-gradient(130% 180% at 82% 22%, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 36%),
-    linear-gradient(180deg, var(--gold-dark) 0%, var(--gold-light) 100%);
+    url('/assets/icon/notification2.png') center/60% no-repeat,
+    rgb(252, 232, 202);
   position: relative;
   width: clamp(44px, 5vw, 50px);
   height: clamp(44px, 5vw, 50px);
@@ -67,8 +66,7 @@ ion-toolbar.tab-header {
 .action-icon.setting-options {
   background:
     url('/assets/icon/settings.png') center/60% no-repeat,
-    radial-gradient(130% 180% at 82% 22%, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 36%),
-    linear-gradient(180deg, var(--gold-dark) 0%, var(--gold-light) 100%);
+    rgb(252, 232, 202);
   position: relative;
   width: clamp(44px, 5vw, 50px);
   height: clamp(44px, 5vw, 50px);
@@ -78,8 +76,8 @@ ion-toolbar.tab-header {
 }
 
 .notification-badge {
-  background: var(--ion-color-primary);
-  color: white;
+  background: #ffffff;
+  color: #000000;
   border-radius: 50%;
   position: absolute;
   top: -4px;
@@ -91,12 +89,7 @@ ion-toolbar.tab-header {
 .title-header-toolbar.back-header {
   color: #fff;
   border-radius: 0 0 1rem 1rem;
-  --background: linear-gradient(
-    to right,
-    var(--ion-color-primary),
-    60%,
-    var(--ion-color-secondary-tint)
-  );
+  --background: var(--gold-dark);
   --padding-bottom: 1.5rem;
 }
 .title-header-toolbar.back-header ion-icon {

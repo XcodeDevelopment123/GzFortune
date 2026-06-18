@@ -12,7 +12,7 @@
 }
 
 .text-title {
-  color: #414141;
+  color: var(--ion-color-primary);
 }
 
 .view-all {
@@ -27,7 +27,7 @@
   font-weight: bold;
   border-radius: 0.5rem;
   overflow: hidden;
-  background: var(--ion-color-gray);
+  background:#ffffff;
   filter: drop-shadow(var(--base-shadow));
 }
 
@@ -39,14 +39,14 @@
 }
 
 .reward-title {
-  color: #fff;
+  color: #070707;
   height: 36px;
   padding: 0 0.5rem;
 }
 
 .reward-action {
-  background: var(--ion-color-medium-tint);
-  color: var(--ion-color-primary);
+  background: var(--ion-color-gray);
+  color: #ffffff;
   padding: 0.5rem 0;
 }
 

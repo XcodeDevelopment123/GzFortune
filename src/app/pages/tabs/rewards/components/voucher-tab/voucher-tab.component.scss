@@ -1,5 +1,6 @@
 .container {
   gap: 0;
+  background: var(--base-background-color);
 }
 .voucher-category-label {
   margin: 1rem 0;
@@ -47,7 +48,7 @@
 
 .voucher-item .status-label {
   justify-content: center;
-  color: var(--ion-color-primary);
+  color: #fff;
   padding: 0.4rem;
   background: var(--ion-color-medium);
   width: 100%;
@@ -55,5 +56,5 @@
 }
 
 .voucher-item.active .status-label {
-  background: rgba(242, 207, 125);
+  background: var(--gold-dark);
 }

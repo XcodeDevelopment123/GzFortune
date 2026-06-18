@@ -4,7 +4,7 @@
 
 .membership-point .point,
 .membership-point .level {
-  color: var(--ion-color-primary);
+  color: var(--gold-dark);
 }
 
 .membership-progress ion-progress-bar {
@@ -18,14 +18,7 @@
 }
 
 .card {
-  background:
-    /* 顶部高光柔光 */
-    /* 主体金色渐变（中间亮，两边暗） */ linear-gradient(
-    180deg,
-    var(--gold-dark) 0%,
-    var(--gold-light) 50%,
-    var(--gold-dark) 100%
-  );
+  background:#f7f7f7;
   padding-top: 2.5rem;
   border-radius: 1rem;
 

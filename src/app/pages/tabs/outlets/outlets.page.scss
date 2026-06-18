@@ -128,7 +128,7 @@
 
       &.active {
         transform: translateY(-1px);
-        outline: 3px solid #fde68a;
+        outline: 3px solid var(--gold-dark);
       }
 
       img {
@@ -173,7 +173,7 @@
           ion-icon {
             font-size: 1.4rem;
             margin-bottom: 2px;
-            color: #f2cf7d;
+            color: var(--gold-dark);
           }
         }
 
@@ -198,8 +198,8 @@
         .BookBtn {
           margin-top: 6px;
           width: 100%;
-          background-color: #f2cf7d;
-          color: black;
+          background-color: var(--gold-dark);
+          color: #ffffff;
           height: 37px;
           padding: 7px;
           text-align: center;

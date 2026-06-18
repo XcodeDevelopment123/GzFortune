@@ -551,11 +551,11 @@ ion-content:not(.tabs) .container {
 
 /*App class*/
 .user-profile .user-profile-picture {
-  background: rgba(var(--ion-color-secondary-rgb), 0.4);
+  background: var(--gold-mid);
   border-radius: 50%;
   overflow: hidden;
   width: 55px;
-  border: 2.5px solid var(--ion-color-primary);
+  border: 4px solid var(--gold-mid);
 }
 
 .user-profile .user-profile-picture img {
@@ -597,7 +597,7 @@ ion-content:not(.tabs) .container {
 
 .card.card-title {
   border-radius: 1rem;
-  background: var(--ion-color-primary);
+  background: var(--gold-dark);
   overflow: hidden;
 }
 

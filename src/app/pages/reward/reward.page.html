@@ -31,7 +31,7 @@
             <ion-text>
               <!-- 若分数足够 -->
               <ng-container *ngIf="point >= (rewardDetail.point ?? 0); else needMore">
-                Redeem Now
+                Redeem Now - {{ rewardDetail.point }} Points
               </ng-container>
 
               <!-- 若分数不足 -->
