@@ -28,9 +28,7 @@
             {{ history.status }}
           </p>
         </div>
-        <div
-          class="info-amount text-sm text-end"
-          *ngIf="history.displayAmount">
+        <div class="info-amount text-sm text-end" *ngIf="history.displayAmount">
           <!-- 第一行：显示格式化后的金额或点数 -->
           <p class="text-title text-md money" [ngClass]="history.amountClass">
             {{ history.displayAmount }}
@@ -40,7 +38,11 @@
           <p
             class="text-title text-sm money show-Poiny"
             [ngClass]="history.amountClass"
-            *ngIf="history.source !== 'redeem' && history.point > 0 && history.type !== 'points_adjustment'">
+            *ngIf="
+              history.source !== 'redeem' &&
+              history.point > 0 &&
+              history.type !== 'points_adjustment'
+            ">
             + {{ history.point }}Points
           </p>
         </div>
@@ -54,6 +56,21 @@
           View Details
         </button>
       </div>
+    </div>
+    <div class="loadmore-button" *ngIf="ApiLoaded && transactionHistory.length > 0">
+      <div
+        class="text-action-btn"
+        *ngIf="visibleTransactions.length < transactionHistory.length"
+        (click)="loadMoreTransactions()">
+        <span>Load More</span>
+        <ion-icon name="chevron-down-outline"></ion-icon>
+      </div>
+
+      <p
+        *ngIf="visibleTransactions.length >= transactionHistory.length"
+        class="text-description no-more-text">
+        — No more transactions —
+      </p>
     </div>
   </div>
 
@@ -69,8 +86,3 @@
     </div>
   </div>
 </div>
-
-<ion-infinite-scroll threshold="120px" (ionInfinite)="loadMoreTransactions($event)">
-  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more orders...">
-  </ion-infinite-scroll-content>
-</ion-infinite-scroll>

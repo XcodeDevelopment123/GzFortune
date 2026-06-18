@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Subject,
-  forkJoin,
   map,
   take,
   firstValueFrom,
@@ -12,7 +11,6 @@ import {
   catchError,
   Observable,
 } from 'rxjs';
-import { IonInfiniteScroll } from '@ionic/angular';
 
 import { HistoryApiService } from 'src/app/core/repo/api/history-api.service';
 import { TransactionWithSource } from 'src/app/core/models/transactionhistory.model';
@@ -36,10 +34,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   pageSize = 10;
   currentIndex = 0;
-  isLoading = false;
   ApiLoaded = false;
-
-  @ViewChild(IonInfiniteScroll) infiniteScroll?: IonInfiniteScroll;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,8 +55,6 @@ export class TransactionListComponent implements OnInit, OnDestroy {
         this.refresh().pipe(takeUntil(this.destroy$)).subscribe();
       }
     });
-
-    // ✅ 已移除：每 10 秒自动刷新 interval
   }
 
   ngOnDestroy() {
@@ -69,33 +62,22 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  // ✅ 给 WalletPage 调用：手动刷新交易记录
   public refresh(): Observable<TransactionWithSource[]> {
     if (!this.phoneNumber) return of([]);
 
     this.ApiLoaded = false;
-    this.isLoading = false;
     this.transactionHistory = [];
     this.visibleTransactions = [];
     this.currentIndex = 0;
 
-    // 重要：refresh 后要把 infinite scroll 重新打开
-    if (this.infiniteScroll) this.infiniteScroll.disabled = false;
-
     return this.loadCombinedHistory$().pipe(
       tap((list) => {
         this.transactionHistory = list;
-
         this.visibleTransactions = [];
         this.currentIndex = 0;
 
-        // ✅ 先加载第一批（10条）
+        // ✅ 加载第一批数据
         this.loadMoreTransactions();
-
-        // ✅ 如果总数 <= 10，就直接关掉 infinite scroll
-        if (this.infiniteScroll) {
-          this.infiniteScroll.disabled = this.transactionHistory.length <= this.pageSize;
-        }
 
         this.ApiLoaded = true;
       }),
@@ -114,7 +96,6 @@ export class TransactionListComponent implements OnInit, OnDestroy {
         (res || [])
           .map((item) => {
             const t = item.type;
-
             let source: TransactionWithSource['source'];
             switch (t) {
               case 'Payment':
@@ -130,15 +111,15 @@ export class TransactionListComponent implements OnInit, OnDestroy {
                 source = 'Redeem Voucher';
                 break;
               case 'points_adjustment':
-                source = 'redeem'; // Use redeem for points changes
+                source = 'redeem';
                 break;
               default:
                 source = 'redeem';
                 break;
             }
 
-            // 默认（Payment/TopUp/SaleSpend/TopUp）显示 RM
-            let displayAmount = `${source === 'payment' ? '-' : '+'} RM${Number(item.amount ?? 0).toFixed(2)}`;
+            const rawAmount = Number(item.amount ?? 0);
+            let displayAmount = `${rawAmount < 0 ? '-' : '+'} RM${Math.abs(rawAmount).toFixed(2)}`;
             let amountClass = source === 'payment' ? 'text-danger' : 'text-success';
 
             if (t === 'Redeem Reward' || t === 'points_adjustment') {
@@ -157,12 +138,10 @@ export class TransactionListComponent implements OnInit, OnDestroy {
             let balanceInfo: string | undefined;
             let pointsInfo: string | undefined;
 
-            // ✅ Balance before/after
             if (prevBal !== null && (source === 'topup' || source === 'payment')) {
               balanceInfo = `Balance Before: RM${prevBal.toFixed(2)}`;
             }
 
-            // ✅ Points before/after
             if (prevPts !== null) {
               pointsInfo = `Points Before: ${prevPts}`;
             }
@@ -193,35 +172,16 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     return this.dateHelper.formatLocale(date);
   }
 
-  loadMoreTransactions(event?: import('@ionic/angular').InfiniteScrollCustomEvent) {
-    if (this.isLoading) {
-      event?.target.complete();
-      return;
-    }
-
+  // ✅ 极简版同步加载逻辑，去掉了所有 Event 参数和状态拦截
+  loadMoreTransactions() {
     const source = this.transactionHistory ?? [];
-    if (!source.length) {
-      if (event) {
-        event.target.complete();
-        event.target.disabled = true;
-      }
+    if (!source.length || this.visibleTransactions.length >= source.length) {
       return;
     }
 
-    this.isLoading = true;
-
-    setTimeout(() => {
-      const next = source.slice(this.currentIndex, this.currentIndex + this.pageSize);
-      this.visibleTransactions = this.visibleTransactions.concat(next);
-      this.currentIndex += this.pageSize;
-
-      event?.target.complete();
-      if (event && this.visibleTransactions.length >= source.length) {
-        event.target.disabled = true;
-      }
-      this.isLoading = false;
-      this.ApiLoaded = true;
-    }, 400);
+    const next = source.slice(this.currentIndex, this.currentIndex + this.pageSize);
+    this.visibleTransactions = this.visibleTransactions.concat(next);
+    this.currentIndex += this.pageSize;
   }
 
   trackByTxn(_: number, t: TransactionWithSource) {

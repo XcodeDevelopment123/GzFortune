@@ -49,3 +49,52 @@
   background-color: var(--gold-dark);
   color: #ffffff;
 }
+
+/* =========================================
+   Load More Section
+========================================= */
+.loadmore-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0 3rem 0; /* 底部呼吸空间 */
+
+  /* ✅ 纯净的 CSS 按钮样式，绝不会被全局 ion-button 样式污染 */
+  .text-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px; /* 文字和图标的间距 */
+    color: var(--gold-dark, #b8860b); /* 使用你的品牌金 */
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: transparent; /* 强制背景透明 */
+    
+    ion-icon {
+      font-size: 1.2rem;
+      margin-top: 2px; /* 稍微往下移一点，让箭头和文字对齐 */
+    }
+
+    /* 简单的点击微动效 */
+    transition: opacity 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
+    
+    &:active {
+      opacity: 0.7;
+      background-color: rgba(184, 134, 11, 0.08); /* 点击时出现极淡的金色背景 */
+      transform: scale(0.96);
+    }
+  }
+
+  .no-more-text {
+    color: #999999;
+    font-size: 0.85rem;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    margin: 0;
+    opacity: 0.8;
+  }
+}
