@@ -6,9 +6,11 @@ ion-menu::part(container) {
 ion-content::part(scroll) {
   padding-top: 0;
 }
+
 ion-menu {
   border: none;
 }
+
 ion-list {
   padding-top: calc(60px + var(--android-status-height)) !important;
 }
@@ -93,6 +95,7 @@ ion-item.selected {
 .account-option-item {
   align-items: center;
 }
+
 .account-option-item ion-icon {
   width: 30px;
   height: 30px;
@@ -101,6 +104,7 @@ ion-item.selected {
   color: #fff;
   border-radius: 50%;
 }
+
 .social-logo {
   padding: 0 0 0 0.5rem;
   margin-top: 4rem;
@@ -111,6 +115,7 @@ ion-item.selected {
 .social-logo ion-icon {
   font-size: var(--text-xl);
 }
+
 .version-text {
   padding: 0 1rem;
   margin-top: 1rem;
@@ -136,4 +141,240 @@ ion-item {
 
 ion-item::part(native) {
   padding: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PWA Install Banner & iOS Install Guide Styles
+   ════════════════════════════════════════════════════════ */
+.pwa-install-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: transparent;
+  z-index: 10000;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+}
+
+.banner-content {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
+  width: 100%;
+  max-width: 500px;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.banner-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.app-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+.banner-text {
+  h3 {
+    margin: 0 0 6px 0;
+    font-size: 19px;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+  }
+}
+
+.banner-actions {
+  display: flex;
+  gap: 12px;
+
+  button {
+    flex: 1;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s, background-color 0.2s;
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+
+  .btn-not-now {
+    background: #f0f0f0;
+    color: #4a4a4a;
+
+    &:hover {
+      background: #e5e5e5;
+    }
+  }
+
+  .btn-install {
+    background: var(--base-button-background); /* Gzfortune brand color */
+    color: #fff;
+
+    &:hover {
+      background: var(--base-button-background);
+    }
+
+    &:active {
+      background: var(--base-button-background);
+    }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.ios-install-guide {
+  position: fixed;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  z-index: 10001;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+
+  .guide-content {
+    background: white;
+    border-radius: 30px;
+    padding: 28px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    pointer-events: auto;
+    width: 100%;
+    max-width: 360px;
+    position: relative;
+    animation: iosSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .guide-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+
+    .app-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .guide-text {
+      h3 {
+        margin: 0 0 4px 0;
+        font-size: 19px;
+        font-weight: 700;
+        color: #1c1c1e;
+      }
+
+      .highlight-text {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #c0392b; /* Brand color */
+        line-height: 1.3;
+      }
+    }
+  }
+
+  .guide-instructions {
+    margin-bottom: 28px;
+
+    .instruction-title {
+      margin: 0 0 12px 0;
+      font-size: 14px;
+      color: #8e8e93;
+      font-weight: 500;
+    }
+
+    ol {
+      margin: 0;
+      padding-left: 20px;
+
+      li {
+        margin-bottom: 14px;
+        font-size: 15px;
+        color: #1c1c1e;
+        line-height: 1.4;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .btn-close-guide {
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    background: #f2f2f7;
+    color: #333;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+
+    &:active {
+      background: #e5e5ea;
+      transform: scale(0.98);
+    }
+  }
+
+  .guide-arrow {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid white;
+  }
+}
+
+@keyframes iosSlideUp {
+  from {
+    transform: translateY(40px) scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }

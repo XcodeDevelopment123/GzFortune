@@ -48,7 +48,7 @@
   }
 }
 
-:host-context(.ios) .card {
+:host-context(.ios.mobile-app) .card {
   padding-top: 3.8rem;
   @media (min-width: 394px) {
     padding-top: 2.5rem;

@@ -249,7 +249,7 @@
     width: 33px;
   }
 
-  :host-context(.ios) {
+  :host-context(.ios.mobile-app) {
     .FoodCard {
       width: 25rem !important;
     }

@@ -24,7 +24,7 @@
 }
 
 
-:host-context(.ios) {
+:host-context(.ios.mobile-app) {
   ion-content::part(scroll) {
     padding: calc(144px + var(--android-status-height)) 0 0 0;
   }

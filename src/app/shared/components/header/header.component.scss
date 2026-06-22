@@ -10,7 +10,7 @@ ion-toolbar {
   --padding-bottom: var(--base-padding-top-bottom);
 }
 
-:host-context(.ios) ion-toolbar {
+:host-context(.ios.mobile-app) ion-toolbar {
   /* 把被覆盖的安全区加回来 */
   --padding-top: calc(var(--base-padding-top-bottom) + var(--ion-safe-area-top));
   /* 同时把高度也加上安全区，避免内容被挤 */
@@ -22,7 +22,7 @@ ion-toolbar {
 }
 
 /* 如果是 tab-header 或 back-header 也一样 */
-:host-context(.ios) ion-toolbar.title-header-toolbar {
+:host-context(.ios.mobile-app) ion-toolbar.title-header-toolbar {
   --padding-bottom: 1.5rem; // 你原来的
 }
 

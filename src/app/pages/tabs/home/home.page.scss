@@ -19,14 +19,14 @@
   z-index: 1;
 }
 
-.ios .container {
+.ios.mobile-app .container {
   margin-top: 30px;
   margin-bottom: 50px;
 }
-:host-context(.ios) .home-container {
+:host-context(.ios.mobile-app) .home-container {
   margin-top: -1.3rem;
 }
-:host-context(.ios) {
+:host-context(.ios.mobile-app) {
   ion-content::part(scroll) {
     padding: calc(60px + var(--android-status-height)) 0 0 0;
     @media (min-width: 394px) {

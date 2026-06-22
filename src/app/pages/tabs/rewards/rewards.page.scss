@@ -92,7 +92,7 @@ ion-segment-button p {
   }
 }
 
-.ios .container {
+.ios.mobile-app .container {
   margin-top: 30px;
   margin-bottom: 50px;
 }
@@ -102,7 +102,7 @@ ion-segment-button p {
   z-index: 20;
 }
 
-:host-context(.ios) {
+:host-context(.ios.mobile-app) {
   ion-content::part(scroll) {
     padding: calc(125px + var(--android-status-height)) 0 0 0;
   }

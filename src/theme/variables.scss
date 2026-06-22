@@ -112,7 +112,8 @@
   --android-status-height: 0px;
 }
 
-html.plt-android {
+html.plt-android.plt-capacitor,
+html.plt-android.plt-cordova {
   --android-status-height: 30px;
 }
 

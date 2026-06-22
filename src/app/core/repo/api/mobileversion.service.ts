@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 type MobileAppVersionDTO = {
   androidAppVersion: string;
   iosAppVersion: string;
+  pwaVersion?: string;
 };
 
 @Injectable({ providedIn: 'root' })

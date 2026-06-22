@@ -1,4 +1,48 @@
 <ion-app>
+  <!-- ═══════════════════════════════════════════════════════
+       PWA Install Banner — Android / Chrome (beforeinstallprompt)
+       Only shown when running in browser (isWeb = true)
+  ════════════════════════════════════════════════════════════ -->
+  <div *ngIf="(pwaService.showInstallBanner | async) && isWeb" class="pwa-install-banner">
+    <div class="banner-content">
+      <div class="banner-header">
+        <img src="assets/icon/AppIcon512.png" alt="GzFortune Icon" class="app-icon" />
+        <div class="banner-text">
+          <h3>Install GzFortune</h3>
+          <p>Install to enjoy points and rewards, receive latest updates and promotions.</p>
+        </div>
+      </div>
+      <div class="banner-actions">
+        <button class="btn-not-now" (click)="pwaService.dismissInstall()">Install later</button>
+        <button class="btn-install" (click)="pwaService.promptInstall()">Install</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PWA Install Guide — iOS Safari
+  ════════════════════════════════════════════════════════════ -->
+  <div *ngIf="(pwaService.showIosInstallBanner | async) && isWeb" class="ios-install-guide">
+    <div class="guide-content">
+      <div class="guide-header">
+        <img src="assets/icon/AppIcon512.png" alt="GzFortune Icon" class="app-icon" />
+        <div class="guide-text">
+          <h3>Install GzFortune</h3>
+          <p class="highlight-text">Install to enjoy points and rewards, receive latest updates and promotions.</p>
+        </div>
+      </div>
+      <div class="guide-instructions">
+        <p class="instruction-title">Installation Steps:</p>
+        <ol>
+          <li>Tap the <strong>Share</strong> button at the bottom</li>
+          <li>Scroll down and select <strong>Add to Home Screen</strong></li>
+        </ol>
+      </div>
+      <button class="btn-close-guide" (click)="pwaService.dismissIosInstall()">Close</button>
+      <div class="guide-arrow"></div>
+    </div>
+  </div>
+
   <ion-menu contentId="main-content" type="overlay" side="end" swipeGesture="false">
     <ion-content>
       <div class="app-logo flex-auto">
@@ -10,12 +54,8 @@
           <p class="text-title category-label">Account</p>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of accountPages; let i = index">
             <div></div>
-            <ion-item
-              class="account-option-item"
-              [routerDirection]="p.routerDirection"
-              [routerLink]="[p.url]"
-              detail="false"
-              routerLinkActive="selected">
+            <ion-item class="account-option-item" [routerDirection]="p.routerDirection" [routerLink]="[p.url]"
+              detail="false" routerLinkActive="selected">
               <ion-icon aria-hidden="true" slot="start" [name]="p.icon"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
@@ -25,44 +65,27 @@
         <div>
           <p class="text-title category-label">General</p>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of generalPages; let i = index">
-            <ion-item
-              *ngIf="!p.isOpenBrowser"
-              class="account-option-item"
-              [routerDirection]="p.routerDirection"
-              [routerLink]="[p.url]"
-              detail="false"
-              routerLinkActive="selected">
+            <ion-item *ngIf="!p.isOpenBrowser" class="account-option-item" [routerDirection]="p.routerDirection"
+              [routerLink]="[p.url]" detail="false" routerLinkActive="selected">
               <ion-icon aria-hidden="true" slot="start" [name]="p.icon"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
 
-            <ion-item
-              *ngIf="p.isOpenBrowser"
-              class="account-option-item"
-              (click)="openBrowser(p.url)">
+            <ion-item *ngIf="p.isOpenBrowser" class="account-option-item" (click)="openBrowser(p.url)">
               <ion-icon aria-hidden="true" slot="start" [name]="p.icon"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </div>
 
-        <ion-item
-          *ngIf="isAuthenticated"
-          class="account-option-item"
-          detail="false"
-          button
-          (click)="onLogout()">
+        <ion-item *ngIf="isAuthenticated" class="account-option-item" detail="false" button (click)="onLogout()">
           <ion-icon aria-hidden="true" slot="start" name="log-out-outline"></ion-icon>
           <ion-label>Logout</ion-label>
         </ion-item>
 
         <div class="social-logo flex-auto">
-          <ion-icon
-            (click)="openBrowser('https://www.facebook.com/luckypot7687')"
-            name="logo-facebook"></ion-icon>
-          <ion-icon
-            (click)="openBrowser('https://www.instagram.com/luckypotsdnbhd/')"
-            name="logo-instagram"></ion-icon>
+          <ion-icon (click)="openBrowser('https://www.facebook.com/luckypot7687')" name="logo-facebook"></ion-icon>
+          <ion-icon (click)="openBrowser('https://www.instagram.com/luckypotsdnbhd/')" name="logo-instagram"></ion-icon>
         </div>
         <div class="version-text text-description flex-column">
           <!-- <p>Secure Payment</p>
@@ -78,4 +101,3 @@
   <ion-router-outlet id="main-content"></ion-router-outlet>
   <app-loading *ngIf="loading"></app-loading>
 </ion-app>
-

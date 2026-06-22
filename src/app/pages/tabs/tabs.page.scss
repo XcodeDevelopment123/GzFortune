@@ -16,7 +16,7 @@
   // bottom: -15px;
 }
 
-.ios .custom-nav-bar {
+.ios.mobile-app .custom-nav-bar {
   height: calc(var(--bottom-nav-bar-height) + var(--ion-safe-area-bottom));
   padding-bottom: var(--ion-safe-area-bottom);
 }

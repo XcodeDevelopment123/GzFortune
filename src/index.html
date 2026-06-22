@@ -1,35 +1,64 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Ionic App</title>
 
-    <base href="/" />
+<head>
+  <meta charset="utf-8" />
+  <title>GzFortune</title>
 
-    <meta name="color-scheme" content="light dark" />
-    <meta
-      name="viewport"
-      content="width=device-width,
+  <base href="/" />
+
+  <meta name="color-scheme" content="light dark" />
+  <meta name="viewport" content="width=device-width,
                initial-scale=1,
                minimum-scale=1,
                maximum-scale=1,
                user-scalable=no,
-               viewport-fit=cover"
-    />
+               viewport-fit=cover" />
 
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
 
-    <!-- add to homescreen for ios -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuWYhKjZcRLMciw70bWBnXwx_7JkarmeM&libraries=places&loading=async"
-      async
-      defer></script>
-  </head>
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="assets/manifest.json" />
 
-  <body>
-    <app-root></app-root>
-  </body>
-</html>
+  <!-- App Icons -->
+  <link rel="icon" href="assets/icon/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="assets/icon/AppIcon192.png" type="image/png" sizes="192x192" />
+  <link rel="icon" href="assets/icon/AppIcon512.png" type="image/png" sizes="512x512" />
+  <link rel="apple-touch-icon" href="assets/icon/AppIcon512.png" />
+
+  <!-- Add to Home Screen (iOS Safari) -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="GzFortune" />
+  <meta name="theme-color" content="#191918" />
+
+  <!--
+    CRITICAL: Capture beforeinstallprompt EARLY — before Angular bootstraps.
+    The browser fires this event very early in the page lifecycle.
+    We store it on window so PwaService can read it after Angular starts.
+  -->
+  <script>
+    window.__pwaInstallEvent = null;
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      window.__pwaInstallEvent = e;
+      console.log('[PWA] beforeinstallprompt captured early.');
+    });
+  </script>
+
+  <!-- Google Maps -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuWYhKjZcRLMciw70bWBnXwx_7JkarmeM&libraries=places&loading=async"
+    async defer></script>
+
+  <!-- OneSignal Web SDK -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+</head>
+
+<body>
+  <app-root></app-root>
+</body>
+
+</html>

@@ -9,7 +9,7 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 import { Browser } from '@capacitor/browser';
 import { register } from 'swiper/element/bundle';
 import { AuthService } from './core/services/auth.service';
-import { Subject,take, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { LoadingHelperService } from './shared/services/loading-helper.service';
 import { UserStateService } from './core/services/user-state.service';
 import { AuthInitializerService } from './core/services/auth-initializer.service';
@@ -21,6 +21,8 @@ import { environment } from '../environments/environment';
 import { MobileAppVersionService } from './core/repo/api/mobileversion.service';
 import { App } from '@capacitor/app';
 import { NgZone } from '@angular/core';
+import { PwaService } from './shared/services/pwa.service';
+import { PwaUpdateService } from './shared/services/pwa-update.service';
 
 
 
@@ -46,6 +48,9 @@ export class AppComponent implements OnInit {
   ApiAppvertion = '';
   forceUpdateRequired = false;
 
+  /** True when running as PWA in a browser, false when native Capacitor app */
+  isWeb = environment.platform === 'WEB';
+
   public readonly accountPages: {
     title: string;
     url: string;
@@ -53,37 +58,37 @@ export class AppComponent implements OnInit {
     routerDirection: RouterDirection;
     isOpenBrowser?: boolean;
   }[] = [
-    {
-      title: 'Edit Profile',
-      url: 'account/edit-profile',
-      icon: 'person-circle-outline',
-      routerDirection: 'forward',
-    },
-    {
-      title: 'Reset Password',
-      url: 'account/reset-password',
-      icon: 'key-outline',
-      routerDirection: 'forward',
-    },
-    {
-      title: 'Wallet',
-      url: 'wallet',
-      icon: 'wallet-outline',
-      routerDirection: 'root',
-    },
-    // {
-    //   title: 'My Addresses',
-    //   url: 'account/member-address',
-    //   icon: 'location-outline',
-    //   routerDirection: 'forward',
-    // },
-    {
-      title: 'Delete My Account',
-      url: 'account/delete-account',
-      icon: 'trash-outline',
-      routerDirection: 'forward',
-    },
-  ];
+      {
+        title: 'Edit Profile',
+        url: 'account/edit-profile',
+        icon: 'person-circle-outline',
+        routerDirection: 'forward',
+      },
+      {
+        title: 'Reset Password',
+        url: 'account/reset-password',
+        icon: 'key-outline',
+        routerDirection: 'forward',
+      },
+      {
+        title: 'Wallet',
+        url: 'wallet',
+        icon: 'wallet-outline',
+        routerDirection: 'root',
+      },
+      // {
+      //   title: 'My Addresses',
+      //   url: 'account/member-address',
+      //   icon: 'location-outline',
+      //   routerDirection: 'forward',
+      // },
+      {
+        title: 'Delete My Account',
+        url: 'account/delete-account',
+        icon: 'trash-outline',
+        routerDirection: 'forward',
+      },
+    ];
 
   public readonly generalPages: {
     title: string;
@@ -92,33 +97,33 @@ export class AppComponent implements OnInit {
     routerDirection: RouterDirection;
     isOpenBrowser?: boolean;
   }[] = [
-    // {
-    //   title: 'About Us',
-    //   url: 'general/about-us',
-    //   icon: 'information-circle-outline',
-    //   routerDirection: 'forward',
-    // },
-    // {
-    //   title: 'Outlets',
-    //   url: 'general/outlets',
-    //   icon: 'location-outline',
-    //   routerDirection: 'forward',
-    // },
-    {
-      title: 'Terms & Conditions',
-      url: 'https://www.luckypot2u.com/',
-      icon: 'document-text-outline',
-      routerDirection: 'forward',
-      isOpenBrowser: true,
-    },
-    {
-      title: 'Privacy & Policy',
-      url: 'https://www.luckypot2u.com/',
-      icon: 'document-text-outline',
-      routerDirection: 'forward',
-      isOpenBrowser: true,
-    },
-  ];
+      // {
+      //   title: 'About Us',
+      //   url: 'general/about-us',
+      //   icon: 'information-circle-outline',
+      //   routerDirection: 'forward',
+      // },
+      // {
+      //   title: 'Outlets',
+      //   url: 'general/outlets',
+      //   icon: 'location-outline',
+      //   routerDirection: 'forward',
+      // },
+      {
+        title: 'Terms & Conditions',
+        url: 'https://www.luckypot2u.com/',
+        icon: 'document-text-outline',
+        routerDirection: 'forward',
+        isOpenBrowser: true,
+      },
+      {
+        title: 'Privacy & Policy',
+        url: 'https://www.luckypot2u.com/',
+        icon: 'document-text-outline',
+        routerDirection: 'forward',
+        isOpenBrowser: true,
+      },
+    ];
 
   private destroy$ = new Subject<void>();
 
@@ -136,6 +141,8 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private mobileAppVersionService: MobileAppVersionService,
     private ngZone: NgZone,
+    public pwaService: PwaService,
+    private pwaUpdateService: PwaUpdateService,
   ) {
     this.platform.ready().then(() => {
       this.initOneSignal();
@@ -143,59 +150,70 @@ export class AppComponent implements OnInit {
       // ✅ 冷启动检查一次
       this.VersionCheck();
 
+      // ✅ PWA 版本检查（仅 Web 环境）
+      this.pwaUpdateService.checkForUpdate();
+
       // ✅ 从 Play Store / App Store 回来再检查一次
       App.addListener('appStateChange', ({ isActive }) => {
         if (isActive) {
-          this.ngZone.run(() => this.VersionCheck());
+          this.ngZone.run(() => {
+            this.VersionCheck();
+            this.pwaUpdateService.checkForUpdate();
+          });
         }
       });
     });
   }
 
   private initOneSignal() {
-    // Cancel request notification when its browser
-    if (!window.plugins || !window.plugins.OneSignal) {
-      console.log('OneSignal plugin not available (maybe running in browser).');
-      return;
-    }
+    if (this.platform.is('capacitor') || this.platform.is('cordova')) {
+      // ── Native App (Android / iOS Capacitor) ───────────────────────────────
+      console.log('[OneSignal] Initializing for Native App...');
 
-    const OneSignal = window.plugins.OneSignal;
-
-    // 1) init oneSignal
-    OneSignal.initialize('491eab16-2d96-4351-afb9-2186f4e07d7e');
-
-    // 2) Request notification access
-    OneSignal.Notifications.requestPermission(true).then((accepted: boolean) => {
-      console.log('User accepted notifications:' + accepted);
-
-      if (accepted == true) {
-        const subId = OneSignal.User.pushSubscription.id;
+      if (!window.plugins || !window.plugins.OneSignal) {
+        console.warn('[OneSignal] Native plugin not available.');
+        return;
       }
-    });
 
-    // 3) Receive notification when open app
-    OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event: any) => {
-      const currentUrl = this.router.url; // 当前页面的路由，比如 '/tabs/home' 或 '/lucky-pot/123'
-      console.log('Notification in foreground on page:', currentUrl, event);
+      const OneSignal = window.plugins.OneSignal;
+      OneSignal.initialize(environment.oneSignalAppId);
 
-      // // 举例：在 /lucky-pot 相关页面就不弹系统通知，而是自己处理
-      // if (currentUrl.startsWith('/outlets')) {
-      //   event.preventDefault(); // ❗️先拦截，系统通知不会弹出来
+      OneSignal.Notifications.requestPermission(true).then((accepted: boolean) => {
+        console.log('[OneSignal] Native permission accepted:', accepted);
+        if (accepted) {
+          const subId = OneSignal.User.pushSubscription.id;
+          console.log('[OneSignal] Subscription ID:', subId);
+        }
+      });
 
-      //   const notification = event.notification;
-      //   const data = notification.additionalData || {};
-      //   console.log('Handle in-app only:', data);
-      // } else {
-      //   // 其他页面就照常显示系统通知
-      //   event.notification.display();
-      // }
-    });
+      OneSignal.Notifications.addEventListener('foregroundWillDisplay', (event: any) => {
+        console.log('[OneSignal] Foreground notification on page:', this.router.url, event);
+      });
 
-    // 4) Click Notification
-    OneSignal.Notifications.addEventListener('click', (event: any) => {
-      console.log('Notification clicked:', event);
-      // 在这里根据 event.notification.additionalData 做页面跳转
-    });
+      OneSignal.Notifications.addEventListener('click', (event: any) => {
+        console.log('[OneSignal] Notification clicked:', event);
+      });
+    } else {
+      // ── Web / PWA ────────────────────────────────────────────────────
+      console.log('[OneSignal] Initializing for Web/PWA...');
+
+      const OneSignalDeferred = (window as any).OneSignalDeferred =
+        (window as any).OneSignalDeferred || [];
+
+      OneSignalDeferred.push(async (OS: any) => {
+        try {
+          await OS.init({
+            appId: environment.oneSignalAppId,
+            allowLocalhostAsSecureOrigin: true,
+            serviceWorkerPath: 'custom-sw.js',
+            notifyButton: { enable: false },
+          });
+          console.log('[OneSignal] Web SDK initialized successfully.');
+        } catch (error) {
+          console.error('[OneSignal] Web SDK initialization error:', error);
+        }
+      });
+    }
   }
   async ngOnInit(): Promise<void> {
     this.VersionCheck();
@@ -280,7 +298,7 @@ export class AppComponent implements OnInit {
     try {
       const appInfo = await App.getInfo();
       currentVersion = appInfo.version; // e.g. "1.2.3"
-    } catch {}
+    } catch { }
 
     this.mobileAppVersionService
       .getMobileAppVersion()

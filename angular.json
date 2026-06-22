@@ -19,7 +19,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "allowedCommonJsDependencies": ["qrcode"],
+            "allowedCommonJsDependencies": [
+              "qrcode"
+            ],
             "assets": [
               {
                 "glob": "**/*",
@@ -30,12 +32,32 @@
                 "glob": "**/*.svg",
                 "input": "node_modules/ionicons/dist/ionicons/svg",
                 "output": "./svg"
+              },
+              {
+                "glob": "custom-sw.js",
+                "input": "src",
+                "output": "."
+              },
+              {
+                "glob": "OneSignalSDKWorker.js",
+                "input": "src",
+                "output": "."
+              },
+              {
+                "glob": "OneSignalSDKUpdaterWorker.js",
+                "input": "src",
+                "output": "."
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": [
+              "src/global.scss",
+              "src/theme/variables.scss"
+            ],
             "scripts": [
               "node_modules/@lottiefiles/lottie-player/dist/lottie-player.js"
-            ]
+            ],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -108,9 +130,27 @@
                 "glob": "**/*.svg",
                 "input": "node_modules/ionicons/dist/ionicons/svg",
                 "output": "./svg"
+              },
+              {
+                "glob": "custom-sw.js",
+                "input": "src",
+                "output": "."
+              },
+              {
+                "glob": "OneSignalSDKWorker.js",
+                "input": "src",
+                "output": "."
+              },
+              {
+                "glob": "OneSignalSDKUpdaterWorker.js",
+                "input": "src",
+                "output": "."
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": [
+              "src/global.scss",
+              "src/theme/variables.scss"
+            ],
             "scripts": [
               "node_modules/@lottiefiles/lottie-player/dist/lottie-player.js"
             ]
@@ -125,14 +165,19 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "schematicCollections": ["@ionic/angular-toolkit"],
+    "schematicCollections": [
+      "@ionic/angular-toolkit"
+    ],
     "analytics": false
   },
   "schematics": {

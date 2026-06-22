@@ -34,6 +34,7 @@ export class AppService {
   isMobilePlatform() {
     if (this.platform.is('hybrid')) {
       document.body.classList.add('mobile-app');
+      document.documentElement.classList.add('mobile-app');
       return true;
     }
     return false;
