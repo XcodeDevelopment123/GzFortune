@@ -72,7 +72,7 @@ export class VoucherTabComponent implements OnInit {
         new Date(v.expireDate) > now &&
         (v.type?.toLowerCase() === 'voucher' || !v.type),
     );
-    this.expiredVoucherList = onlyVoucher.filter((v) => new Date(v.expireDate) <= now);
+    this.expiredVoucherList = onlyVoucher.filter((v) => v.status === 'Expired' || new Date(v.expireDate) <= now);
   }
 
 
