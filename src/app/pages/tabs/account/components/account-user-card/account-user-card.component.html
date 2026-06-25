@@ -15,9 +15,12 @@
           {{ memberInfo?.name ?? 'Please Login' }}
         </p>
         <div class="birthDate">
-          <ion-icon *ngIf="memberInfo?.birthDate != null" aria-hidden="true" src="/assets/icon/cake.svg"></ion-icon>
+          <ion-icon
+            *ngIf="memberInfo?.birthDate != null"
+            aria-hidden="true"
+            src="/assets/icon/cake.svg"></ion-icon>
           <p class="text-xl text-title truncate-two-line" (click)="GoLogin()">
-            {{ memberInfo?.birthDate ?? '' | date:'dd MMM yyyy' }}
+            {{ memberInfo?.birthDate ?? '' | date: 'dd MMM yyyy' }}
           </p>
         </div>
         <p>{{ memberInfo?.phoneNumber ?? '' }}</p>
@@ -43,7 +46,7 @@
           {{ memberInfo?.point ?? '0' }}
         </span>
         Points /
-        <span class="text-lg text-title level"> {{ memberInfo?.pointIndicatorText ?? 'VIP' }} </span>
+        <span class="text-lg text-title level"> {{ memberInfo?.tier ?? 'VIP' }} </span>
         level
       </div>
     </div>
