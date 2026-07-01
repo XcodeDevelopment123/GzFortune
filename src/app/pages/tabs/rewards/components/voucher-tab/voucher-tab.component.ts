@@ -101,4 +101,11 @@ export class VoucherTabComponent implements OnInit {
     const modal = await this.modalHelper.createQrCodeWithRewardData(voucher, "");
     await modal.present();
   }
+
+  goToVoucherDetail(voucher: Voucher) {
+    const id = voucher.id || voucher.rewardId || voucher.voucherNo;
+    this.router.navigate(['/voucher-detail', id], {
+      state: { voucherDetail: voucher }
+    });
+  }
 }

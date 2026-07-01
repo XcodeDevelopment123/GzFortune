@@ -14,4 +14,5 @@ export type Page =
   | 'account'
   | 'highlight'
   | 'reward'
-  | 'payment-checkout';
+  | 'payment-checkout'
+  | 'voucher-detail';

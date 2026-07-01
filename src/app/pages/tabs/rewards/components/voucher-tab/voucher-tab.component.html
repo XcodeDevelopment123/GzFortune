@@ -16,9 +16,9 @@
       class="voucher-item"
       *ngFor="let voucher of activeVoucherList"
       [ngClass]="{ active: voucher.status === 'Active' }">
-      <img [src]="voucher.image" />
+      <img [src]="voucher.image" (click)="goToVoucherDetail(voucher)" class="clickable" />
       <div class="voucher-info flex-column">
-        <div class="info-message">
+        <div class="info-message clickable" (click)="goToVoucherDetail(voucher)">
           <p class="text-title text-md">{{ voucher.title }}</p>
           <p class="text-description">
             Period: {{ voucher.createDate | date: 'dd/MM/yyyy' }} -
@@ -43,9 +43,9 @@
       class="voucher-item"
       *ngFor="let voucher of usedVoucherList"
       [ngClass]="{ used: voucher.status === 'Used' }">
-      <img [src]="voucher.image" />
+      <img [src]="voucher.image" (click)="goToVoucherDetail(voucher)" class="clickable" />
       <div class="voucher-info flex-column">
-        <div class="info-message">
+        <div class="info-message clickable" (click)="goToVoucherDetail(voucher)">
           <p class="text-title text-md">{{ voucher.title }}</p>
           <p class="text-description">
             Period: {{ voucher.createDate | date: 'dd/MM/yyyy' }} -
@@ -65,9 +65,9 @@
       class="voucher-item"
       *ngFor="let voucher of readyRedeemVoucherList"
       [ngClass]="{ active: voucher.status === 'Active' }">
-      <img [src]="voucher.image" />
+      <img [src]="voucher.image" (click)="goToVoucherDetail(voucher)" class="clickable" />
       <div class="voucher-info flex-column">
-        <div class="info-message">
+        <div class="info-message clickable" (click)="goToVoucherDetail(voucher)">
           <p class="text-title text-md">{{ voucher.title }}</p>
           <p class="text-description">
             Period: {{ voucher.createDate | date: 'dd/MM/yyyy' }} -
@@ -92,9 +92,9 @@
       class="voucher-item"
       *ngFor="let voucher of expiredVoucherList"
       [ngClass]="{ expired: true }">
-      <img [src]="voucher.image" />
+      <img [src]="voucher.image" (click)="goToVoucherDetail(voucher)" class="clickable" />
       <div class="voucher-info flex-column">
-        <div class="info-message">
+        <div class="info-message clickable" (click)="goToVoucherDetail(voucher)">
           <p class="text-title text-md">{{ voucher.title }}</p>
           <p class="text-description">
             Period: {{ voucher.createDate | date: 'dd/MM/yyyy' }} -

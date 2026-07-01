@@ -1,0 +1,75 @@
+<app-header
+  [rootPage]="'home'"
+  [page]="'voucher-detail'"
+  [isBackHeader]="true"
+  [headerText]="'Voucher Details'"
+  (notificationEvent)="share(this.voucherDetail?.type ?? 'default', this.voucherDetail?.rewardId ?? '')"></app-header>
+
+<ion-content [fullscreen]="true" *ngIf="voucherDetail">
+  <div class="container">
+    <div class="flex-center">
+      <img class="reward-image" [src]="voucherDetail.image" />
+    </div>
+
+    <div class="card card-title">
+      <p class="text-title card-title-label text-white">{{voucherDetail.title}}</p>
+
+      <div class="card card-content">
+        <p class="text-title text-md">{{voucherDetail.subTitle}}</p>
+
+        <div [innerHTML]="voucherDetail.description"></div>
+
+        <div [innerHTML]="getFormattedTnc(voucherDetail.tnc)"></div>
+
+        <div class="flex-center">
+          <!-- Action button matching voucher status -->
+          <ng-container *ngIf="voucherDetail.status === 'Used'; else checkExpired">
+            <ion-button mode="ios" class="text-title" [disabled]="true">
+              USED
+            </ion-button>
+          </ng-container>
+
+          <ng-template #checkExpired>
+            <ng-container *ngIf="isExpired(voucherDetail); else claimButton">
+              <ion-button mode="ios" class="text-title" [disabled]="true">
+                EXPIRED
+              </ion-button>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #claimButton>
+            <ion-button mode="ios" class="text-title" (click)="openQrModal()">
+              CLAIM NOW
+            </ion-button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Show Loading -->
+<ion-content [fullscreen]="true" *ngIf="!voucherDetail">
+  <div class="container">
+    <div class="flex-center">
+      <ion-skeleton-text
+        [animated]="true"
+        style="max-width: 460px; width: 100%; height: 373px"></ion-skeleton-text>
+    </div>
+
+    <div class="card card-title">
+      <ion-skeleton-text [animated]="true" style="width: 100%; height: 30px"></ion-skeleton-text>
+
+      <div class="card card-content">
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 25px"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 90px"></ion-skeleton-text>
+
+        <div class="flex-center">
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 100%; height: 50px"></ion-skeleton-text>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

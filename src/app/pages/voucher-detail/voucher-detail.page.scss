@@ -1,0 +1,15 @@
+.reward-image {
+  max-width: 460px;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+ion-button {
+  --color: #ffffff; /* 按钮里的文字颜色 */
+}
+
+:host-context(.ios.mobile-app) {
+  ion-content::part(scroll) {
+    padding: calc(140px + var(--android-status-height)) 0 0 0;
+  }
+}

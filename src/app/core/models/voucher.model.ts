@@ -52,5 +52,9 @@ export const voucherMapper: MapperMap<any, Voucher> = {
   voucherTypeDesc: (dto) => dto.VoucherTypeDesc,
   statusFlag: (dto) => dto.StatusFlag,
   vchValue: (dto) => dto.VchValue,
+  tnc: (dto) => dto.TnC,
+  subTitle: (dto) => dto.SubTitle,
+  name: (dto) => dto.Name,
+  descriptionIOS: (dto) => dto.DescriptionIOS,
 };
 

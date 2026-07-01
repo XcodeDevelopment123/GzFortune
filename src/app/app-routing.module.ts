@@ -58,6 +58,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/reward/reward.module').then((m) => m.RewardPageModule),
   },
   {
+    path: 'voucher-detail/:id',
+    loadChildren: () =>
+      import('./pages/voucher-detail/voucher-detail.module').then(
+        (m) => m.VoucherDetailPageModule,
+      ),
+  },
+  {
     path: 'history-list/:type',
     loadChildren: () =>
       import('./pages/history-list/history-list.module').then((m) => m.HistoryListPageModule),
