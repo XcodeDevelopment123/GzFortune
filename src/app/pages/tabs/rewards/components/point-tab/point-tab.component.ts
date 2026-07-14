@@ -61,18 +61,12 @@ export class PointTabComponent implements OnInit {
 
   async confirmRedeem(reward: Reward) {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm Redeem',
-      message: `Are you sure you want to redeem ${reward.name}?`,
+      header: 'Redeem',
+      message: 'Please redeem at the counter during checkout!',
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-        {
-          text: 'Redeem',
-          handler: () => {
-            this.RedeemReward(reward); // 原本的 modal 呼叫
-          },
+          text: 'OK',
+          role: 'confirm',
         },
       ],
     });

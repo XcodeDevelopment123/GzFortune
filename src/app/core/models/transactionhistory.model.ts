@@ -15,6 +15,12 @@ export interface TransactionHistory {
   rewardId?: string | null;
   previousBalance?: number | null;
   previousPoints?: number | null;
+
+  items?: any[];
+  amounts?: any;
+  payments?: any;
+  details?: any;
+  sales_transaction_id?: number;
 }
 
 export type TransactionWithSource = TransactionHistory & {

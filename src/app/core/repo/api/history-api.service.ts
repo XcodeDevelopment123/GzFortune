@@ -28,6 +28,16 @@ export interface WarelyTransactionDto {
     adjustment_type?: string;
     balance_before?: number;
     adjustment_amount?: number;
+    metadata?: {
+      source?: string;
+      reward_id?: number;
+      reward_name?: string;
+      discount_type?: string;
+      discount_value?: number;
+      pos_transaction_id?: number;
+      pos_transaction_ref?: string;
+    };
+    food_list?: any[];
   };
 }
 
@@ -44,6 +54,13 @@ export interface WarelySaleDto {
     round_off: number;
     net: number;
   };
+  reward_points?: {
+    earned?: number;
+    redeemed?: number;
+    redeemed_amount?: number;
+  };
+  items?: any[];
+  payments?: any[];
 }
 
 interface TransactionHistoryDto {
@@ -161,20 +178,49 @@ export class HistoryApiService {
             historyId: d.event_id,
             type: d.event_type,
             phoneNumber: '', // Not available in this API but can be filled if needed
-            status: d.status,
+            status:
+              d.status === 'final' || d.status === 'completed'
+                ? 'Success'
+                : d.status === 'voided'
+                ? 'Cancelled'
+                : d.status === 'issued'
+                ? 'Issued'
+                : d.status,
             dateTime: d.occurred_at,
             referenceNumber: d.reference_id,
             merchantId: null,
-            amount: Number(d.amount ?? 0),
+            amount: d.event_type === 'sale_spend' ? -Number(d.amount ?? 0) : Number(d.amount ?? 0),
             stamp: 0,
-            description: d.details?.reason || d.details?.campaign_name || d.event_type,
-            point: d.event_type === 'points_adjustment' ? Number(d.amount ?? 0) : 0,
+            description: d.details?.metadata?.reward_name
+              ? `Redeemed Reward: ${d.details.metadata.reward_name}`
+              : d.details?.invoice_no
+              ? `Invoice: ${d.details.invoice_no}`
+              : d.details?.reason || d.details?.campaign_name || getFriendlyEventType(d.event_type),
+            point:
+              d.event_type === 'points_adjustment' ||
+              d.event_type === 'reward_redeem' ||
+              d.event_type === 'points_earned'
+                ? Math.abs(Number(d.amount ?? 0))
+                : 0,
             rewardId: d.details?.coupon_code || null,
             previousBalance:
               d.details?.balance_after !== undefined
                 ? d.details.balance_after - Number(d.amount ?? 0)
                 : null,
             previousPoints: d.details?.balance_before ?? null,
+            details: d.details,
+            items: d.details?.food_list
+              ? d.details.food_list.map((item: any) => ({
+                  sell_line_id: item.sell_line_id,
+                  product_id: item.product_id,
+                  variation_id: item.variation_id,
+                  product_name: item.product_name,
+                  quantity: item.quantity,
+                  unit_price_inc_tax: item.unit_price_inc_tax,
+                  line_total: item.line_total,
+                  remarks: item.remarks,
+                }))
+              : undefined,
           }));
         }),
         catchError(() => of([])),
@@ -187,28 +233,32 @@ export class HistoryApiService {
     return this.baseApi
       .post<{ data: WarelySaleDto[] }>(`${this.ctrl3}/MemberSalesList/sales/list`, body)
       .pipe(
-      map((res) => {
-        const list = res?.data || [];
-        return list.map((d) => ({
-          id: 0,
-          historyId: `sale-${d.sales_transaction_id}`,
-          type: 'Payment', // Sales are generally payments
-          phoneNumber: '',
-          status: 'completed',
-          dateTime: d.transaction_date || '', // Handle null if necessary
-          referenceNumber: d.invoice_no,
-          merchantId: d.location_id.toString(),
-          amount: Number(d.amounts?.net ?? 0),
-          stamp: 0,
-          description: `Invoice: ${d.invoice_no}`,
-          point: 0,
-          rewardId: null,
-          previousBalance: null,
-          previousPoints: null,
-        }));
-      }),
-      catchError(() => of([])),
-    );
+        map((res) => {
+          const list = res?.data || [];
+          return list.map((d) => ({
+            id: 0,
+            historyId: `sale-${d.sales_transaction_id}`,
+            type: 'Payment', // Sales are generally payments
+            phoneNumber: '',
+            status: 'completed',
+            dateTime: d.transaction_date || '', // Handle null if necessary
+            referenceNumber: d.invoice_no,
+            merchantId: d.location_id?.toString() || null,
+            amount: -Number(d.amounts?.net ?? 0),
+            stamp: 0,
+            description: `Invoice: ${d.invoice_no}`,
+            point: Number(d.reward_points?.earned ?? 0),
+            rewardId: null,
+            previousBalance: null,
+            previousPoints: null,
+            items: d.items || [],
+            amounts: d.amounts,
+            payments: d.payments,
+            sales_transaction_id: d.sales_transaction_id,
+          }));
+        }),
+        catchError(() => of([])),
+      );
   }
 
   // ✅ 新增：根据 Contact ID 获取钱包历史 (Warely)
@@ -223,16 +273,38 @@ export class HistoryApiService {
     return this.baseApi
       .post<{ data: any[] }>(`${this.ctrl3}/MemberWalletHistory/wallet/history`, body)
       .pipe(
-      map((res) => {
-        // Currently data is empty as per user report, mapping will be added when structure is known
-        const list = res?.data || [];
-        return [];
-      }),
-      catchError(() => of([])),
-    );
+        map((res) => {
+          const list = res?.data || [];
+          return list.map((d) => {
+            const amount = Number(d.amount ?? 0);
+            const balanceAfter = Number(d.balance_after ?? 0);
+            const isCredit = d.transaction_type === 'credit';
+            const previousBalance = isCredit ? balanceAfter - amount : balanceAfter + amount;
+
+            return {
+              id: d.wallet_transaction_id || 0,
+              historyId: `wallet-${d.wallet_transaction_id}`,
+              type: isCredit ? 'Top Up' : 'Payment',
+              phoneNumber: '',
+              status: d.is_void ? 'Cancelled' : 'Success',
+              dateTime: d.created_at || '',
+              referenceNumber: d.reference_id || d.wallet_transaction_id?.toString() || '',
+              merchantId: null,
+              amount: isCredit ? amount : -amount,
+              stamp: 0,
+              description: d.reason || (isCredit ? 'Wallet Topup' : 'Wallet Payment'),
+              point: 0,
+              rewardId: null,
+              previousBalance: previousBalance,
+              previousPoints: null,
+            };
+          });
+        }),
+        catchError(() => of([])),
+      );
   }
 
-  // ✅ 更新：一次拿完全部记录 (合并三个新接口)
+  // ✅ 更新：一次拿完全部记录 (仅获取交易记录 API，避免重复)
   getAllRecordByPhoneNumber(
     phoneNumber: string,
     contactId?: number,
@@ -269,28 +341,28 @@ export class HistoryApiService {
         );
     }
 
-    // Call all three new APIs and combine
-    return forkJoin([
-      this.getMemberTransactions(contactId),
-      this.getMemberSales(contactId),
-      this.getMemberWalletHistory(contactId),
-    ]).pipe(
-      map(([transactions, sales, walletHistory]) => {
-        // Merge and de-duplicate by historyId or referenceNumber
-        const combined = [...transactions, ...sales, ...walletHistory];
-        const unique = new Map<string, TransactionHistory>();
+    return this.getMemberTransactions(contactId);
+  }
+}
 
-        combined.forEach((item) => {
-          const key = item.historyId || item.referenceNumber;
-          if (!unique.has(key)) {
-            unique.set(key, item);
-          }
-        });
-
-        return Array.from(unique.values()).sort(
-          (a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime(),
-        );
-      }),
-    );
+function getFriendlyEventType(type: string): string {
+  switch (type) {
+    case 'sale_spend':
+      return 'Credit Spent';
+    case 'points_earned':
+      return 'Points Earned';
+    case 'wallet_topup':
+      return 'Wallet Topup';
+    case 'reward_redeem':
+      return 'Reward Redemption';
+    case 'coupon_issued':
+      return 'Voucher Issued';
+    case 'points_adjustment':
+      return 'Points Adjustment';
+    default:
+      return type
+        .split('_')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
   }
 }

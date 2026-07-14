@@ -26,3 +26,53 @@
 .container {
   padding: 3.5rem var(--base-padding-left-right);
 }
+
+.order-item-simple {
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+  background: #fff;
+  margin-bottom: 10px;
+  border: 1px solid var(--ion-color-light, #f4f5f8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.order-item-simple .item-name {
+  font-weight: 600;
+  color: var(--ion-color-dark, #222);
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-detail-info {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.payment-detail-info p {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.payment-detail-info p span:first-child {
+  min-width: fit-content;
+  color: var(--text-description-color, rgb(100, 100, 100));
+}
+
+.text-theme {
+  color: var(--ion-color-primary);
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}

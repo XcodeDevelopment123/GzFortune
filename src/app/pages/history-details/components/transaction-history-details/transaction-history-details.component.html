@@ -48,8 +48,45 @@
       </p>
     </div>
   </div>
-  <!-- 
-  <div class="flex-center">
-    <ion-button mode="ios">Contact Us</ion-button>
-  </div> -->
+
+  <!-- Items Purchased Section -->
+  <div *ngIf="history?.items && (history?.items?.length ?? 0) > 0">
+    <p class="text-title text-md" style="margin-top: 1.5rem; margin-bottom: 0.8rem; padding-left: 0.5rem;">Items Purchased</p>
+    <div *ngFor="let item of history?.items || []" class="order-item-simple">
+      <div class="order-info text-title text-sm">
+        <p class="item-name font-bold">{{ item.product_name }}</p>
+        <p class="flex-space-between text-description" style="margin-top: 6px;">
+          <span>Quantity: {{ item.quantity }} x RM {{ item.unit_price_inc_tax | number: '1.2-2' }}</span>
+          <span class="text-title">RM {{ item.line_total | number: '1.2-2' }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Summary Section -->
+  <div class="card payment-details-row" *ngIf="history?.amounts" style="margin-top: 1.5rem;">
+    <p class="text-title text-md">Payment Summary</p>
+    <div class="payment-detail-info">
+      <p class="flex-space-between" *ngIf="history?.amounts?.gross">
+        <span>Gross Subtotal:</span>
+        <span>RM {{ history?.amounts?.gross | number: '1.2-2' }}</span>
+      </p>
+      <p class="flex-space-between" *ngIf="history?.amounts?.tax">
+        <span>Incl. SST:</span>
+        <span>RM {{ history?.amounts?.tax | number: '1.2-2' }}</span>
+      </p>
+      <p class="flex-space-between" *ngIf="history?.amounts?.service_charge">
+        <span>Service Charge:</span>
+        <span>RM {{ history?.amounts?.service_charge | number: '1.2-2' }}</span>
+      </p>
+      <p class="flex-space-between" *ngIf="history?.amounts?.discount">
+        <span>Discount:</span>
+        <span>RM -{{ history?.amounts?.discount | number: '1.2-2' }}</span>
+      </p>
+      <p class="flex-space-between" *ngIf="history?.amounts?.net">
+        <span class="text-title text-lg text-theme">Grandtotal:</span>
+        <span class="text-title text-lg text-theme">RM {{ history?.amounts?.net | number: '1.2-2' }}</span>
+      </p>
+    </div>
+  </div>
 </div>

@@ -93,24 +93,11 @@ export class VoucherDetailPage implements OnInit, OnDestroy {
   }
 
   async openQrModal() {
-    if (!this.voucherDetail) return;
-    const isAuth = await firstValueFrom(this.auth.isAuthenticated$.pipe(take(1)));
-    if (!isAuth) {
-      const alert = await this.alertHelper.createConfirmAlert(
-        'Login required',
-        'Please login to redeem your reward QR code.',
-      );
-      await alert.present();
-      const { role } = await alert.onDidDismiss();
-      if (role === 'confirm') {
-        this.stateSession.setReturnUrl(this.router.url);
-        await this.router.navigate(['/auth/login']);
-      }
-      return;
-    }
-
-    const modal = await this.modalHelper.createQrCodeWithRewardData(this.voucherDetail, '');
-    await modal.present();
+    const alert = await this.alertHelper.createBasicAlert(
+      'Redeem',
+      'Please redeem at the counter during checkout!',
+    );
+    await alert.present();
   }
 
   async share(type: string, id: string) {

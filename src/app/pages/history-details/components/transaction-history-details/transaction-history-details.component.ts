@@ -29,8 +29,12 @@ export class TransactionHistoryDetailsComponent implements OnInit {
     }
 
     // ✅ 控制顶部 amount 的颜色（你原本用 increase class）
-    this.incOrDec =
-      this.history.type === 'Payment' || this.history.type === 'Redeem Reward' ? 'dec' : 'inc';
+    const isPayment = this.history.type === 'Payment' || this.history.type === 'sale_spend';
+    const isRedeem = this.history.type === 'Redeem Reward' || this.history.type === 'reward_redeem';
+    const isPointsAdj = this.history.type === 'points_adjustment';
+    const isNegativePoints = isPointsAdj && (this.history.amount ?? 0) < 0;
+
+    this.incOrDec = (isPayment || isRedeem || isNegativePoints) ? 'dec' : 'inc';
   }
 
   getLocaleDate(date: string): string {
@@ -43,19 +47,39 @@ export class TransactionHistoryDetailsComponent implements OnInit {
     if (!h) return false;
     if ((h.point ?? 0) <= 0) return false;
 
-    return h.type === 'Payment' || h.type === 'Top Up' || h.type === 'Redeem Reward';
+    return (
+      h.type === 'Payment' ||
+      h.type === 'sale_spend' ||
+      h.type === 'Top Up' ||
+      h.type === 'wallet_topup' ||
+      h.type === 'Redeem Reward' ||
+      h.type === 'reward_redeem' ||
+      h.type === 'points_adjustment' ||
+      h.type === 'points_earned'
+    );
   }
 
   get pointsTitle(): string {
-    return this.history?.type === 'Redeem Reward' ? 'Points Used' : 'Points Earned';
+    const t = this.history?.type;
+    const isRedeem =
+      t === 'Redeem Reward' ||
+      t === 'reward_redeem' ||
+      (t === 'points_adjustment' && (this.history?.amount ?? 0) < 0);
+    return isRedeem ? 'Points Used' : 'Points Earned';
   }
 
   get pointsText(): string {
     const h = this.history;
     if (!h) return '';
-    const sign = h.type === 'Redeem Reward' ? '-' : '+';
+    const t = h.type;
+    const isRedeem =
+      t === 'Redeem Reward' ||
+      t === 'reward_redeem' ||
+      (t === 'points_adjustment' && (h.amount ?? 0) < 0);
+    const sign = isRedeem ? '-' : '+';
     return `${sign} ${h.point} Points`;
   }
+
   get showBalanceInfo(): boolean {
     const h = this.history;
     if (!h) return false;
@@ -65,7 +89,10 @@ export class TransactionHistoryDetailsComponent implements OnInit {
     return (
       h.previousBalance !== null &&
       h.previousBalance !== undefined &&
-      (h.type === 'Payment' || h.type === 'Top Up')
+      (h.type === 'Payment' ||
+        h.type === 'sale_spend' ||
+        h.type === 'Top Up' ||
+        h.type === 'wallet_topup')
     );
   }
 
@@ -75,8 +102,6 @@ export class TransactionHistoryDetailsComponent implements OnInit {
     if (h.balanceInfo) return h.balanceInfo;
 
     const prev = Number(h.previousBalance ?? 0);
-    const amt = Number(h.amount ?? 0);
-
     return `Balance Before: RM${prev.toFixed(2)}`;
   }
 
@@ -88,8 +113,16 @@ export class TransactionHistoryDetailsComponent implements OnInit {
     const prevPts = h.previousPoints;
     if (prevPts === null || prevPts === undefined) return false;
 
-    // Redeem Reward / Payment / Top Up 才会改变 points（按你目前逻辑）
-    return h.type === 'Redeem Reward' || h.type === 'Payment' || h.type === 'Top Up';
+    return (
+      h.type === 'Redeem Reward' ||
+      h.type === 'reward_redeem' ||
+      h.type === 'points_adjustment' ||
+      h.type === 'points_earned' ||
+      h.type === 'Payment' ||
+      h.type === 'sale_spend' ||
+      h.type === 'Top Up' ||
+      h.type === 'wallet_topup'
+    );
   }
 
   get pointsInfoText(): string {
@@ -98,12 +131,6 @@ export class TransactionHistoryDetailsComponent implements OnInit {
     if (h.pointsInfo) return h.pointsInfo;
 
     const prev = Number(h.previousPoints ?? 0);
-    const delta = Number(h.point ?? 0);
-
-    let after = prev;
-    if (h.type === 'Redeem Reward') after = prev - delta;
-    else if (h.type === 'Payment' || h.type === 'Top Up') after = prev + delta;
-
     return `Points Before: ${prev}`;
   }
 }

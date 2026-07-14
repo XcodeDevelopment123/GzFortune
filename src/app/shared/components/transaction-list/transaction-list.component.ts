@@ -72,13 +72,13 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
     return this.loadCombinedHistory$().pipe(
       tap((list) => {
+        console .log(list)
+
         this.transactionHistory = list;
         this.visibleTransactions = [];
         this.currentIndex = 0;
-
         // ✅ 加载第一批数据
         this.loadMoreTransactions();
-
         this.ApiLoaded = true;
       }),
       catchError((err) => {
@@ -122,9 +122,9 @@ export class TransactionListComponent implements OnInit, OnDestroy {
             let displayAmount = `${rawAmount < 0 ? '-' : '+'} RM${Math.abs(rawAmount).toFixed(2)}`;
             let amountClass = source === 'payment' ? 'text-danger' : 'text-success';
 
-            if (t === 'Redeem Reward' || t === 'points_adjustment') {
-              displayAmount = `${Number(item.point ?? 0) < 0 ? '-' : '+'} ${Math.abs(Number(item.point ?? 0))} Points`;
-              amountClass = Number(item.point ?? 0) < 0 ? 'text-danger' : 'text-success';
+            if (t === 'reward_redeem' || t === 'points_adjustment' || t === 'points_earned') {
+              displayAmount = `${Number(item.amount ?? 0) < 0 ? '-' : '+'} ${Math.abs(Number(item.amount ?? 0))} Points`;
+              amountClass = Number(item.amount ?? 0) < 0 ? 'text-danger' : 'text-success';
             }
 
             if (t === 'Redeem Voucher' || t === 'coupon_issued') {
