@@ -8,8 +8,6 @@
 		<string>com.apple.usernotifications.service</string>
 		<key>NSExtensionPrincipalClass</key>
 		<string>$(PRODUCT_MODULE_NAME).NotificationService</string>
-		<key>OneSignal_app_groups_key</key>
-		<string>com.gz.fortune.OneSignalNotificationServiceExtension</string>
 	</dict>
 </dict>
 </plist>
