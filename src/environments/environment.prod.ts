@@ -18,5 +18,6 @@ export const environment = {
   pwaVersion: '1.3.6',
 
   // OneSignal App ID (shared between Native and Web push)
-  oneSignalAppId: '491eab16-2d96-4351-afb9-2186f4e07d7e',
+  oneSignalAppId: '80112479-8585-484b-8e10-bdc2609f1a76',
 };
+

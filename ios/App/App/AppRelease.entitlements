@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.luckypot.luckypotapp.onesignal</string>
+		<string>group.com.gz.fortune.OneSignal-GzFortune.onesignal</string>
 	</array>
 </dict>
 </plist>
