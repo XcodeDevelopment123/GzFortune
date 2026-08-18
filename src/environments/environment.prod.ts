@@ -6,10 +6,10 @@ export const environment = {
   serverUrl: 'https://gzfortune.api2.xcode.com.my',
   //apiUrl: 'https://gzfortuneapi.letianse.com/api',
   //serverUrl: 'https://gzfortuneapi.letianse.com',
-  androidAppVersion: '1.3.6',
-  iosAppVersion: '1.3.6',
+  androidAppVersion: '1.3.7',
+  iosAppVersion: '1.3.7',
   androidStore: 'https://play.google.com/store/apps/details?id=com.gz.fortune',
-  appleStore: 'https://apps.apple.com/my/app/id6766782701',
+  appleStore: 'https://apps.apple.com/my/app/gzfortune/id6766782701',
 
   // Platform indicator: 'APP' = Mobile (Capacitor/Native), 'WEB' = Browser (PWA)
   platform: 'APP' as 'APP' | 'WEB',
@@ -20,4 +20,3 @@ export const environment = {
   // OneSignal App ID (shared between Native and Web push)
   oneSignalAppId: '80112479-8585-484b-8e10-bdc2609f1a76',
 };
-

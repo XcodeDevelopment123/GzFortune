@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.gz.fortune',
-  appName: 'GzFortune',
+  appName: 'Fortune Claypot',
   webDir: 'www',
   plugins: {
     SplashScreen: {
