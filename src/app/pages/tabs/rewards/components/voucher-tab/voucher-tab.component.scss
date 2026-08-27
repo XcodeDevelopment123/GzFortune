@@ -1,6 +1,7 @@
 .container {
   gap: 0;
   background: var(--base-background-color);
+  min-height: 100%;
 }
 .voucher-category-label {
   margin: 1rem 0;

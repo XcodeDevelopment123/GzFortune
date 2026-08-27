@@ -9,11 +9,12 @@ ion-segment {
 }
 
 ion-content {
-  --background: white;
+  --background: var(--base-background-color);
 }
 
 .tab-content {
   padding-top: 60px;
+  min-height: 100%;
 }
 
 .segment-button-checked::part(native) {
