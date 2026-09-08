@@ -111,14 +111,14 @@ export class AppComponent implements OnInit {
       // },
       {
         title: 'Terms & Conditions',
-        url: 'https://www.luckypot2u.com/',
+        url: 'https://fortuneclaypot.policy.xcode.com.my',
         icon: 'document-text-outline',
         routerDirection: 'forward',
         isOpenBrowser: true,
       },
       {
         title: 'Privacy & Policy',
-        url: 'https://www.luckypot2u.com/',
+        url: 'https://fortuneclaypot.policy.xcode.com.my',
         icon: 'document-text-outline',
         routerDirection: 'forward',
         isOpenBrowser: true,

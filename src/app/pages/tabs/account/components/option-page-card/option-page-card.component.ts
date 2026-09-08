@@ -10,9 +10,9 @@ import { Member } from 'src/app/core/models/member.model';
 export class OptionPageCardComponent implements OnInit {
   @Input() memberInfo: Member | null = null;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['memberInfo']) {
@@ -20,6 +20,6 @@ export class OptionPageCardComponent implements OnInit {
     }
   }
   openOfficialWebsite() {
-    window.open('https://www.luckypot2u.com/contact-us/', '_system');
+    window.open('https://www.facebook.com/share/1LYQsWDh44/?mibextid=wwXIfr', '_system');
   }
 }
