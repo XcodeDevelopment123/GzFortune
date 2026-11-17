@@ -6,8 +6,8 @@ export const environment = {
   serverUrl: 'https://gzfortune.api2.xcode.com.my',
   //apiUrl: 'https://gzfortuneapi.letianse.com/api',
   //serverUrl: 'https://gzfortuneapi.letianse.com',
-  androidAppVersion: '1.3.7',
-  iosAppVersion: '1.3.7',
+  androidAppVersion: '1.3.8',
+  iosAppVersion: '1.3.8',
   androidStore: 'https://play.google.com/store/apps/details?id=com.gz.fortune',
   appleStore: 'https://apps.apple.com/my/app/gzfortune/id6766782701',
 
@@ -15,7 +15,7 @@ export const environment = {
   platform: 'APP' as 'APP' | 'WEB',
 
   // PWA version — bump this to force all web clients to reload
-  pwaVersion: '1.3.6',
+  pwaVersion: '1.3.8',
 
   // OneSignal App ID (shared between Native and Web push)
   oneSignalAppId: '80112479-8585-484b-8e10-bdc2609f1a76',
