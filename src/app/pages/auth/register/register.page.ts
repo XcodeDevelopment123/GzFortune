@@ -15,8 +15,6 @@ import { StringHelperService } from 'src/app/shared/services/string-helper.servi
 import { ToastHelperService } from 'src/app/shared/services/toast-helper.service';
 import { DeviceInfoService } from 'src/app/shared/services/device-info.service';
 import { VerifyOtpKey, VerifyOTPPageType } from 'src/app/shared/statics/interface-helper';
-import { matchPasswordValidatorGroup } from 'src/app/shared/utils/match-password.validator';
-import { passwordValidator } from 'src/app/shared/utils/password.validator';
 import { phoneNumberValidator } from 'src/app/shared/utils/phone-number.validator';
 import { lastValueFrom } from 'rxjs';
 
@@ -42,19 +40,15 @@ export class RegisterPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.form = this.fb.group(
-      {
-        image: [null],
-        name: ['', [Validators.required]],
-        email: ['', [Validators.required, Validators.email]],
-        phoneNumber: ['', [Validators.required, phoneNumberValidator('MY')]],
-        birthday: ['', [this.optionalYmdValidator()]],
-        password: ['', [Validators.required, passwordValidator()]],
-        rePassword: ['', [Validators.required]],
-        referralBy: ['', [Validators.maxLength(5)]],
-      },
-      { validators: matchPasswordValidatorGroup },
-    );
+    // No password: members sign in with an OTP sent by our server; the account is created in Warely.
+    this.form = this.fb.group({
+      image: [null],
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required, phoneNumberValidator('MY')]],
+      birthday: ['', [this.optionalYmdValidator()]],
+      referralBy: ['', [Validators.maxLength(5)]],
+    });
   }
 
   async submit() {
@@ -128,8 +122,7 @@ export class RegisterPage implements OnInit {
       !birthdayInvalid &&
       req.name?.trim() !== '' &&
       req.email?.trim() !== '' &&
-      req.phoneNumber?.trim() !== '' &&
-      req.password?.trim() !== ''
+      req.phoneNumber?.trim() !== ''
 
       // req.birthday?.trim() !== undefined
     );

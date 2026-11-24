@@ -74,7 +74,15 @@ export class UserApiService {
     // formData.append('Birthday', req.birthDate ?? '');
 
     // NOTE: register is handled by MemberAuth controller so server can enforce "OTP verified before create".
-    return this.baseApi.post(`${this.memberAuth}/MemberRegister`, req).pipe(
+    return this.baseApi.post<any>(`${this.memberAuth}/MemberRegister`, req).pipe(
+      // Registration is OTP-gated; the backend returns the new member's session.
+      switchMap((res) =>
+        from(
+          typeof res?.MemberSession === 'string' && res.MemberSession
+            ? this.authService.setMemberSession(res.MemberSession)
+            : Promise.resolve(),
+        ).pipe(map(() => res)),
+      ),
       map((res) => dtoToModel<Member, any>(res)),
       switchMap((res) => {
         const member = dtoToModel<Member, any>(res);
@@ -93,9 +101,10 @@ export class UserApiService {
     );
   }
 
-  getMemberDetails(req: KeepLoginUserRequest) {
+  /** Profile of the signed-in member (identified by X-Member-Session; the request fields are not trusted). */
+  getMemberDetails(_req?: KeepLoginUserRequest) {
     return this.baseApi
-      .post<ApiResponse<MemberDto>>(`${this.detailCtrl}/GetMemberDetails`, req)
+      .post<ApiResponse<MemberDto>>(`${this.detailCtrl}/GetMemberDetails`, {})
       .pipe(
         map((res) => dtoToModel<Member, MemberDto>(res.data, memberMapper)), // ✅ 先取 data
         tap((m) => this.userStateService.updateMemberInfo(m)),
@@ -121,9 +130,12 @@ export class UserApiService {
     return this.baseApi.post<any>(`${this.accCtrl}/MemberResetPassword`, body);
   }
 
-  getWalletDetails(phoneNumber: string): Observable<Wallet> {
-    const req = { PhoneNumber: phoneNumber };
-    return this.baseApi.post<Wallet>(`${this.walletCtrl}/MemberGetWalletDetails`, req).pipe(
+  /**
+   * Wallet of the signed-in member. The backend identifies the member from X-Member-Session only;
+   * the phone argument is kept for existing callers and is not sent. Points/tier come from Warely /loyalty.
+   */
+  getWalletDetails(_phoneNumber?: string): Observable<Wallet> {
+    return this.baseApi.post<Wallet>(`${this.walletCtrl}/MemberGetWalletDetails`, {}).pipe(
       map((res) => dtoToModel(res, walletMapper)),
       tap((wallet) => this.userStateService.updateWalletInfo(wallet)),
     );

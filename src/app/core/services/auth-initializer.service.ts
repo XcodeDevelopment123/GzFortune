@@ -28,7 +28,12 @@ export class AuthInitializerService {
       }
 
       const keepLogin = await this.userStateService.getKeepLoginRequest();
-      if (keepLogin) {
+      // The profile is only returned for an OTP-verified member session; without one, sign in again.
+      const memberSession = await this.authService.getMemberSession();
+      if (keepLogin && !memberSession) {
+        await this.userStateService.removeKeepLoginRequest();
+        this.authService.setAuthenticated(false);
+      } else if (keepLogin) {
         await lastValueFrom(this.userApiService.getMemberDetails(keepLogin).pipe(take(1)));
         this.authService.setAuthenticated(true);
       } else {

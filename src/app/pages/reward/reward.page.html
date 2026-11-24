@@ -2,74 +2,52 @@
   [rootPage]="'home'"
   [page]="'reward'"
   [isBackHeader]="true"
-  [headerText]="'Reward Details'"
-  (notificationEvent)="share(this.rewardDetail?.type ?? 'default', this.rewardDetail?.rewardId ?? '')"></app-header>
+  [headerText]="'Reward Details'"></app-header>
 
-<ion-content [fullscreen]="true" *ngIf="rewardDetail">
+<ion-content [fullscreen]="true" *ngIf="offer">
   <div class="container">
     <div class="flex-center">
-      <!-- <img load="lazy" class="reward-image" [src]="'assets/images/app-offer.jpg'" /> -->
-      <img class="reward-image" [src]="rewardDetail.image" />
+      <img class="reward-image" [src]="offer.imageUrl || 'assets/images/app-offer.jpg'" />
     </div>
 
     <div class="card card-title">
-      <p class="text-title card-title-label text-white">{{rewardDetail.title}}</p>
+      <p class="text-title card-title-label text-white">{{ offer.name }}</p>
 
       <div class="card card-content">
-        <p class="text-title text-md">{{rewardDetail.subTitle}}</p>
+        <p class="text-title text-md">{{ typeLabel(offer) }}</p>
+        <p *ngIf="offer.description">{{ offer.description }}</p>
+        <p class="text-description" *ngIf="offer.endsAt">Available until {{ offer.endsAt | date: 'dd/MM/yyyy HH:mm' }}</p>
 
-        <div [innerHTML]="rewardDetail.description"></div>
-
-        <div [innerHTML]="rewardDetail.tnC"></div>
-
-        <div class="flex-center">
+        <div class="flex-center" *ngIf="isClaimable(offer)">
           <ion-button
             mode="ios"
             class="text-title"
-            [disabled]="point < (rewardDetail.point ?? 0)"
-            (click)="point >= (rewardDetail.point ?? 0) ? confirmRedeem(rewardDetail) : null">
+            [disabled]="signedIn && missingPoints(offer) > 0"
+            (click)="goToClaim()">
             <ion-text>
-              <!-- 若分数足够 -->
-              <ng-container *ngIf="point >= (rewardDetail.point ?? 0); else needMore">
-                Redeem Now - {{ rewardDetail.point }} Points
-              </ng-container>
-
-              <!-- 若分数不足 -->
-              <ng-template #needMore>
-                Need {{ (rewardDetail.point ?? 0) - point }} Points
-              </ng-template>
+              <ng-container *ngIf="!signedIn">Sign in to claim · {{ offer.pointsCost }} Points</ng-container>
+              <ng-container *ngIf="signedIn && missingPoints(offer) === 0">Claim · {{ offer.pointsCost }} Points</ng-container>
+              <ng-container *ngIf="signedIn && missingPoints(offer) > 0">Need {{ missingPoints(offer) }} more points</ng-container>
             </ion-text>
           </ion-button>
         </div>
+        <p class="text-description" *ngIf="!isClaimable(offer)">
+          Issued to members by GzFortune — it cannot be claimed with points.
+        </p>
       </div>
     </div>
   </div>
 </ion-content>
 
-<!-- Show Loading -->
-
-<ion-content [fullscreen]="true" *ngIf="!rewardDetail">
+<ion-content [fullscreen]="true" *ngIf="!offer">
   <div class="container">
-    <div class="flex-center">
-      <ion-skeleton-text
-        [animated]="true"
-        style="max-width: 460px; width: 100%; height: 373px"></ion-skeleton-text>
-    </div>
-
-    <div class="card card-title">
-      <ion-skeleton-text [animated]="true" style="width: 100%; height: 30px"></ion-skeleton-text>
-
+    <div class="card card-title" *ngIf="loaded && error">
       <div class="card card-content">
-        <ion-skeleton-text [animated]="true" style="width: 100%; height: 25px"></ion-skeleton-text>
-
-        <ion-skeleton-text [animated]="true" style="width: 100%; height: 90px"></ion-skeleton-text>
-
-        <div class="flex-center">
-          <ion-skeleton-text
-            [animated]="true"
-            style="width: 100%; height: 50px"></ion-skeleton-text>
-        </div>
+        <p class="text-title text-md">{{ error }}</p>
       </div>
+    </div>
+    <div class="flex-center" *ngIf="!loaded">
+      <ion-skeleton-text [animated]="true" style="max-width: 460px; width: 100%; height: 373px"></ion-skeleton-text>
     </div>
   </div>
 </ion-content>

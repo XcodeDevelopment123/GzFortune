@@ -2,74 +2,97 @@
   [rootPage]="'home'"
   [page]="'voucher-detail'"
   [isBackHeader]="true"
-  [headerText]="'Voucher Details'"
-  (notificationEvent)="share(this.voucherDetail?.type ?? 'default', this.voucherDetail?.rewardId ?? '')"></app-header>
+  [headerText]="'Voucher Details'"></app-header>
 
-<ion-content [fullscreen]="true" *ngIf="voucherDetail">
+<!-- Owned Warely Partner wallet asset -->
+<ion-content [fullscreen]="true">
   <div class="container">
-    <div class="flex-center">
-      <img class="reward-image" [src]="voucherDetail.image" />
+    <div class="card card-title" *ngIf="sessionChecked && !signedIn">
+      <div class="card card-content flex-center guest-login">
+        <p class="text-title text-md">Please log in to use this feature.</p>
+        <ion-button mode="ios" class="text-title" (click)="goToLogin()">Log in</ion-button>
+      </div>
     </div>
 
-    <div class="card card-title">
-      <p class="text-title card-title-label text-white">{{voucherDetail.title}}</p>
-
+    <div class="card card-title" *ngIf="signedIn && partnerError">
       <div class="card card-content">
-        <p class="text-title text-md">{{voucherDetail.subTitle}}</p>
+        <p class="text-title text-md">{{ partnerError }}</p>
+      </div>
+    </div>
 
-        <div [innerHTML]="voucherDetail.description"></div>
+    <ng-container *ngIf="signedIn && partnerAsset">
+      <div class="flex-center">
+        <img class="reward-image" [src]="partnerAsset.imageUrl || 'assets/images/reward-sample.webp'" />
+      </div>
 
-        <div [innerHTML]="getFormattedTnc(voucherDetail.tnc)"></div>
+      <div class="card card-title">
+        <p class="text-title card-title-label text-white">{{ partnerAsset.name }}</p>
 
-        <div class="flex-center">
-          <!-- Action button matching voucher status -->
-          <ng-container *ngIf="voucherDetail.status === 'Used'; else checkExpired">
+        <div class="card card-content">
+          <p class="text-title text-md">{{ partnerTypeLabel(partnerAsset) }}</p>
+          <p class="text-description" *ngIf="partnerAsset.type === 'cash_voucher' && partnerAsset.remainingValue">
+            Balance: {{ partnerAsset.currency }} {{ partnerAsset.remainingValue }}
+            <span *ngIf="partnerAsset.partialUse"> · unused value stays on the voucher (no cash change)</span>
+          </p>
+          <p class="text-description" *ngIf="partnerAsset.remainingUses != null && partnerAsset.type !== 'cash_voucher'">
+            Uses left: {{ partnerAsset.remainingUses }}
+          </p>
+          <p class="text-description" *ngIf="partnerAsset.expiresAt">Valid until {{ partnerAsset.expiresAt | date: 'dd/MM/yyyy HH:mm' }}</p>
+          <div *ngIf="partnerAsset.description" [innerHTML]="partnerAsset.description"></div>
+
+          <!-- Unavailable: codes disabled -->
+          <div class="flex-center" *ngIf="!partnerAsset.isAvailable">
             <ion-button mode="ios" class="text-title" [disabled]="true">
-              USED
+              {{ partnerUnavailableLabel(partnerAsset) }}
             </ion-button>
-          </ng-container>
+          </div>
 
-          <ng-template #checkExpired>
-            <ng-container *ngIf="isExpired(voucherDetail); else claimButton">
-              <ion-button mode="ios" class="text-title" [disabled]="true">
-                EXPIRED
-              </ion-button>
+          <!-- Available: member QR first, then the benefit code -->
+          <ng-container *ngIf="partnerAsset.isAvailable">
+            <p class="text-title text-md scan-title">At the counter</p>
+            <p class="text-description">
+              Show these to the cashier: they scan your <b>member QR first</b>, then this voucher's code.
+              The cashier confirms whether your order qualifies when you pay.
+            </p>
+
+            <div class="flex-center" *ngIf="codesLoading">
+              <ion-spinner name="crescent"></ion-spinner>
+            </div>
+
+            <div class="code-error" *ngIf="codesError">
+              <p class="text-description">{{ codesError }}</p>
+              <ion-button mode="ios" size="small" (click)="loadCodes()">Try again</ion-button>
+            </div>
+
+            <ng-container *ngIf="!codesLoading && assetCode">
+              <div class="code-step">
+                <p class="text-title text-sm step-label">Step 1 · Member QR</p>
+                <div class="flex-center qr-box" *ngIf="memberQr; else noMemberQr">
+                  <qrcode [qrdata]="memberQr" [scale]="qrScale" [errorCorrectionLevel]="'M'" [margin]="4"></qrcode>
+                </div>
+                <ng-template #noMemberQr>
+                  <p class="text-description">Member QR is not available right now.
+                    <a (click)="loadCodes()">Reload</a></p>
+                </ng-template>
+              </div>
+
+              <div class="code-step">
+                <p class="text-title text-sm step-label">Step 2 · Voucher code</p>
+                <div class="flex-center qr-box">
+                  <qrcode [qrdata]="assetCode.qrPayload" [scale]="qrScale" [errorCorrectionLevel]="'M'" [margin]="4"></qrcode>
+                </div>
+                <app-code128-barcode class="barcode-box" [value]="assetCode.barcodePayload"></app-code128-barcode>
+              </div>
             </ng-container>
-          </ng-template>
-
-          <ng-template #claimButton>
-            <ion-button mode="ios" class="text-title" (click)="openQrModal()">
-              CLAIM NOW
-            </ion-button>
-          </ng-template>
+          </ng-container>
         </div>
       </div>
-    </div>
-  </div>
-</ion-content>
+    </ng-container>
 
-<!-- Show Loading -->
-<ion-content [fullscreen]="true" *ngIf="!voucherDetail">
-  <div class="container">
-    <div class="flex-center">
-      <ion-skeleton-text
-        [animated]="true"
-        style="max-width: 460px; width: 100%; height: 373px"></ion-skeleton-text>
-    </div>
-
-    <div class="card card-title">
-      <ion-skeleton-text [animated]="true" style="width: 100%; height: 30px"></ion-skeleton-text>
-
-      <div class="card card-content">
-        <ion-skeleton-text [animated]="true" style="width: 100%; height: 25px"></ion-skeleton-text>
-        <ion-skeleton-text [animated]="true" style="width: 100%; height: 90px"></ion-skeleton-text>
-
-        <div class="flex-center">
-          <ion-skeleton-text
-            [animated]="true"
-            style="width: 100%; height: 50px"></ion-skeleton-text>
-        </div>
+    <ng-container *ngIf="signedIn && partnerLoading && !partnerAsset">
+      <div class="flex-center">
+        <ion-skeleton-text [animated]="true" style="max-width: 460px; width: 100%; height: 373px"></ion-skeleton-text>
       </div>
-    </div>
+    </ng-container>
   </div>
 </ion-content>

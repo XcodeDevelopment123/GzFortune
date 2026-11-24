@@ -7,7 +7,6 @@ import { SelectPaymentMethodModalComponent } from '../components/select-payment-
 import { SubPaymentSelectorModalComponent } from '../components/sub-payment-selector-modal/sub-payment-selector-modal.component';
 import { SubPaymentOption } from '../models/payment.model';
 import { VoucherDelivery, VoucherDeliveryList } from 'src/app/core/models/delivery.model';
-import { Reward } from 'src/app/core/models/reward.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,19 +20,6 @@ export class ModalHelperService {
       componentProps: {
         qrData: qrData,
         labelText: labelText,
-      },
-      cssClass: 'qr-code-modal',
-      backdropDismiss: true,
-    });
-  }
-
-  async createQrCodeWithRewardData(Reward: any, labelText: string) {
-    console.log('Reward in modal helper:', Reward);
-    return await this.modalCtrl.create({
-      component: QrCodeModalComponent,
-      componentProps: {
-        qrData: Reward.voucherNo,
-        labelText: Reward.voucherNo,
       },
       cssClass: 'qr-code-modal',
       backdropDismiss: true,

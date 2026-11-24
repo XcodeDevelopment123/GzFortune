@@ -2,48 +2,52 @@
 
 <ion-segment mode="md" [(ngModel)]="selectedTab" class="custom-tab">
   <ion-segment-button value="voucher" (click)="changeTab('voucher')">
-    <p class="text-title">Voucher</p>
+    <p class="text-title">My Vouchers</p>
   </ion-segment-button>
   <ion-segment-button value="point" (click)="changeTab('point')">
     <p class="text-title">Points</p>
   </ion-segment-button>
 </ion-segment>
 
-<div class="level-container" *ngIf="selectedTab==='point'">
-  <div class="flex-space-between level-details text-title">
-    <div class="flex-auto level-label">
-      <span class="text-md Level-Text-White">{{userTier}}</span>
-      <span class="Level-Text-Gray">Level</span>
-    </div>
-    <div class="flex-auto point-label">
-      <span class="text-md Level-Text-White">{{userPoint}}</span>
-      <span class="Level-Text-Gray">Points</span>
-    </div>
-  </div>
-</div>
-
-<ion-content
-  [fullscreen]="true"
-  class="tabs">
-  <!-- ✅ 下拉刷新 -->
+<ion-content [fullscreen]="true" class="tabs">
   <ion-refresher slot="fixed" class="home-refresher rewards-refresher" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <div [ngSwitch]="selectedTab" class="tab-content">
-    <app-voucher-tab
-      *ngSwitchCase="'voucher'"
-      [userPhoneNumber]="userPhoneNumber"
-      [voucherList]="voucherList"
-      [Loaded]="Loaded"></app-voucher-tab>
+    <!-- Member summary: in normal flow above the reward timeline -->
+    <section class="points-summary" *ngIf="selectedTab === 'point' && signedIn" aria-label="Points summary">
+      <div class="points-summary__col points-summary__tier">
+        <span class="points-summary__label">Member tier</span>
+        <span class="points-summary__value">{{ points?.tier?.trim() || '—' }}</span>
+      </div>
+      <div class="points-summary__col points-summary__points">
+        <span class="points-summary__label">Available points</span>
+        <span class="points-summary__balance">{{ points?.available ?? '—' }}</span>
+      </div>
+    </section>
 
-    <app-point-tab
+    <!-- Owned assets only -->
+    <app-partner-wallet-tab
+      *ngSwitchCase="'voucher'"
+      [wallet]="wallet"
+      [loaded]="walletLoaded"
+      [signedIn]="signedIn"
+      [errorMessage]="walletError"
+      [highlightAssetId]="highlightAssetId"
+      (signInRequested)="onSignInRequested()"
+      (walletChanged)="load()"></app-partner-wallet-tab>
+
+    <!-- Offers (definitions) only -->
+    <app-partner-offers-tab
       *ngSwitchCase="'point'"
-      [rewards]="pointRewardList"
-      [userPhoneNumber]="userPhoneNumber"
-      [contactId]="memberInfo?.contactId"
-      [userPoint]="userPoint"
-      (redeemed)="onRewardRedeemed()">
-    </app-point-tab>
+      [offers]="offers"
+      [availablePoints]="points?.available ?? '0'"
+      [signedIn]="signedIn"
+      [loaded]="offersLoaded"
+      [errorMessage]="offersError"
+      (claimed)="onClaimed($event)"
+      (signInRequested)="onSignInRequested()"
+      (refreshRequested)="load()"></app-partner-offers-tab>
   </div>
 </ion-content>

@@ -30,66 +30,81 @@ ion-segment-button p {
   font-size: var(--text-md);
 }
 
-.level-container {
+/* --- Points summary (member tier + available points) --- */
+.points-summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
   max-width: 720px;
-  padding: 0.8rem 2.8rem;
-  position: absolute;
-  top: 175px;
-  left: 50%;
-  translate: -50% 0;
-  width: 100%;
-  z-index: 1;
-  color: #fff;
+  margin: 1rem 1rem 0;
+  padding: 0.75rem 1rem;
+  background: #fffaf0;
+  border: 1px solid rgba(174, 140, 93, 0.45); /* muted --gold-dark */
+  border-radius: 0.75rem;
+  /* The first timeline segment rises 11vh above the first reward (which has an 84px top margin);
+     keep enough room below the card so the timeline never runs into it on tall screens. */
+  margin-bottom: max(0px, calc(11vh - 84px + 0.5rem));
 }
 
-.level-container * {
-  color: #fff;
+@media screen and (min-width: 752px) {
+  .points-summary {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
-.level-details {
-  border-radius: 0.5rem;
-  background: var(--gold-dark);
-  padding: 0.6rem 1.2rem;
-  box-shadow: var(--base-shadow);
+.points-summary__col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
 }
 
-.Level-Text-White {
-  color: #fff !important;
+.points-summary__tier {
+  flex: 1 1 auto;
 }
 
-.Level-Text-Gray {
-  color: #fff !important;
+.points-summary__points {
+  flex: 0 0 auto;
+  align-items: flex-end;
+  text-align: right;
+  max-width: 55%;
 }
 
-.level-label,
-.point-label {
-  gap: 0.3rem;
-  align-items: end;
+.points-summary__label {
+  font-size: var(--text-xs);
+  line-height: 1.3;
+  color: #8a7a63;
+  letter-spacing: 0.02em;
 }
 
-.level-label span:first-child,
-.point-label span:first-child,
-.message-level-label {
-  color: var(--ion-color-primary);
+.points-summary__value {
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1.3;
+  color: #2b2418;
+  overflow-wrap: anywhere;
+}
+
+.points-summary__balance {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f1a12;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
 }
 
 @media screen and (min-width: 576px) {
   ion-segment {
     top: 87px;
   }
-
-  .level-container {
-    top: 157px;
-  }
 }
 
 @media screen and (min-width: 768px) {
   ion-segment {
     top: 96px;
-  }
-
-  .level-container {
-    top: 166px;
   }
 }
 
@@ -106,10 +121,6 @@ ion-segment-button p {
 :host-context(.ios.mobile-app) {
   ion-content::part(scroll) {
     padding: calc(125px + var(--android-status-height)) 0 0 0;
-  }
-
-  .level-container {
-    top: 200px !important;
   }
 
   .custom-tab {

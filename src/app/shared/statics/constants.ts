@@ -1,4 +1,4 @@
-export const auth = { accessKey: 'accessToken', refreshKey: 'refreshToken' };
+export const auth = { accessKey: 'accessToken', refreshKey: 'refreshToken', memberSessionKey: 'memberSession' };
 
 export const preferenceKeys = {
   first_time_open: 'first-time-open',

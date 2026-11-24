@@ -294,6 +294,29 @@ ion-modal.qr-code-modal::part(content) {
   border-radius: 1rem;
 }
 
+// My Vouchers → SHOW CODE: voucher QR over the current page.
+ion-modal.voucher-code-modal {
+  --backdrop-opacity: 0.5 !important;
+  --width: min(92vw, 420px);
+  --height: auto;
+  --border-radius: 1rem;
+
+  // Size the modal to its content instead of filling --height.
+  .ion-page {
+    position: relative;
+    contain: content;
+  }
+
+  canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+ion-modal.voucher-code-modal::part(content) {
+  background: transparent;
+}
+
 ion-modal.date-selector-modal {
   --height: 330px;
 }

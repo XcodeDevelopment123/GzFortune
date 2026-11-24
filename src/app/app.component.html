@@ -52,7 +52,7 @@
       <ion-list>
         <div *ngIf="isAuthenticated">
           <p class="text-title category-label">Account</p>
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of accountPages; let i = index">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of visibleAccountPages; let i = index">
             <div></div>
             <ion-item class="account-option-item" [routerDirection]="p.routerDirection" [routerLink]="[p.url]"
               detail="false" routerLinkActive="selected">

@@ -106,7 +106,17 @@ export class AuthApiService {
 
   // Register flow: verify SMS OTP
   verifyRegisterOtp(req: VerifyEmailOtpRequest): Observable<any> {
-    return this.baseApi.post<any>(`${this.memberAuth}/VerifyRegisterOtp`, req);
+    return this.baseApi
+      .post<any>(`${this.memberAuth}/VerifyRegisterOtp`, req)
+      .pipe(switchMap((res) => from(this.storeMemberSession(res)).pipe(map(() => res))));
+  }
+
+  /** The backend returns a per-member session after a successful OTP check (used for vouchers/points). */
+  private async storeMemberSession(res: any): Promise<void> {
+    const token = res?.MemberSession;
+    if (typeof token === 'string' && token.length > 0) {
+      await this.authService.setMemberSession(token);
+    }
   }
   ResendOtpWithEmail(req: PhoneRequestOTP): Observable<RequestOTPResponse> {
     return this.baseApi.post<RequestOTPResponse>(`${this.memberAuth}/ResendOtpWithEmail`, req);
@@ -114,6 +124,8 @@ export class AuthApiService {
 
   // 校验邮箱 OTP
   verifyLoginOtp(req: VerifyEmailOtpRequest): Observable<any> {
-    return this.baseApi.post<any>(`${this.memberAuth}/VerifyLoginOtp`, req);
+    return this.baseApi
+      .post<any>(`${this.memberAuth}/VerifyLoginOtp`, req)
+      .pipe(switchMap((res) => from(this.storeMemberSession(res)).pipe(map(() => res))));
   }
 }

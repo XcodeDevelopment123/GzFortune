@@ -1,0 +1,74 @@
+.container {
+  background: transparent;
+  padding: 0;
+  gap: 0;
+}
+
+.code-card {
+  gap: 0.5rem;
+  padding: 1rem;
+  // Two codes may not fit short screens: scroll inside the popup.
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.header {
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.voucher-name {
+  margin: 0;
+  color: var(--ion-color-primary);
+}
+
+.close-icon {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.hint {
+  margin: 0;
+  color: var(--ion-color-medium);
+}
+
+.state-box {
+  flex-direction: column;
+  min-height: 220px;
+}
+
+.code-step {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: #fff;
+  border: var(--base-border-line);
+}
+
+.step-label {
+  margin: 0 0 0.5rem;
+  color: var(--ion-color-primary);
+}
+
+.qr-box {
+  background: #fff;
+}
+
+.barcode-box {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.member-missing a {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.code-error {
+  text-align: center;
+  color: var(--ion-color-danger);
+}
+
+ion-button {
+  --color: #ffffff;
+}

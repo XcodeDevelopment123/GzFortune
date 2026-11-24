@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="partner-note text-description" *ngIf="!signedIn">
+    Sign in to claim rewards with your points.
+  </div>
+
+  <div class="partner-note text-description error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loaded && visibleOffers.length > 0">
+    <div
+      *ngFor="let i of visibleOffers; let index = index; trackBy: trackById"
+      class="point-item"
+      [ngClass]="{ 'first-item': index === 0, active: signedIn && canAfford(i) }">
+      <div class="FoodCard">
+        <div class="BlackLine"></div>
+        <div class="BlackLine First" *ngIf="index === 0" [ngClass]="{ active: signedIn && canAfford(i) }"></div>
+        <div class="BlackLine" [ngClass]="{ active: signedIn && canAfford(i) }"></div>
+        <div class="Line_Last" *ngIf="index === visibleOffers.length - 1" [ngClass]="{ active: signedIn && canAfford(i) }"></div>
+
+        <img
+          class="FoodPic"
+          [src]="i.imageUrl || 'assets/images/reward-sample.webp'"
+          [ngClass]="{ active: signedIn && canAfford(i) }" />
+
+        <div class="FoodInfo">
+          <div class="PointArea" *ngIf="isClaimable(i)">{{ i.pointsCost }} pts</div>
+          <div class="PointArea" *ngIf="!isClaimable(i)">Member gift</div>
+          <div class="FoodName">
+            <p>{{ i.name }}</p>
+            <p class="offer-type text-description">{{ typeLabel(i) }}</p>
+          </div>
+          <p class="offer-type text-description" *ngIf="!isClaimable(i)">Issued to members by GzFortune — not claimable with points.</p>
+          <div class="RedeemButtonDIV" *ngIf="isClaimable(i)">
+            <button
+              mode="ios"
+              class="text-lg RedeemButton"
+              [disabled]="!!pendingRewardId || (signedIn && !canAfford(i))"
+              [ngClass]="{ active: !signedIn || canAfford(i) }"
+              (click)="onClaimClicked(i)">
+              <ng-container *ngIf="pendingRewardId === i.rewardId; else label">
+                <ion-spinner name="crescent" class="claim-spinner"></ion-spinner> Claiming…
+              </ng-container>
+              <ng-template #label>{{ signedIn ? 'Claim' : 'Sign in to claim' }}</ng-template>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="partner-note text-description" *ngIf="loaded && visibleOffers.length === 0 && !errorMessage">
+    {{ signedIn ? 'No rewards can be claimed with points right now.' : 'No points rewards are available right now.' }}
+  </div>
+
+  <!-- Loading placeholders -->
+  <div *ngIf="!loaded">
+    <div *ngFor="let i of [0, 1, 2, 3]; let index = index" class="point-item" [ngClass]="{ 'first-item': index === 0 }">
+      <div class="FoodCard">
+        <div class="BlackLine"></div>
+        <div class="BlackLine First" *ngIf="index === 0"></div>
+        <div class="FoodPic" style="background-color: rgb(216, 216, 216)">
+          <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%"></ion-skeleton-text>
+        </div>
+        <div class="FoodInfo">
+          <div class="PointArea">… pts</div>
+          <div class="FoodName">
+            <p><ion-skeleton-text [animated]="true" style="width: 100%; height: 22px"></ion-skeleton-text></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

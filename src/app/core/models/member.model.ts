@@ -3,6 +3,8 @@ import { environment } from 'src/environments/environment';
 
 export interface Member {
   accountStatus: string;
+  /** Only existing members have a local password; new members sign in with OTP. */
+  hasPassword?: boolean;
   availablePoint: number;
   balance: number;
   birthDate: string;
@@ -56,6 +58,7 @@ export const memberMapper: MapperMap<any, Member> = {
   name: (dto) => dto.Name,
   phoneNumber: (dto) => dto.PhoneNumber,
   point: (dto) => dto.Point,
+  hasPassword: (dto) => !!dto.HasPassword,
   tier: (dto) => dto.Tier,
   // 其它字段同理：优先 dto.<Field>，否则 dto.data?.<Field>
 };

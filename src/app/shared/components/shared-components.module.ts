@@ -14,6 +14,7 @@ import { SelectPaymentMethodModalComponent } from './select-payment-method-modal
 import { SelectVoucherModalComponent } from './select-voucher-modal/select-voucher-modal.component';
 import { SubPaymentSelectorModalComponent } from './sub-payment-selector-modal/sub-payment-selector-modal.component';
 import { TransactionListComponent } from '../components/transaction-list/transaction-list.component';
+import { Code128BarcodeComponent } from './code128-barcode/code128-barcode.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { TransactionListComponent } from '../components/transaction-list/transac
     LottieWrapperComponent,
     MenuItemComponent,
     TransactionListComponent,
+    Code128BarcodeComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +50,8 @@ import { TransactionListComponent } from '../components/transaction-list/transac
     LottieWrapperComponent,
     MenuItemComponent,
     TransactionListComponent,
+    Code128BarcodeComponent,
+    QRCodeComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

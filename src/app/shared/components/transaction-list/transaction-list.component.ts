@@ -90,7 +90,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   }
 
   private loadCombinedHistory$(): Observable<TransactionWithSource[]> {
-    return this.historyApiService.getAllRecordByPhoneNumber(this.phoneNumber, this.contactId).pipe(
+    return this.historyApiService.getAllRecordByPhoneNumber(this.phoneNumber).pipe(
       take(1),
       map((res) =>
         (res || [])

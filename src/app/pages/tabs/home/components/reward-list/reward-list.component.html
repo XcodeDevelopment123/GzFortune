@@ -1,36 +1,32 @@
 <div class="flex-space-between card-title-label">
   <p class="text-lg text-title">Membership Rewards</p>
-  <!-- <div class="view-all" [routerLink]="['/rewards']" [queryParams]="{ tab: 'point' }">
-    View All
-    <ion-icon class="text-lg" name="arrow-forward-outline"></ion-icon>
-  </div> -->
 </div>
 
 <div *ngIf="isLoaded" class="reward-list flex-auto">
   <div
     class="reward-item"
-    *ngFor="let i of displayRewards"
+    *ngFor="let i of visibleRewards"
     [routerLink]="['/reward', i.rewardId]"
-    [queryParams]="{ phoneNumber: memberInfo?.phoneNumber, point: memberInfo?.point }"
-    [state]="{ rewardDetail: i }">
-    <img load="lazy" [src]="i?.image ?? 'assets/images/app-offer.jpg'" />
-    <p class="truncate-two-line reward-title">{{ i.title }}</p>
+    [state]="{ offer: i }">
+    <img load="lazy" [src]="i.imageUrl || 'assets/images/app-offer.jpg'" />
+    <p class="truncate-two-line reward-title">{{ i.name }}</p>
 
     <p
       class="text-center reward-action"
-      [ngClass]="{
-        active: i.status === 'Active' && (memberInfo?.point ?? 0) >= i.point,
-      }">
-      <!-- 若点数足够 -->
-      <ng-container *ngIf="(memberInfo?.point ?? 0) >= i.point; else needMore">
-        CLAIM  
+      [ngClass]="{ active: isClaimable(i) && availablePoints !== null && missingPoints(i) === 0 }">
+      <ng-container *ngIf="!isClaimable(i)">MEMBER GIFT</ng-container>
+      <ng-container *ngIf="isClaimable(i) && availablePoints === null">{{ i.pointsCost }} POINTS</ng-container>
+      <ng-container *ngIf="isClaimable(i) && availablePoints !== null">
+        <ng-container *ngIf="missingPoints(i) === 0; else needMore">CLAIM · {{ i.pointsCost }} PTS</ng-container>
+        <ng-template #needMore>NEED {{ missingPoints(i) }} POINTS</ng-template>
       </ng-container>
-
-      <!-- 点数不足 -->
-      <ng-template #needMore> NEED {{ i.point - (memberInfo?.point ?? 0) }} POINTS </ng-template>
     </p>
   </div>
 </div>
+
+<p *ngIf="isLoaded && isGuest && visibleRewards.length === 0" class="text-description reward-empty">
+  No points rewards are available right now.
+</p>
 
 <div *ngIf="!isLoaded" class="reward-list flex-auto">
   <div class="reward-item" *ngFor="let i of [0, 1, 2, 3, 4]">

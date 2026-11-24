@@ -315,3 +315,26 @@
   // }
 }
 
+
+.partner-note {
+  margin: 1rem 0;
+  text-align: center;
+  color: var(--ion-color-medium);
+
+  &.error {
+    color: var(--ion-color-danger);
+  }
+}
+
+.offer-type {
+  margin-top: 2px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.claim-spinner {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  --color: currentColor;
+}

@@ -3,8 +3,7 @@ import { Subject, takeUntil, forkJoin, of, take, tap, catchError, finalize, swit
 import { AlertController } from '@ionic/angular';
 import { Member } from 'src/app/core/models/member.model';
 import { Highlight } from 'src/app/core/models/highlight.model';
-import { Reward } from 'src/app/core/models/reward.model';
-import { Voucher } from 'src/app/core/models/voucher.model';
+import { PartnerOffer } from 'src/app/core/models/partner-reward.model';
 import { UserStateService } from 'src/app/core/services/user-state.service';
 import { HighlightApiService } from 'src/app/core/repo/api/highlight-api.service';
 import { RewardApiService } from 'src/app/core/repo/api/reward-api.service';
@@ -19,8 +18,10 @@ import { UserApiService } from 'src/app/core/repo/api/user-api.service';
 export class HomePage implements OnInit, OnDestroy {
   memberInfo!: Member;
   highlightList: Highlight[] = [];
-  rewardList: Reward[] = [];
-  voucherList: Voucher[] = [];
+  /** Partner offers: the member's claimable rewards when signed in, otherwise public offers. */
+  rewardList: PartnerOffer[] = [];
+  /** Spendable Warely points (decimal string) for the signed-in member; null for guests. */
+  availablePoints: string | null = null;
   private destroy$ = new Subject<void>();
 
   public memberInforLoaded: boolean = false;
@@ -127,16 +128,18 @@ export class HomePage implements OnInit, OnDestroy {
   private loadRewardsOnce(fromRefresh: boolean = false) {
     if (!fromRefresh) this.reweradLoaded = false;
 
-    const obs$ = this.rewardApi.userGetReward().pipe(
+    const obs$ = this.rewardApi.getOffersForCurrentUser().pipe(
       take(1),
       tap((res) => {
-        this.rewardList = res;
+        this.rewardList = res.offers;
+        this.availablePoints = res.points?.available ?? null;
         this.reweradLoaded = true;
       }),
       catchError((err) => {
-        console.error('Reward load failed', err);
+        console.error('Reward load failed', err?.status);
+        this.rewardList = [];
         this.reweradLoaded = true;
-        return of([] as Reward[]);
+        return of(null);
       }),
     );
 

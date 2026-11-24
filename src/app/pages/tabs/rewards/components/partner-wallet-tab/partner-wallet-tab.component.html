@@ -1,0 +1,80 @@
+<div class="container">
+  <!-- Guest: no member session. Nothing from any member wallet is loaded or shown. -->
+  <div class="wallet-note guest-login" *ngIf="!signedIn">
+    <p class="text-title text-md">Please log in to use this feature.</p>
+    <ion-button mode="ios" class="text-title" (click)="signInRequested.emit()">Log in</ion-button>
+  </div>
+
+  <div class="wallet-note text-description error" *ngIf="signedIn && errorMessage">{{ errorMessage }}</div>
+
+  <ng-container *ngIf="signedIn && loaded && wallet">
+    <!-- Owned and usable now -->
+    <p class="voucher-category-label text-title text-md">My Rewards &amp; Vouchers</p>
+    <div class="wallet-note text-description" *ngIf="wallet.available.length === 0">
+      You have no rewards or vouchers to use right now. Claim one from the Points tab.
+    </div>
+    <div
+      class="voucher-item active clickable"
+      *ngFor="let a of wallet.available; trackBy: trackByAsset"
+      [class.just-claimed]="a.assetId === highlightAssetId"
+      (click)="open(a)">
+      <img [src]="a.imageUrl || 'assets/images/reward-sample.webp'" />
+      <div class="voucher-info flex-column">
+        <div class="info-message">
+          <p class="text-title text-md">{{ a.name }}</p>
+          <p class="text-description">
+            {{ typeLabel(a) }}<span *ngIf="detailLine(a)"> · {{ detailLine(a) }}</span>
+          </p>
+          <p class="text-description" *ngIf="a.expiresAt">Valid until {{ a.expiresAt | date: 'dd/MM/yyyy HH:mm' }}</p>
+          <p class="text-description" *ngIf="!a.expiresAt">No expiry date</p>
+          <p class="text-description just-claimed-label" *ngIf="a.assetId === highlightAssetId">Just claimed</p>
+        </div>
+        <div
+          class="status-label text-title text-sm text-center ion-activatable"
+          [class.show-code]="a.isAvailable"
+          role="button"
+          (click)="a.isAvailable ? showCode(a, $event) : null">
+          <ion-ripple-effect></ion-ripple-effect>
+          {{ statusLabel(a) }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Owned but no longer usable -->
+    <ng-container *ngIf="wallet.unavailable.length > 0">
+      <p class="voucher-category-label text-title text-md">Used &amp; Expired</p>
+      <div
+        class="voucher-item expired clickable"
+        *ngFor="let a of wallet.unavailable; trackBy: trackByAsset"
+        (click)="open(a)">
+        <img [src]="a.imageUrl || 'assets/images/reward-sample.webp'" />
+        <div class="voucher-info flex-column">
+          <div class="info-message">
+            <p class="text-title text-md">{{ a.name }}</p>
+            <p class="text-description">{{ typeLabel(a) }}</p>
+            <p class="text-description" *ngIf="a.expiresAt">Valid until {{ a.expiresAt | date: 'dd/MM/yyyy HH:mm' }}</p>
+          </div>
+          <div class="status-label text-title text-sm text-center">{{ statusLabel(a) }}</div>
+        </div>
+      </div>
+    </ng-container>
+
+  </ng-container>
+
+  <!-- Loading placeholders -->
+  <ng-container *ngIf="signedIn && !loaded">
+    <p class="voucher-category-label text-title text-md">
+      <ion-skeleton-text [animated]="true" style="width: 40%; height: 30px"></ion-skeleton-text>
+    </p>
+    <div class="voucher-item" *ngFor="let x of [0, 1, 2]">
+      <ion-skeleton-text [animated]="true" style="width: 130px; height: 135px"></ion-skeleton-text>
+      <div class="voucher-info flex-column">
+        <div class="info-message">
+          <ion-skeleton-text [animated]="true" style="width: 60%; height: 22px"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 90%; height: 17px"></ion-skeleton-text>
+        </div>
+        <div class="status-label text-title text-sm text-center">...</div>
+      </div>
+    </div>
+  </ng-container>
+</div>

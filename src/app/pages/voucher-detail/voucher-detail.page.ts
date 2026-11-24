@@ -1,16 +1,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom, take, switchMap } from 'rxjs';
-import { Voucher } from 'src/app/core/models/voucher.model';
-import { RewardApiService } from 'src/app/core/repo/api/reward-api.service';
-import { ModalHelperService } from 'src/app/shared/services/modal-helper.service';
-import { ToastHelperService } from 'src/app/shared/services/toast-helper.service';
-import { Share } from '@capacitor/share';
+import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { forkJoin, of, Subject, Subscription } from 'rxjs';
+import { catchError, take, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { AlertHelperService } from 'src/app/shared/services/alert-helper.service';
-import { StateSessionService } from 'src/app/shared/services/state-session.service';
-import { UserStateService } from 'src/app/core/services/user-state.service';
+import { RewardApiService } from 'src/app/core/repo/api/reward-api.service';
+import {
+  PartnerAssetCode,
+  PartnerWalletAsset,
+  toPartnerError,
+} from 'src/app/core/models/partner-reward.model';
 
+/**
+ * Detail of one OWNED wallet asset; the route id is the wallet asset_id.
+ *
+ * Nothing is shown until the CURRENT member's wallet has been re-read and contains that asset_id.
+ * The session is re-checked every time the page becomes visible and whenever it changes; older
+ * wallet/code requests are cancelled and their late responses ignored. Asset, member QR, voucher QR
+ * and barcode are cleared on leave, sign-out, account switch and session expiry.
+ */
 @Component({
   selector: 'app-voucher-detail',
   templateUrl: './voucher-detail.page.html',
@@ -18,94 +26,201 @@ import { UserStateService } from 'src/app/core/services/user-state.service';
   standalone: false,
 })
 export class VoucherDetailPage implements OnInit, OnDestroy {
-  voucherDetail?: Voucher;
-  loaded = false;
+  /** False for guests: no wallet asset or code is requested or displayed. */
+  signedIn = false;
+  /** True once the session has been read at least once (avoids flashing the guest prompt). */
+  sessionChecked = false;
+  partnerAsset?: PartnerWalletAsset;
+  partnerLoading = false;
+  partnerError: string | null = null;
+  /** Sensitive payloads: rendered only, never logged, cleared on leave. */
+  assetCode: PartnerAssetCode | null = null;
+  memberQr: string | null = null;
+  codesLoading = false;
+  codesError: string | null = null;
+  qrScale = 6;
+
+  private assetId: string | null = null;
+  /** Incremented by every refresh / clear; responses from an older generation are dropped. */
+  private seq = 0;
+  /** Session the current requests were made with. */
+  private requestSession: string | null = null;
+  private walletSub?: Subscription;
+  private codeSub?: Subscription;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
-    private auth: AuthService,
-    private router: Router,
     private rewardApi: RewardApiService,
-    private toastHelper: ToastHelperService,
-    private modalHelper: ModalHelperService,
-    private alertHelper: AlertHelperService,
-    private stateSession: StateSessionService,
-    private userStateService: UserStateService,
+    private authService: AuthService,
+    private navCtrl: NavController,
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
+    this.assetId = this.route.snapshot.paramMap.get('id');
+    this.qrScale = window.innerWidth > 400 ? 7 : 6;
+    // Sign-out, account switch or expiry while the page is open.
+    this.authService.memberSessionChanged$.pipe(takeUntil(this.destroy$)).subscribe(() => this.refresh());
+  }
 
-    // 优先从 router state 获取数据（包含图片）
-    const state = window.history.state;
-    if (state && state.voucherDetail) {
-      this.voucherDetail = state.voucherDetail;
-      this.loaded = true;
-    }
+  ionViewWillEnter() {
+    this.refresh();
+  }
 
-    if (!id) {
-      this.toastHelper.presentFailedToast('Something went wrong, Try again later');
+  ionViewWillLeave() {
+    this.clear();
+  }
+
+  ngOnDestroy() {
+    this.clear();
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  goToLogin() {
+    this.navCtrl.navigateForward('/auth/login');
+  }
+
+  /** Cancels outstanding requests and wipes everything member-specific. */
+  clear() {
+    this.seq++;
+    this.walletSub?.unsubscribe();
+    this.codeSub?.unsubscribe();
+    this.walletSub = undefined;
+    this.codeSub = undefined;
+    this.partnerAsset = undefined;
+    this.assetCode = null;
+    this.memberQr = null;
+    this.partnerLoading = false;
+    this.codesLoading = false;
+    this.partnerError = null;
+    this.codesError = null;
+  }
+
+  /** Re-checks the session, re-reads the wallet and only then shows the asset and fetches its codes. */
+  async refresh(): Promise<void> {
+    this.clear();
+    const seq = this.seq;
+    const session = await this.authService.getMemberSession();
+    if (seq !== this.seq) return;
+
+    this.requestSession = session;
+    this.signedIn = !!session;
+    this.sessionChecked = true;
+    if (!session) return; // guest: no wallet or code request
+
+    if (!this.assetId) {
+      this.partnerError = 'Something went wrong. Please try again later.';
       return;
     }
+    this.loadPartnerAsset(this.assetId, seq, session);
+  }
 
-    // 如果 state 没数据，再请求接口
-    if (!this.voucherDetail) {
-      this.userStateService.memberInfo.pipe(
-        take(1),
-        switchMap((user) => {
-          if (user?.phoneNumber) {
-            return this.rewardApi.userGetVoucherByPhone(user.phoneNumber, user.contactId);
-          } else {
-            return this.rewardApi.getAllVoucher();
-          }
-        }),
-        take(1)
-      ).subscribe({
-        next: (list) => {
-          this.voucherDetail = list.find(v => 
-            (v.id && v.id.toString() === id) || 
-            v.rewardId === id || 
-            v.voucherNo === id
-          );
-          this.loaded = true;
-          console.log('voucherDetail from API fallback', this.voucherDetail);
-        },
-        error: (err) => {
-          console.error('Failed to fallback load voucher', err);
-          this.loaded = true;
-        }
-      });
+  private async isStale(seq: number, session: string): Promise<boolean> {
+    if (seq !== this.seq) return true;
+    const current = await this.authService.getMemberSession();
+    if (seq !== this.seq) return true;
+    if (current !== session) {
+      this.refresh(); // the member changed while the request was in flight
+      return true;
     }
+    return false;
   }
 
-  ngOnDestroy() {}
-
-  isExpired(voucher: Voucher): boolean {
-    if (!voucher) return false;
-    if (voucher.status === 'Expired') return true;
-    const now = new Date();
-    return new Date(voucher.expireDate) <= now;
+  private async sessionExpired(session: string) {
+    this.clear();
+    this.signedIn = false;
+    // Only drop the session the failed request used; a newer login is kept (and re-shown via refresh).
+    await this.authService.removeMemberSessionIfCurrent(session);
   }
 
-  getFormattedTnc(tnc?: string): string {
-    if (!tnc) return '';
-    return tnc.replace(/\\n/g, '<br/>').replace(/\n/g, '<br/>');
+  private loadPartnerAsset(assetId: string, seq: number, session: string) {
+    this.partnerLoading = true;
+    this.walletSub = this.rewardApi
+      .getMyWallet()
+      .pipe(take(1))
+      .subscribe({
+        next: async (wallet) => {
+          if (await this.isStale(seq, session)) return;
+          this.partnerLoading = false;
+          const asset = [...wallet.available, ...wallet.unavailable].find((a) => a.assetId === assetId);
+          if (!asset) {
+            this.partnerAsset = undefined;
+            this.partnerError = 'This voucher is not in your account.';
+            return;
+          }
+          this.partnerAsset = asset;
+          if (asset.isAvailable) this.loadCodes(seq, session);
+        },
+        error: async (err) => {
+          if (seq !== this.seq) return;
+          const e = toPartnerError(err);
+          if (e.code === 'member_session_required') return this.sessionExpired(session);
+          if (await this.isStale(seq, session)) return;
+          this.partnerLoading = false;
+          this.partnerAsset = undefined;
+          this.partnerError = e.message;
+        },
+      });
   }
 
-  async openQrModal() {
-    const alert = await this.alertHelper.createBasicAlert(
-      'Redeem',
-      'Please redeem at the counter during checkout!',
-    );
-    await alert.present();
-  }
+  /** Member QR (scanned first) and the benefit QR/Code 128 (scanned second), fetched by asset_id. */
+  loadCodes(seq: number = this.seq, session: string | null = this.requestSession) {
+    if (!this.partnerAsset?.isAvailable || !session || seq !== this.seq) return;
+    const assetId = this.partnerAsset.assetId;
+    this.codesLoading = true;
+    this.codesError = null;
+    this.assetCode = null;
+    this.memberQr = null;
+    this.codeSub?.unsubscribe();
 
-  async share(type: string, id: string) {
-    await Share.share({
-      title: 'Share Referral Code',
-      text: 'Join Our App now to get more reward \n',
-      url: `https://juicyportal.xcode.com.my/sharelink/${type}/${id}`,
-      dialogTitle: 'Share With',
+    let memberExpired = false;
+    this.codeSub = forkJoin({
+      code: this.rewardApi.getAssetCode(assetId),
+      member: this.rewardApi.getMemberCode().pipe(
+        catchError((err) => {
+          memberExpired = toPartnerError(err).code === 'member_session_required';
+          return of(null);
+        }),
+      ),
+    }).subscribe({
+      next: async ({ code, member }) => {
+        if (memberExpired) return this.sessionExpired(session);
+        if (await this.isStale(seq, session)) return;
+        if (this.partnerAsset?.assetId !== assetId) return;
+        this.assetCode = code;
+        this.memberQr = member?.qrPayload ?? null;
+        this.codesLoading = false;
+      },
+      error: async (err) => {
+        if (seq !== this.seq) return;
+        const e = toPartnerError(err);
+        if (e.code === 'member_session_required') return this.sessionExpired(session);
+        if (await this.isStale(seq, session)) return;
+        this.codesLoading = false;
+        this.assetCode = null;
+        this.memberQr = null;
+        this.codesError = e.message;
+        // 409 asset_unavailable: the wallet changed (e.g. used at POS) — re-read it so the page reflects reality.
+        if (e.code === 'asset_unavailable') this.refresh();
+      },
     });
+  }
+
+  partnerTypeLabel(a: PartnerWalletAsset): string {
+    if (a.type === 'cash_voucher') return 'Cash Voucher';
+    if (a.type === 'pass') return 'Pass';
+    return 'Reward';
+  }
+
+  partnerUnavailableLabel(a: PartnerWalletAsset): string {
+    switch (a.availability) {
+      case 'used':
+        return 'USED';
+      case 'expired':
+        return 'EXPIRED';
+      default:
+        return 'UNAVAILABLE';
+    }
   }
 }

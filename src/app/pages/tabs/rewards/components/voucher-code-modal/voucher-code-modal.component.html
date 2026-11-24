@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="card code-card">
+    <div class="flex-space-between header">
+      <p class="text-title text-md voucher-name">{{ asset.name }}</p>
+      <ion-icon class="close-icon" name="close-outline" aria-label="Close" (click)="close()"></ion-icon>
+    </div>
+
+    <p class="text-description hint">
+      Show these to the cashier: they scan your <b>member QR first</b>, then this voucher's code.
+    </p>
+
+    <div class="flex-center state-box" *ngIf="loading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <div class="flex-center state-box code-error" *ngIf="!loading && error">
+      <p class="text-description">{{ error }}</p>
+      <ion-button mode="ios" size="small" class="text-title" (click)="retry()">Retry</ion-button>
+    </div>
+
+    <ng-container *ngIf="!loading && code">
+      <div class="code-step member-step">
+        <p class="text-title text-sm step-label">Step 1 · Member QR</p>
+        <div class="flex-center qr-box" *ngIf="memberQr; else noMemberQr">
+          <qrcode [qrdata]="memberQr" [scale]="qrScale" [errorCorrectionLevel]="'M'" [margin]="4"></qrcode>
+        </div>
+        <ng-template #noMemberQr>
+          <p class="text-description member-missing">
+            Member QR is not available right now. <a (click)="retry()">Reload</a>
+          </p>
+        </ng-template>
+      </div>
+
+      <div class="code-step voucher-step">
+        <p class="text-title text-sm step-label">Step 2 · Voucher code</p>
+        <div class="flex-center qr-box">
+          <qrcode [qrdata]="code.qrPayload" [scale]="qrScale" [errorCorrectionLevel]="'M'" [margin]="4"></qrcode>
+        </div>
+        <app-code128-barcode class="barcode-box" [value]="code.barcodePayload"></app-code128-barcode>
+      </div>
+    </ng-container>
+
+    <ion-button mode="ios" expand="block" class="text-title close-btn" (click)="close()">Close</ion-button>
+  </div>
+</div>

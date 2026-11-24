@@ -7,8 +7,7 @@ import { AuthApiService } from 'src/app/core/repo/api/auth-api.service';
 import { UserApiService } from 'src/app/core/repo/api/user-api.service';
 import {
   LoginByPhoneOtpRequest,
-  PhoneRequestOTP,
-} from 'src/app/core/repo/request/auth-request.model';
+  PhoneRequestOTP, OTP_CHANNEL, OtpDeliveryChannel } from 'src/app/core/repo/request/auth-request.model';
 import {
   RequestOTPResponse,
   ResetPasswordOtpSessionData,
@@ -35,12 +34,19 @@ export class OtpVerifyPage implements OnInit {
   private verifyOtpRes: RequestOTPResponse | null = null;
   // Register flow: keep the pending register request until OTP verified
   private registerRequest: any | null = null;
+  /** Single-use proof from VerifyRegisterOtp; kept only to retry an unconfirmed registration. */
+  private registrationProof: string | null = null;
 
   otpLength = 6;
   otpDigits: string[] = new Array(this.otpLength).fill('');
   currentIndex = 0;
 
   otpCode = '';
+  /**
+   * Channel of the last SUCCESSFUL OTP delivery. The first login code goes by SMS; a successful e-mail resend
+   * switches to Email, a successful SMS resend back to SMS; a failed resend leaves it unchanged.
+   */
+  otpChannel: OtpDeliveryChannel = OTP_CHANNEL.SMS;
   isFirstTry = true;
 
   // 新增：就地重置密码
@@ -218,7 +224,12 @@ export class OtpVerifyPage implements OnInit {
     }
   }
 
-  /** Register: verify OTP first, then call MemberRegister to create the member */
+  /**
+   * Register: verify the OTP (the backend returns a short-lived, single-use RegistrationProof), then call
+   * MemberRegister with that proof; the backend creates the member in Warely. If registration could not be
+   * confirmed (timeout / 503), "Verify" again retries with the SAME proof — the OTP is not re-verified and no
+   * second account can be created.
+   */
   private handleRegisterVerifyThenRegister() {
     if (!this.verifyOtpRes) return;
     if (!this.registerRequest) {
@@ -230,6 +241,11 @@ export class OtpVerifyPage implements OnInit {
 
     this.loadingHelper.show();
 
+    if (this.registrationProof) {
+      this.submitRegistration(this.registrationProof);
+      return;
+    }
+
     const phone = this.verifyOtpRes?.PhoneNumber ?? '';
     const deviceId = (this.verifyOtpRes as any)?.DeviceId ?? '';
     const otp = this.otpCode;
@@ -238,26 +254,15 @@ export class OtpVerifyPage implements OnInit {
       .verifyRegisterOtp({ PhoneNumber: phone, otp, deviceId })
       .pipe(take(1))
       .subscribe({
-        next: () => {
-          // OTP ok -> create member
-          this.userApiService
-            .registerMember(this.registerRequest)
-            .pipe(take(1))
-            .subscribe({
-              next: () => {
-                this.loadingHelper.hide();
-                this.toastHelper.presentSuccessToast(
-                  'Register success, Welcome to GzFortune!',
-                  'top',
-                );
-                this.stateSession.consumeReturnUrl('/home');
-                this.navCtrl.navigateRoot(this.redirectUrl, { replaceUrl: true });
-              },
-              error: (err: HttpErrorResponse) => {
-                this.loadingHelper.hide();
-                this.toastHelper.presentFailedToast(err.error ?? 'Register failed.');
-              },
-            });
+        next: (res: any) => {
+          const proof: string | undefined = res?.RegistrationProof;
+          if (!proof) {
+            this.loadingHelper.hide();
+            this.toastHelper.presentFailedToast('Verification failed. Please request a new OTP.');
+            return;
+          }
+          this.registrationProof = proof;
+          this.submitRegistration(proof);
         },
         error: (err: HttpErrorResponse) => {
           this.loadingHelper.hide();
@@ -265,6 +270,34 @@ export class OtpVerifyPage implements OnInit {
         },
       });
   }
+
+  private submitRegistration(proof: string) {
+    this.userApiService
+      .registerMember({ ...this.registerRequest, registrationProof: proof })
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.registrationProof = null;
+          this.loadingHelper.hide();
+          this.toastHelper.presentSuccessToast('Register success, Welcome to GzFortune!', 'top');
+          this.stateSession.consumeReturnUrl('/home');
+          this.navCtrl.navigateRoot(this.redirectUrl, { replaceUrl: true });
+        },
+        error: (err: HttpErrorResponse) => {
+          this.loadingHelper.hide();
+          const retryable = err?.status === 0 || err?.status === 503 || err?.status === 504;
+          // A definitive answer (e.g. already registered, conflict, expired proof) needs a fresh OTP next time.
+          if (!retryable) this.registrationProof = null;
+          const message = typeof err?.error === 'string' ? err.error : null;
+          this.toastHelper.presentFailedToast(
+            retryable
+              ? message ?? 'We could not confirm your registration yet. Tap Verify to try again.'
+              : message ?? 'Register failed.',
+          );
+        },
+      });
+  }
+
 
   /** 登录场景（如果还在用） */
   private handleLoginByPhone() {
@@ -277,7 +310,7 @@ export class OtpVerifyPage implements OnInit {
     const otp = this.otpCode;
 
     this.authApiService
-      .verifyLoginOtp({ PhoneNumber: phone, otp, deviceId })
+      .verifyLoginOtp({ PhoneNumber: phone, otp, deviceId, Channel: this.otpChannel })
       .pipe(take(1))
       .subscribe({
         next: () => {
@@ -300,7 +333,13 @@ export class OtpVerifyPage implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           this.loadingHelper.hide();
-          this.toastHelper.presentFailedToast(err.error ?? 'Invalid OTP.');
+          // The backend sends distinct messages: wrong/expired code (400), membership needs linking (409),
+          // or Warely temporarily unavailable (503 — the code stays valid, so tapping Verify again is safe).
+          const message = typeof err?.error === 'string' && err.error ? err.error : null;
+          const temporary = err?.status === 0 || (err?.status ?? 0) >= 500;
+          this.toastHelper.presentFailedToast(
+            message ?? (temporary ? 'We could not confirm your account yet. Please tap Verify again in a moment.' : 'Invalid OTP.'),
+          );
         },
       });
   }
@@ -325,6 +364,7 @@ export class OtpVerifyPage implements OnInit {
       next: (res) => {
         this.loadingHelper.hide();
         this.verifyOtpRes = res;
+        this.otpChannel = OTP_CHANNEL.SMS;
         this.updateOtpDigits();
         this.toastHelper.presentSuccessToast('OTP resent to your SMS.');
 
@@ -355,6 +395,7 @@ export class OtpVerifyPage implements OnInit {
         next: (res) => {
           this.loadingHelper.hide();
           this.verifyOtpRes = res;
+          this.otpChannel = OTP_CHANNEL.EMAIL;
           this.updateOtpDigits();
           this.toastHelper.presentSuccessToast('OTP resent to your email.');
 
@@ -393,7 +434,7 @@ export class OtpVerifyPage implements OnInit {
     //   this.toastHelper.presentFailedToast('Invalid OTP.');
     // }
     this.authApiService
-      .verifyLoginOtp({ PhoneNumber: phone, otp, deviceId })
+      .verifyLoginOtp({ PhoneNumber: phone, otp, deviceId, Channel: this.otpChannel })
       .pipe(take(1))
       .subscribe({
         next: () => {

@@ -42,6 +42,12 @@ register();
 })
 export class AppComponent implements OnInit {
   isAuthenticated: boolean = true;
+  /** Members registered through Warely have no local password, so the password reset entry is hidden for them. */
+  hasPassword = false;
+
+  get visibleAccountPages() {
+    return this.accountPages.filter((p) => p.url !== 'account/reset-password' || this.hasPassword);
+  }
   loading: boolean = false;
   DeviceName: string = '';
   Appvertion = '';
@@ -216,6 +222,7 @@ export class AppComponent implements OnInit {
     }
   }
   async ngOnInit(): Promise<void> {
+    this.userState.memberInfo.subscribe((m: any) => (this.hasPassword = !!m?.hasPassword));
     this.VersionCheck();
 
     await this.authInitializerService.init();
