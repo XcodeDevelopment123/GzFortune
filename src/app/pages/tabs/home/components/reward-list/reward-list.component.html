@@ -8,7 +8,17 @@
     *ngFor="let i of visibleRewards"
     [routerLink]="['/reward', i.rewardId]"
     [state]="{ offer: i }">
-    <img load="lazy" [src]="i.imageUrl || 'assets/images/app-offer.jpg'" />
+    <img
+      *ngIf="i.imageUrl?.trim() as imageUrl; else rewardPlaceholder"
+      class="reward-media"
+      loading="lazy"
+      [src]="imageUrl"
+      alt="" />
+    <ng-template #rewardPlaceholder>
+      <div class="reward-media reward-image-placeholder" aria-hidden="true">
+        <ion-icon name="gift-outline"></ion-icon>
+      </div>
+    </ng-template>
     <p class="truncate-two-line reward-title">{{ i.name }}</p>
 
     <p

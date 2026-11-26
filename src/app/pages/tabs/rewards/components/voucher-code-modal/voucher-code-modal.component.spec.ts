@@ -241,6 +241,19 @@ describe('VoucherCodeModalComponent (on-demand member QR + voucher code)', () =>
       expect(steps[1].query(By.css('app-code128-barcode'))).toBeTruthy();
     });
 
+    it('aligns the Close button with the QR card at widths above the default button limit', async () => {
+      respondBoth();
+      await settle();
+      fixture.detectChanges();
+      q('.container').nativeElement.style.width = '380px';
+
+      const card = q('.voucher-step').nativeElement.getBoundingClientRect();
+      const button = q('.close-btn').nativeElement.getBoundingClientRect();
+      expect(card.width).toBeGreaterThan(300);
+      expect(button.left).toBeCloseTo(card.left);
+      expect(button.right).toBeCloseTo(card.right);
+    });
+
     it('renders the error with a working Retry button', async () => {
       fail(api.assetCodeCalls[0], 503, 'partner_unavailable');
       await settle();

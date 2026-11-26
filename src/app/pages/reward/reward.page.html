@@ -6,8 +6,8 @@
 
 <ion-content [fullscreen]="true" *ngIf="offer">
   <div class="container">
-    <div class="flex-center">
-      <img class="reward-image" [src]="offer.imageUrl || 'assets/images/app-offer.jpg'" />
+    <div class="flex-center" *ngIf="offer.imageUrl?.trim() as imageUrl">
+      <img class="reward-image" [src]="imageUrl" alt="" />
     </div>
 
     <div class="card card-title">

@@ -19,16 +19,22 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 3px;
 }
 
-.voucher-item img {
+.voucher-media {
+  flex-shrink: 0;
   width: 130px;
   object-fit: cover;
+}
+
+.voucher-media.reward-image-placeholder {
+  min-height: 120px;
 }
 
 .voucher-info {
   display: flex;          /* flex-column 大概就是这个 */
   flex-direction: column;
   padding: 0.5rem 0 0 0;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
 }
 
 .voucher-info .info-message {

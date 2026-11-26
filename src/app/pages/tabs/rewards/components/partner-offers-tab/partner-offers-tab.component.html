@@ -19,9 +19,16 @@
         <div class="Line_Last" *ngIf="index === visibleOffers.length - 1" [ngClass]="{ active: signedIn && canAfford(i) }"></div>
 
         <img
+          *ngIf="i.imageUrl?.trim() as imageUrl; else rewardPlaceholder"
           class="FoodPic"
-          [src]="i.imageUrl || 'assets/images/reward-sample.webp'"
+          [src]="imageUrl"
+          alt=""
           [ngClass]="{ active: signedIn && canAfford(i) }" />
+        <ng-template #rewardPlaceholder>
+          <div class="FoodPic reward-image-placeholder" [class.active]="signedIn && canAfford(i)" aria-hidden="true">
+            <ion-icon name="gift-outline"></ion-icon>
+          </div>
+        </ng-template>
 
         <div class="FoodInfo">
           <div class="PointArea" *ngIf="isClaimable(i)">{{ i.pointsCost }} pts</div>

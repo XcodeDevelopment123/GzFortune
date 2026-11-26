@@ -31,7 +31,7 @@
   filter: drop-shadow(var(--base-shadow));
 }
 
-.reward-item img {
+.reward-media {
   border-bottom: var(--base-border-line);
   height: 150px;
   width: 100%; /* 确保图片填满容器 */
@@ -55,26 +55,26 @@
 }
 
 @media (min-width: 768px) {
-  .reward-item img {
+  .reward-media {
     height: 150px;
   }
 
 }
 
 @media (min-width: 425px) and (max-width: 767px) {
-    .reward-item img {
+  .reward-media {
     height: 201px;
   }
 }
 
 @media (min-width: 375px) and (max-width: 424px) {
-    .reward-item img {
+  .reward-media {
     height: 187px;
   }
 }
 
 @media (max-width: 375px) {
-    .reward-item img {
+  .reward-media {
     height: 19rem;
   }
 }

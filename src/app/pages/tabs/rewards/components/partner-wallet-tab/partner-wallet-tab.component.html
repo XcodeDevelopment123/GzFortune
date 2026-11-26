@@ -18,7 +18,7 @@
       *ngFor="let a of wallet.available; trackBy: trackByAsset"
       [class.just-claimed]="a.assetId === highlightAssetId"
       (click)="open(a)">
-      <img [src]="a.imageUrl || 'assets/images/reward-sample.webp'" />
+      <ng-container *ngTemplateOutlet="voucherMedia; context: { $implicit: a.imageUrl?.trim() }"></ng-container>
       <div class="voucher-info flex-column">
         <div class="info-message">
           <p class="text-title text-md">{{ a.name }}</p>
@@ -47,7 +47,7 @@
         class="voucher-item expired clickable"
         *ngFor="let a of wallet.unavailable; trackBy: trackByAsset"
         (click)="open(a)">
-        <img [src]="a.imageUrl || 'assets/images/reward-sample.webp'" />
+        <ng-container *ngTemplateOutlet="voucherMedia; context: { $implicit: a.imageUrl?.trim() }"></ng-container>
         <div class="voucher-info flex-column">
           <div class="info-message">
             <p class="text-title text-md">{{ a.name }}</p>
@@ -78,3 +78,13 @@
     </div>
   </ng-container>
 </div>
+
+<ng-template #voucherMedia let-imageUrl>
+  <img *ngIf="imageUrl; else voucherPlaceholder" class="voucher-media" [src]="imageUrl" alt="" />
+</ng-template>
+
+<ng-template #voucherPlaceholder>
+  <div class="voucher-media reward-image-placeholder" aria-hidden="true">
+    <ion-icon name="gift-outline"></ion-icon>
+  </div>
+</ng-template>

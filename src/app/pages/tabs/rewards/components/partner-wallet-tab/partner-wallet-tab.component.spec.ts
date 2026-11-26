@@ -1,4 +1,9 @@
-import { FakeAuth, asset, settle } from 'src/app/core/testing/partner-fakes';
+import { CommonModule } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { FakeAuth, asset, settle, walletOf } from 'src/app/core/testing/partner-fakes';
 import { VoucherCodeModalComponent } from '../voucher-code-modal/voucher-code-modal.component';
 import { PartnerWalletTabComponent, VOUCHER_CODE_MODAL_ID } from './partner-wallet-tab.component';
 
@@ -18,6 +23,36 @@ class FakeModal {
     return this.dismissed;
   }
 }
+
+describe('PartnerWalletTabComponent voucher images', () => {
+  it('shows the gift placeholder for vouchers without images and renders supplied images', async () => {
+    await TestBed.configureTestingModule({
+      declarations: [PartnerWalletTabComponent],
+      imports: [CommonModule, IonicModule.forRoot()],
+      providers: [provideRouter([]), { provide: AuthService, useValue: new FakeAuth() }],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(PartnerWalletTabComponent);
+    const imageUrl = 'assets/images/app-offer.jpg';
+    fixture.componentRef.setInput('signedIn', true);
+    fixture.componentRef.setInput('loaded', true);
+    fixture.componentRef.setInput(
+      'wallet',
+      walletOf(
+        asset('no-image', 'A'),
+        { ...asset('has-image', 'A'), imageUrl },
+        { ...asset('expired', 'A', false), availability: 'expired', imageUrl: '  ' },
+      ),
+    );
+    fixture.detectChanges();
+
+    const element: HTMLElement = fixture.nativeElement;
+    expect(element.querySelectorAll('.reward-image-placeholder ion-icon[name="gift-outline"]').length).toBe(2);
+    const images = element.querySelectorAll('img.voucher-media');
+    expect(images.length).toBe(1);
+    expect(images[0]?.getAttribute('src')).toBe(imageUrl);
+  });
+});
 
 describe('PartnerWalletTabComponent (SHOW CODE opens the voucher QR modal)', () => {
   let auth: FakeAuth;
